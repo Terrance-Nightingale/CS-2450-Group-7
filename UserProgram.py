@@ -24,5 +24,7 @@ class UserProgram():
                 else:
                     print("Maximum program size reached, please enter -99999 to finish inputting your program: ")
 
-    def validate(self, word):
-        pass
+p = UserProgram()
+p.inputProgram()
+print(p.programSize)
+print(p.program)
