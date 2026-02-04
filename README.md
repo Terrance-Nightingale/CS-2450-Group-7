@@ -1,4 +1,4 @@
 # Dependencies
-Requires copy
-Download via pip 
+Requires copy \n
+Download via pip \n
 ```pip install copy```

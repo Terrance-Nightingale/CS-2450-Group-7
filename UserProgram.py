@@ -23,8 +23,3 @@ class UserProgram():
                     print("Word input successfully")
                 else:
                     print("Maximum program size reached, please enter -99999 to finish inputting your program: ")
-
-p = UserProgram()
-p.inputProgram()
-print(p.programSize)
-print(p.program)
