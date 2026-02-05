@@ -1,4 +1,3 @@
-import copy
 from UserProgram import UserProgram
 from Memory import Memory
 from cpu import CPU
