@@ -1,12 +1,14 @@
 from cpu import CPU
+from UserProgram import UserProgram
+from UVSim import UVSim
 
-memory = [100] * 100
+uvsim = UVSim()
+test = UserProgram()
 
-memory[0] = 2005
-memory[1] = 1045
+test.inputProgram()
 
-cpu = CPU(memory)
+uvsim.loadProgram(test)
+uvsim.runProgram()
+#test.inputProgram()
 
-cpu.execute()
-
-cpu.dump()
+#print(test.program)

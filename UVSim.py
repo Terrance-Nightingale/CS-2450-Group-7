@@ -1,14 +1,17 @@
 import copy
+from UserProgram import UserProgram
 from Memory import Memory
 from cpu import CPU
 
 class UVSim:
     def __init__(self):
         self.memory = Memory()
-        self.cpu = CPU()
+        self.cpu = CPU(self.memory)
+        self.userProgram = UserProgram()
 
     def loadProgram(self, userProgram):
-        self.memory.mainMemory = copy.deepcopy(userProgram.program)
+        for i, word in enumerate(userProgram.program):
+            self.memory.mainMemory[i] = word
 
     def runProgram(self):
         while True:

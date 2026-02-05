@@ -7,7 +7,7 @@ class BasicML:
         # (which is auto-passed by reference).
 
     
-    def read(memory, operand):
+    def read(self, memory, operand):
         '''
         Reads a word from the keyboard into a location in memory specified by the operand.
         '''
@@ -15,7 +15,7 @@ class BasicML:
         memory[operand] = read_input # Stores input in memory.
         
 
-    def write(memory, operand):
+    def write(self, memory, operand):
         '''
         Writes a word from a location in memory specified by the operand to screen.
         '''
@@ -23,59 +23,62 @@ class BasicML:
         print(output) # Prints the word as the output.
 
 
-    def load(memory, operand, accumulator): #TODO: Accumulator fix
+    def load(self, memory, operand, accumulator): #TODO: Accumulator fix
         '''
         Loads a word from a location in memory specified by the operand into the accumulator.
         '''
-        loadValue = memory[operand] # Loads the value from memory.
+        loadValue = memory.mainMemory[operand] # Loads the value from memory.
         accumulator = loadValue # Assigns the loaded value to the accumulator.
 
 
-    def store(memory, operand, accumulator): #TODO: Accumulator fix
+    def store(self, memory, operand, accumulator): #TODO: Accumulator fix
         '''
         Store a word from the accumulator into a location in memory specified by the operand.
         '''
         memory[operand] = accumulator
 
 
-    def add(memory, operand, accumulator): #TODO: Accumulator fix
+    def add(self, memory, operand, accumulator): #TODO: Accumulator fix
         '''
         Adds a word from a location in memory specified by the operand to the word in the accumulator
         (leaves the result in the accumulator).
         '''
-        accumulator += memory[operand]
+        return accumulator + memory[operand]
 
 
-    def subtract(memory, operand, accumulator): #TODO: Accumulator fix
+    def subtract(self, memory, operand, accumulator): #TODO: Accumulator fix
         '''
         Subtracts a word from a location in memory specified by the operand from the word in the accumulator
         (leaves the result in the accumulator).
         '''
-        accumulator -= memory[operand]
+        return accumulator - memory[operand]
 
     
-    def divide(memory, operand, accumulator): #TODO: Accumulator fix
+    def divide(self, memory, operand, accumulator): #TODO: Accumulator fix
         '''
         Divides the word in the accumulator by a word from a location specified by the operand in memory
         (leaves the result in the accumulator).
         '''
-        accumulator /= memory[operand]
+        if memory[operand] == 0:
+            print("Error: Dvision by zero.")
+        else:
+            return accumulator / memory[operand]
 
-    def multiply(memory, operand, accumulator): #TODO: Accumulator fix
+    def multiply(self, memory, operand, accumulator): #TODO: Accumulator fix
         '''
         Multiplies a word from a location in memory specified by the operand to the word in the accumulator
         (leaves the result in the accumulator).
         '''
         accumulator *= memory[operand]
 
-    def branch(memory, operand): #TODO: Needs ability to set location/register.
+    def branch(self, memory, operand): #TODO: Needs ability to set location/register.
         '''
         Branches to a location in memory specified by the operand.
         '''
         branchLocation = operand
 
 
-    def branchNeg(memory, operand, accumulator): #TODO: Accumulator fix
+    def branchNeg(self, memory, operand, accumulator): #TODO: Accumulator fix
                                                  #TODO: Needs ability to set location/register.
         '''
         Branches to a location in memory specified by the operand if the accumulator is negative.
@@ -84,7 +87,7 @@ class BasicML:
             branchLocation = operand
 
 
-    def branchZero(memory, operand, accumulator): #TODO: Accumulator fix
+    def branchZero(self, memory, operand, accumulator): #TODO: Accumulator fix
                                                   #TODO: Needs ability to set location/register.
         '''
         Branches to a location in memory specified by the operand if the accumulator is zero.
@@ -93,7 +96,7 @@ class BasicML:
             branchLocation = operand
 
 
-    def halt(running): #TODO: Needs ability to set "running" to False
+    def halt(self, running): #TODO: Needs ability to set "running" to False
         '''
         Pauses the program.
         '''
