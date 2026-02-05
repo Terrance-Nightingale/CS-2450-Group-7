@@ -4,5 +4,5 @@ class Memory():
         self.mainMemory = []      
 
         for i in range(self.memoryCap):
-            self.mainMemory.append(0)
+            self.mainMemory.append(3200)
         

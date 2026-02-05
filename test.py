@@ -9,6 +9,3 @@ test.inputProgram()
 
 uvsim.loadProgram(test)
 uvsim.runProgram()
-#test.inputProgram()
-
-#print(test.program)

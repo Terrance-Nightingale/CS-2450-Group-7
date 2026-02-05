@@ -40,7 +40,7 @@ class CPU:
             case 21:
                 self.basicml.store(self.memory.mainMemory, self.operand, self.accumulator)
             case 30:
-                self.accumulator = self.basicml.add(self.memory.mainMemory, self.operand, self.accumulator)
+                self.basicml.add(self.memory.mainMemory, self.operand, self.accumulator)
             case 31:
                 self.basicml.subtract(self.memory.mainMemory, self.operand, self.accumulator)
             case 32:
