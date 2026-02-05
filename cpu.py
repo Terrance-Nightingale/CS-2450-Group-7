@@ -1,50 +1,71 @@
+from BasicML import BasicML
+from Memory import Memory
+
 class CPU:
     def __init__(self, memory):
         self.memory = memory
+        self.basicml = BasicML()
         self.memoryCap = 100
         self.instructionCounter = 0
         self.instructionRegister = 0
         self.opcode = 0
         self.operand = 0
         self.accumulator = 0
+        self.running = True
+
+    def fetch(self):
+        if not self.running:
+            return False
+        
+        if self.instructionCounter >= len(self.memory.mainMemory):
+            return False
+
+        self.instructionRegister = self.memory.mainMemory[self.instructionCounter]
+        self.instructionCounter += 1
+        return True
+
+    def decode(self):
+        self.opcode = self.instructionRegister // 100
+        self.operand = self.instructionRegister % 100
 
     def execute(self):
-        while True:
-            self.instructionRegister = self.memory[self.instructionCounter]
-            self.instructionCounter += 1
-
-            self.opcode = self.instructionRegister // 100
-            self.operand = self.instructionRegister % 100
-
-            #Currently filled with placeholder values - We have to add to this
-            match(self.opcode):
-                case 10:
-                    print("READ")
-                case 11:
-                    print("WRITE")
-                case 20:
-                    print("LOAD")
-                case 21:
-                    print("STORE")
-                case 30:
-                    print("ADD")
-                case 31:
-                    print("SUBTRACT")
-                case 32:
-                    print("DIVIDE")
-                case 33:
-                    print("MULTIPLY")
-                case 40:
-                    print("BRANCH")
-                case 41:
-                    print("BRANCHNEG")
-                case 42:
-                    print("BRANCHZERO")
-                case 43:
-                    self.dump()
-                    break
-                case _:
-                    print("Invalid")
+        
+        match(self.opcode):
+            case 10:
+                self.basicml.read(self.memory.mainMemory, self.operand)
+            case 11:
+                self.basicml.write(self.memory.mainMemory, self.operand)
+            case 20:
+                self.basicml.load(self.memory.mainMemory, self.operand, self.accumulator)
+            case 21:
+                self.basicml.store(self.memory.mainMemory, self.operand, self.accumulator)
+            case 30:
+                self.basicml.add(self.memory.mainMemory, self.operand, self.accumulator)
+            case 31:
+                self.basicml.subtract(self.memory.mainMemory, self.operand, self.accumulator)
+            case 32:
+                self.basicml.divide(self.memory.mainMemory, self.operand, self.accumulator)
+            case 33:
+                self.basicml.multiply(self.memory.mainMemory, self.operand, self.accumulator)
+            case 40:
+                self.basicml.branch(self.memory.mainMemory, self.operand)
+            case 41:
+                self.basicml.branchNeg(self.memory.mainMemory, self.operand, self.accumulator)
+            case 42:
+                self.basicml.branchZero(self.memory.mainMemory, self.operand, self.accumulator)
+            case 43:
+                self.basicml.halt(self.running)
+            case _:
+                print("Invalid")
 
     def dump(self):
-        print(self.instructionRegister)
+        print("CPU DUMP")
+        print(f"Accumulator: {self.accumulator}")
+        print(f"Instr Reg: {self.instructionRegister}")
+        print(f"Instr Counter: {self.instructionCounter}")
+        print(f"Running: {self.running}")
+        print(f"Opcode: {self.opcode}")
+        print(f"Operand: {self.operand}")
+
+        for i in range(100):
+            print(self.memory.mainMemory[i])
