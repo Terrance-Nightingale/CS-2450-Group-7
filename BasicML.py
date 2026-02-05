@@ -27,70 +27,68 @@ class BasicML:
         '''
         Loads a word from a location in memory specified by the operand into the accumulator.
         '''
-        loadValue = memory[operand] # Loads the value from memory.
-        accumulator = loadValue # Assigns the loaded value to the accumulator.
+        load_value = memory[operand] # Loads the value from memory.
+        accumulator = load_value # Assigns the loaded value to the accumulator.
 
 
-    def store(memory, operand, accumulator): #TODO: Accumulator fix
+    def store(memory, operand, accumulator_value):
         '''
         Store a word from the accumulator into a location in memory specified by the operand.
         '''
-        memory[operand] = accumulator
+        memory[operand] = accumulator_value
 
 
-    def add(memory, operand, accumulator): #TODO: Accumulator fix
+    def add(memory, operand, accumulator):
         '''
         Adds a word from a location in memory specified by the operand to the word in the accumulator
         (leaves the result in the accumulator).
         '''
-        accumulator += memory[operand]
+        return accumulator + memory[operand]
 
 
-    def subtract(memory, operand, accumulator): #TODO: Accumulator fix
+    def subtract(memory, operand, accumulator):
         '''
-        Subtracts a word from a location in memory specified by the operand from the word in the accumulator
-        (leaves the result in the accumulator).
+        Subtracts a word from a location in memory specified by the operand from the word in the accumulator.
+        Returns the result.
         '''
-        accumulator -= memory[operand]
+        return accumulator - memory[operand]
 
     
-    def divide(memory, operand, accumulator): #TODO: Accumulator fix
+    def divide(memory, operand, accumulator):
         '''
-        Divides the word in the accumulator by a word from a location specified by the operand in memory
-        (leaves the result in the accumulator).
+        Divides the word in the accumulator by a word from a location specified by the operand in memory.
+        Returns the result.
         '''
-        accumulator /= memory[operand]
+        return accumulator / memory[operand]
 
-    def multiply(memory, operand, accumulator): #TODO: Accumulator fix
+    def multiply(memory, operand, accumulator):
         '''
-        Multiplies a word from a location in memory specified by the operand to the word in the accumulator
-        (leaves the result in the accumulator).
+        Multiplies a word from a location in memory specified by the operand to the word in the accumulator.
+        Returns the result.
         '''
-        accumulator *= memory[operand]
+        return accumulator * memory[operand]
 
     def branch(memory, operand): #TODO: Needs ability to set location/register.
         '''
         Branches to a location in memory specified by the operand.
         '''
-        branchLocation = operand
+        branch_location = operand
 
 
-    def branchNeg(memory, operand, accumulator): #TODO: Accumulator fix
-                                                 #TODO: Needs ability to set location/register.
+    def branchNeg(memory, operand, accumulator): #TODO: Needs ability to set location/register.
         '''
         Branches to a location in memory specified by the operand if the accumulator is negative.
         '''
         if accumulator < 0:
-            branchLocation = operand
+            branch_location = operand
 
 
-    def branchZero(memory, operand, accumulator): #TODO: Accumulator fix
-                                                  #TODO: Needs ability to set location/register.
+    def branchZero(memory, operand, accumulator): #TODO: Needs ability to set location/register.
         '''
         Branches to a location in memory specified by the operand if the accumulator is zero.
         '''
         if accumulator == 0:
-            branchLocation = operand
+            branch_location = operand
 
 
     def halt(running): #TODO: Needs ability to set "running" to False
@@ -98,4 +96,5 @@ class BasicML:
         Pauses the program.
         '''
         running = False
+        return running
     
