@@ -2,17 +2,13 @@ class BasicML:
     def __init__(self):
         pass
 
-    #TODO: Need to determine if we will "return accumulator" where the accumulator is required
-        # and assign that returned value to the int in CPU, or if we will use a list
-        # (which is auto-passed by reference).
-
     
     def read(self, memory, operand):
         '''
         Reads a word from the keyboard into a location in memory specified by the operand.
         '''
         read_input = input("Enter a 4-digit word: ") # Receives input from user.
-        memory[operand] = read_input # Stores input in memory.
+        memory[operand] = int(read_input) # Stores input in memory (converts from string to int).
         
 
     def write(self, memory, operand):
@@ -23,80 +19,82 @@ class BasicML:
         print(output) # Prints the word as the output.
 
 
-    def load(self, memory, operand, accumulator): #TODO: Accumulator fix
+    def load(self, memory, operand):
         '''
-        Loads a word from a location in memory specified by the operand into the accumulator.
+        Returns a word from a location in memory specified by the operand.
+        This value is intended to be stored in the accumulator.
         '''
-        loadValue = memory.mainMemory[operand] # Loads the value from memory.
-        accumulator = loadValue # Assigns the loaded value to the accumulator.
+        return memory[operand]
 
 
-    def store(self, memory, operand, accumulator): #TODO: Accumulator fix
+    def store(self, memory, operand, accumulator):
         '''
         Store a word from the accumulator into a location in memory specified by the operand.
         '''
-        memory[operand] = accumulator_value
+        memory[operand] = accumulator
+        
 
-
-    def add(self, memory, operand, accumulator): #TODO: Accumulator fix
+    def add(self, memory, operand, accumulator):
         '''
         Adds a word from a location in memory specified by the operand to the word in the accumulator
-        (leaves the result in the accumulator).
+        and returns the result.
         '''
         return accumulator + memory[operand]
 
 
-    def subtract(self, memory, operand, accumulator): #TODO: Accumulator fix
+    def subtract(self, memory, operand, accumulator):
         '''
-        Subtracts a word from a location in memory specified by the operand from the word in the accumulator.
-        Returns the result.
+        Subtracts a word from a location in memory specified by the operand from the word in the accumulator
+        and returns the result.
         '''
         return accumulator - memory[operand]
 
     
-    def divide(self, memory, operand, accumulator): #TODO: Accumulator fix
+    def divide(self, memory, operand, accumulator):
         '''
         Divides the word in the accumulator by a word from a location specified by the operand in memory.
         Returns the result.
         '''
-        if memory[operand] == 0:
-            print("Error: Dvision by zero.")
+        if memory[operand] == 0: # Checks memory value to prevent division by zero.
+            print("Error: Division by zero.")
         else:
             return accumulator / memory[operand]
 
-    def multiply(self, memory, operand, accumulator): #TODO: Accumulator fix
+    def multiply(self, memory, operand, accumulator):
         '''
         Multiplies a word from a location in memory specified by the operand to the word in the accumulator.
         Returns the result.
         '''
         return accumulator * memory[operand]
 
-    def branch(self, memory, operand): #TODO: Needs ability to set location/register.
+    def branch(self, operand):
         '''
-        Branches to a location in memory specified by the operand.
+        Returns the location to be branched to in memory specified by the operand.
         '''
-        branch_location = operand
+        return operand
 
 
-    def branchNeg(self, memory, operand, accumulator): #TODO: Accumulator fix
-                                                 #TODO: Needs ability to set location/register.
+    def branchNeg(self, operand, instructionCounter, accumulator):
         '''
-        Branches to a location in memory specified by the operand if the accumulator is negative.
+        Returns the location to be branched to in memory specified by the operand if the accumulator is negative.
         '''
         if accumulator < 0:
-            branch_location = operand
+            return operand
+        else:
+            return instructionCounter
 
 
-    def branchZero(self, memory, operand, accumulator): #TODO: Accumulator fix
-                                                  #TODO: Needs ability to set location/register.
+    def branchZero(self, operand, instructionCounter, accumulator):
         '''
-        Branches to a location in memory specified by the operand if the accumulator is zero.
+        Returns the location to be branched to in memory specified by the operand if the accumulator is zero.
         '''
         if accumulator == 0:
-            branch_location = operand
+            return operand
+        else:
+            return instructionCounter
 
 
-    def halt(self, running): #TODO: Needs ability to set "running" to False
+    def halt(self, running):
         '''
         Pauses the program.
         '''

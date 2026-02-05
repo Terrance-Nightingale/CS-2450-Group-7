@@ -10,7 +10,7 @@ class UVSim:
 
     def loadProgram(self, userProgram):
         for i, word in enumerate(userProgram.program):
-            self.memory.mainMemory[i] = word
+            self.memory.mainMemory[i] = int(word)
 
     def runProgram(self):
         while True:
