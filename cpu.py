@@ -28,8 +28,9 @@ class CPU:
         self.operand = self.instructionRegister % 100
 
     def execute(self):
-        
         match(self.opcode):
+            case 0:
+                pass
             case 10:
                 self.basicml.read(self.memory.mainMemory, self.operand)
                 print("READ")
@@ -77,6 +78,6 @@ class CPU:
         print(f"Running: {self.running}")
         print(f"Opcode: {self.opcode}")
         print(f"Operand: {self.operand}")
-
+        print("--MEMORY CONTENTS--")
         for i in range(100):
             print(self.memory.mainMemory[i])
