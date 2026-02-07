@@ -9,13 +9,13 @@ class BasicML:
         '''
         while True:
             read_input = input("Enter a 4-digit word: ") # Receives input from user.
-            inputInt = int(read_input)
+            inputInt = int(read_input) # Converts from string to int.
             if(-9999 <= inputInt <= 9999):
-                memory[operand] = read_input
+                memory[operand] = inputInt
                 break
             else:
                 print("Number must be between -9999 and 9999.")
-         # Stores input in memory (converts from string to int).
+        
         
 
     def write(self, memory, operand):
@@ -26,7 +26,7 @@ class BasicML:
         print(output) # Prints the word as the output.
 
 
-    def load(self, memory, operand, accumulator):
+    def load(self, memory, operand):
         '''
         Returns a word from a location in memory specified by the operand.
         This value is intended to be stored in the accumulator.
