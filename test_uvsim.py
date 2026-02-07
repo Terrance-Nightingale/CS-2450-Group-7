@@ -41,14 +41,14 @@ def uvsim():
 def test_read_stores_valid_input(basicml, memory, monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: "1234")
     basicml.read(memory, 42)
-    assert memory[42] == "1234"   # current code stores string
+    assert memory[42] == 1234   # current code stores string
 
 def test_read_repeated_until_valid_range(basicml, memory, monkeypatch):
     # Note: current code has NO validation → this would require adding logic
     inputs = ["10000", "-12345", "5678"]
     monkeypatch.setattr("builtins.input", lambda _: inputs.pop(0))
     basicml.read(memory, 19)
-    assert memory[19] == "5678"   # would pass only after you add range check
+    assert memory[19] == 5678   # would pass only after you add range check
 
 # ────────────────────────────────────────────────
 # Use Case 2: Inspect memory dump for debugging purposes
@@ -91,9 +91,9 @@ def test_write_uninitialized_location_prints_zero(cpu, capsys):
     assert "0" in capsys.readouterr().out
 
 def test_read_negative_number_stored_correctly(basicml, memory, monkeypatch):
-    monkeypatch.setattr("builtins.input", lambda _: "-777")
+    monkeypatch.setattr("builtins.input", lambda _: -777)
     basicml.read(memory, 33)
-    assert memory[33] == "-777"
+    assert memory[33] == -777
 
 # ────────────────────────────────────────────────
 # Use Case 4: Perform proper STORE operation
@@ -116,13 +116,13 @@ def test_store_negative_value(basicml, memory):
 def test_load_sets_accumulator_from_memory(basicml, memory):
     memory[44] = 9100
     acc = 0
-    new_acc = basicml.load(memory, 44, acc)
+    new_acc = basicml.load(memory, 44)
     assert new_acc == 9100
 
 def test_load_negative_value(basicml, memory):
     memory[77] = -400
     acc = 9999
-    acc = basicml.load(memory, 77, acc)
+    acc = basicml.load(memory, 77)
     assert acc == -400   # current code fails to update
 
 # ────────────────────────────────────────────────
