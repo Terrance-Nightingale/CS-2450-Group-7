@@ -5,7 +5,6 @@ class CPU:
     def __init__(self, memory):
         self.memory = memory
         self.basicml = BasicML()
-        self.memoryCap = 100
         self.instructionCounter = 0
         self.instructionRegister = 0
         self.opcode = 0
@@ -56,7 +55,7 @@ class CPU:
                 self.accumulator = self.basicml.multiply(self.memory.mainMemory, self.operand, self.accumulator)
                 print("MUL")
             case 40:
-                self.instructionCounter = self.basicml.branch(self.memory.mainMemory, self.operand)
+                self.instructionCounter = self.basicml.branch(self.operand)
                 print("BRANCH")
             case 41:
                 self.instructionCounter = self.basicml.branchNeg(self.operand, self.instructionCounter, self.accumulator)
@@ -65,7 +64,7 @@ class CPU:
                 self.instructionCounter = self.basicml.branchZero(self.operand, self.instructionCounter, self.accumulator)
                 print("BRANCHZERO")
             case 43:
-                self.basicml.halt(self.running)
+                self.running = self.basicml.halt()
                 print("HALT")
             case _:
                 print("Invalid")

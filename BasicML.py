@@ -7,8 +7,15 @@ class BasicML:
         '''
         Reads a word from the keyboard into a location in memory specified by the operand.
         '''
-        read_input = input("Enter a 4-digit word: ") # Receives input from user.
-        memory[operand] = int(read_input) # Stores input in memory (converts from string to int).
+        while True:
+            read_input = input("Enter a 4-digit word: ") # Receives input from user.
+            inputInt = int(read_input)
+            if(-9999 <= inputInt <= 9999):
+                memory[operand] = read_input
+                break
+            else:
+                print("Number must be between -9999 and 9999.")
+         # Stores input in memory (converts from string to int).
         
 
     def write(self, memory, operand):
@@ -19,7 +26,7 @@ class BasicML:
         print(output) # Prints the word as the output.
 
 
-    def load(self, memory, operand):
+    def load(self, memory, operand, accumulator):
         '''
         Returns a word from a location in memory specified by the operand.
         This value is intended to be stored in the accumulator.
@@ -67,6 +74,7 @@ class BasicML:
         '''
         return accumulator * memory[operand]
 
+
     def branch(self, operand):
         '''
         Returns the location to be branched to in memory specified by the operand.
@@ -94,10 +102,9 @@ class BasicML:
             return instructionCounter
 
 
-    def halt(self, running):
+    def halt(self):
         '''
         Pauses the program.
         '''
-        running = False
-        return running
+        return False
     
