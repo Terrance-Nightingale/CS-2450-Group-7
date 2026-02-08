@@ -27,16 +27,16 @@ def testProgramValid1():
 # ────────────────────────────────────────────────
 @pytest.mark.uc1
 def test_read_stores_valid_input(monkeypatch, testUVSim):
-    monkeypatch.setattr("builtins.input", lambda _: "1234")
+    monkeypatch.setattr("builtins.input", lambda _: 1234)
     testUVSim.cpu.basicml.read(testUVSim.cpu.memory.mainMemory, 42)
-    assert testUVSim.cpu.memory.mainMemory[42] == "1234"
+    assert testUVSim.cpu.memory.mainMemory[42] == 1234
 
 @pytest.mark.uc1
 def test_read_repeated_until_valid_range(monkeypatch, testUVSim):
-    inputs = ["10000", "-12345", "5678"]
+    inputs = [10000, -12345, 5678]
     monkeypatch.setattr("builtins.input", lambda _: inputs.pop(0))
     testUVSim.cpu.basicml.read(testUVSim.cpu.memory.mainMemory, 19)
-    assert testUVSim.cpu.memory.mainMemory[19] == "5678"
+    assert testUVSim.cpu.memory.mainMemory[19] == 5678
 
 # ────────────────────────────────────────────────
 # Use Case 2: Inspect memory dump for debugging purposes
@@ -83,9 +83,9 @@ def test_write_uninitialized_location_prints_zero(testUVSim, capsys):
 
 @pytest.mark.uc3
 def test_read_negative_number_stored_correctly(testUVSim, monkeypatch):
-    monkeypatch.setattr("builtins.input", lambda _: "-777")
+    monkeypatch.setattr("builtins.input", lambda _: -777)
     testUVSim.cpu.basicml.read(testUVSim.cpu.memory.mainMemory, 33)
-    assert testUVSim.cpu.memory.mainMemory[33] == "-777"
+    assert testUVSim.cpu.memory.mainMemory[33] == -777
 
 # ────────────────────────────────────────────────
 # Use Case 4: Perform proper STORE operation
