@@ -5,11 +5,11 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import pytest
 from unittest.mock import patch, Mock
-from BasicML import BasicML
-from cpu import CPU
-from Memory import Memory
-from UVSim import UVSim
-from UserProgram import UserProgram
+from Backend.BasicML import BasicML
+from Backend.cpu import CPU
+from Backend.Memory import Memory
+from Backend.UVSim import UVSim
+from Backend.UserProgram import UserProgram
 
 @pytest.fixture
 def testUVSim():
