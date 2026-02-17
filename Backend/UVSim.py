@@ -1,6 +1,6 @@
-from UserProgram import UserProgram
-from Memory import Memory
-from cpu import CPU
+from Backend.UserProgram import UserProgram
+from Backend.Memory import Memory
+from Backend.cpu import CPU
 
 class UVSim:
     def __init__(self):

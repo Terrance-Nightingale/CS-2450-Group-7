@@ -1,5 +1,5 @@
-from BasicML import BasicML
-from Memory import Memory
+from Backend.BasicML import BasicML
+from Backend.Memory import Memory
 
 class CPU:
     def __init__(self, memory):

@@ -1,6 +1,6 @@
-from cpu import CPU
-from UserProgram import UserProgram
-from UVSim import UVSim
+from Backend.cpu import CPU
+from Backend.UserProgram import UserProgram
+from Backend.UVSim import UVSim
 
 if __name__ == "__main__":
     uvsim = UVSim()
