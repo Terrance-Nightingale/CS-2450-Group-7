@@ -81,3 +81,13 @@ class CPU:
         print("--MEMORY CONTENTS--")
         for i in range(100):
             print(self.memory.mainMemory[i])
+        
+    def reset(self):
+        for i in range(len(self.memory.mainMemory) - 1):
+            self.memory.mainMemory[i] = 0
+
+        self.instructionCounter = 0
+        self.instructionRegister = 0
+        self.opcode = 0
+        self.operand = 0
+        self.accumulator = 0

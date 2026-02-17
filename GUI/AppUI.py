@@ -1,12 +1,15 @@
 import tkinter as tk
-from TitlePanel import TitlePanel
-from ContentPanel import ContentPanel
+from GUI.TitlePanel import TitlePanel
+from GUI.ContentPanel import ContentPanel
 
 class AppUI:
-    def __init__(self, window):
+    def __init__(self, window, controller):
         self.window = window
         self.window.title("UVSim")
         self.window.configure(bg = "darkgrey")
+
+        self.controller = controller
+
         self.subPanelNames = ["Input", "CPU State", "Error Reports", "Input Info", "Memory", "Controls"]
 
         self.titlePanel = TitlePanel(window)
@@ -32,7 +35,17 @@ class AppUI:
             buttons = None
 
             if name == "Controls":
-                buttons = ["RUN", "RESET"]
+                buttons = [
+                    {
+                        'name': 'RUN',
+                        'command': self.controller.runProgram
+                    },
+
+                    {
+                        'name': 'RESET',
+                        'command': self.controller.resetProgram
+                    }
+                ]
 
             panel = ContentPanel(self.container, name, buttons)
             panel.grid(row, col)

@@ -21,3 +21,6 @@ class UVSim:
                 self.cpu.decode()
                 self.cpu.execute()
 
+    def resetProgram(self):        
+        self.cpu.reset()
+        self.cpu.dump()

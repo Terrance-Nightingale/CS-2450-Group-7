@@ -1,5 +1,5 @@
 import tkinter as tk
-from Subpanel import Subpanel
+from GUI.Subpanel import Subpanel
 
 # Holds the subpanel content.
 
