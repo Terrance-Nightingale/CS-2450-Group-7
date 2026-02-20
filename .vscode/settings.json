@@ -3,6 +3,9 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": ["-s"],
-    "python.testing.cwd": "${workspaceFolder}"
+    "python.testing.cwd": "${workspaceFolder}",
+    "python.analysis.extraPaths": [
+        "./Backend"
+    ]
 
 }
