@@ -71,6 +71,9 @@ class CPU:
                 print("Invalid")
 
     def dump(self):
+        '''
+        Prints contents of CPU to console. Useful for debugging.
+        '''
         print("CPU DUMP")
         print(f"Accumulator: {self.accumulator}")
         print(f"Instr Reg: {self.instructionRegister}")
@@ -78,11 +81,14 @@ class CPU:
         print(f"Running: {self.running}")
         print(f"Opcode: {self.opcode}")
         print(f"Operand: {self.operand}")
-        print("--MEMORY CONTENTS--")
-        for i in range(100):
-            print(self.memory.mainMemory[i])
+        # print("--MEMORY CONTENTS--")
+        # for i in range(100):
+        #     print(self.memory.mainMemory[i])
         
     def reset(self):
+        '''
+        Resets the contents of the CPU to 0.
+        '''
         for i in range(len(self.memory.mainMemory) - 1):
             self.memory.mainMemory[i] = 0
 

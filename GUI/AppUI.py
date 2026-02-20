@@ -34,6 +34,8 @@ class AppUI:
 
             buttons = None
 
+            # Links the app's runProgram and resetProgram methods to the GUI's
+                # Run and Reset buttons.
             if name == "Controls":
                 buttons = [
                     {

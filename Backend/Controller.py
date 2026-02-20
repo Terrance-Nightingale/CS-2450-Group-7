@@ -4,6 +4,9 @@ class AppController:
         self.busy = False
 
     def runProgram(self):
+        '''
+        Calls the app's runProgram method.
+        '''
         if not self.busy:
             self.busy = True
             self.app.runProgram()
@@ -11,5 +14,8 @@ class AppController:
         
 
     def resetProgram(self):
+        '''
+        Calls the app's resetProgram method.
+        '''
         if not self.busy:
             self.app.resetProgram()

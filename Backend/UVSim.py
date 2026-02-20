@@ -9,18 +9,22 @@ class UVSim:
         self.userProgram = UserProgram()
 
     def loadProgram(self, userProgram):
+        '''
+        Loads the user's program into memory.
+        '''
         for i, word in enumerate(userProgram.program):
             self.memory.mainMemory[i] = int(word)
 
     def runProgram(self):
-        while True:
-            if self.cpu.fetch() is False:
-                self.cpu.dump()
-                break
-            else:
+        '''
+        Decodes and runs the user's program.
+        '''
+        while self.cpu.fetch():
                 self.cpu.decode()
                 self.cpu.execute()
 
-    def resetProgram(self):        
+    def resetProgram(self):    
+        '''
+        Excecute's the CPU's reset function.
+        '''    
         self.cpu.reset()
-        self.cpu.dump()
