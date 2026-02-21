@@ -34,6 +34,7 @@ class AppUI:
             row = index // 3
             col = index % 3
             buttons = None
+
             if name == "Controls":
                 buttons = [
                     {
@@ -49,9 +50,13 @@ class AppUI:
 
             panel = ContentPanel(self.container, name, buttons)
             panel.grid(row, col)
+            
             if name == "CPU State":
                 panel.subPanel.statusLabel.destroy()
                 CPUStatePanel(panel.subPanel.contentPanel, self.uvsim.cpu)
+        
+            if name == "Controls":
+                panel.subPanel.statusLabel.destroy()
 
 # Test output. We can change the size of this window, but I am thinking about locking it to 1500x1200
 if __name__ == "__main__":
