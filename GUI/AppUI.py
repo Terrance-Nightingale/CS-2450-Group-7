@@ -1,9 +1,11 @@
 import tkinter as tk
 from GUI.TitlePanel import TitlePanel
 from GUI.ContentPanel import ContentPanel
+from GUI.CPUStatePanel import CPUStatePanel
 
 class AppUI:
-    def __init__(self, window, controller):
+    def __init__(self, window, controller, uvsim):
+        self.uvsim = uvsim
         self.window = window
         self.window.title("UVSim")
         self.window.configure(bg = "darkgrey")
@@ -31,11 +33,7 @@ class AppUI:
         for index, name in enumerate(self.subPanelNames):
             row = index // 3
             col = index % 3
-
             buttons = None
-
-            # Links the app's runProgram and resetProgram methods to the GUI's
-                # Run and Reset buttons.
             if name == "Controls":
                 buttons = [
                     {
@@ -51,6 +49,9 @@ class AppUI:
 
             panel = ContentPanel(self.container, name, buttons)
             panel.grid(row, col)
+            if name == "CPU State":
+                panel.subPanel.statusLabel.destroy()
+                CPUStatePanel(panel.subPanel.contentPanel, self.uvsim.cpu)
 
 # Test output. We can change the size of this window, but I am thinking about locking it to 1500x1200
 if __name__ == "__main__":

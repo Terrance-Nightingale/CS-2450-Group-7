@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     window = tk.Tk()
     window.geometry("1500x900")
-    app = AppUI(window, controller)
+    app = AppUI(window, controller, uvsim)
     
     test.inputProgram()
 
