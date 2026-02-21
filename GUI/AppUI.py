@@ -2,6 +2,7 @@ import tkinter as tk
 from GUI.TitlePanel import TitlePanel
 from GUI.ContentPanel import ContentPanel
 from GUI.CPUStatePanel import CPUStatePanel
+from GUI.InputPanel import InputPanel
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -57,6 +58,10 @@ class AppUI:
         
             if name == "Controls":
                 panel.subPanel.statusLabel.destroy()
+
+            if name == "Input":
+                panel.subPanel.statusLabel.destroy()
+                InputPanel(panel.subPanel.contentPanel, self.uvsim.cpu) #I haven't verified it's the cpu I'll need yet...
 
 # Test output. We can change the size of this window, but I am thinking about locking it to 1500x1200
 if __name__ == "__main__":
