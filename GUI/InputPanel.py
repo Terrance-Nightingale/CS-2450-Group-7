@@ -104,25 +104,3 @@ class InputPanel:
         self.word_choice_label.config(text=var_to_change)
 
 
-
-"""
-prev_inputs_frame = tk.Frame(
-    input_frame, 
-    relief="sunken")
-prev_inputs_frame.pack(padx=10, pady=6)
-
-def update_prev_inputs(recent_input):
-    pass
-
-tk.Label(
-    prev_inputs_frame,
-    text="Previous inputs:"
-    ).grid(row=0, column=0)
-
-prev_inputs_label = tk.Label(
-    prev_inputs_frame,
-    text="These\nAre\nsome\ninputs"
-    #textvariable=prev_inputs
-)
-prev_inputs_label.grid(row=1, column=0, columnspan=2)
-#"""
