@@ -8,15 +8,15 @@ import tkinter as tk
 if __name__ == "__main__":
     uvsim = UVSim()
     test = UserProgram()
-    controller = AppController(uvsim)
+    controller = AppController(uvsim, test)
 
     window = tk.Tk()
     window.geometry("1500x900")
     app = AppUI(window, controller, uvsim)
     
-    test.inputProgram()
+    #test.inputProgram()
 
-    uvsim.loadProgram(test)
+    #uvsim.loadProgram(test)
     # uvsim.runProgram()
 
     window.mainloop()

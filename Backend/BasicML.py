@@ -1,17 +1,25 @@
+from tkinter import simpledialog
+
+
 class BasicML:
     def __init__(self):
         pass
 
-    
+
     def read(self, memory, operand):
         '''
         Reads a word from the keyboard into a location in memory specified by the operand.
         '''
         while True:
-            read_input = input("Enter a 4-digit word: ") # Receives input from user.
-            inputInt = int(read_input) # Converts from string to int.
+            new_word = "-9999"
+            new_word = simpledialog.askstring("Input", "Enter a word")
+            print(f"got input 1: {new_word}")
+            #read_input = input("Enter a 4-digit word: ") # Receives input from user.
+            inputInt = int(new_word) # Converts from string to int.
+            print(f"got input 2 {inputInt}")
             if(-9999 <= inputInt <= 9999):
                 memory[operand] = inputInt
+                print(f"updated memory: {memory[operand]}")
                 break
             else:
                 print("Number must be between -9999 and 9999.")
