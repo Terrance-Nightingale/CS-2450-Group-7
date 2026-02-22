@@ -12,7 +12,7 @@ class InputInfoPanel:
 
         self.prev_inputs_label = tk.Label(
             self.container,
-            text="These\nAre\nsome\ninputs"
+            text="Previous inputs will appear here..."
         )
         self.prev_inputs_label.grid(row=1, column=0, columnspan=2)
 
