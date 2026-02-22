@@ -12,7 +12,7 @@ class BasicML:
         '''
         while True:
             new_word = "-9999"
-            new_word = simpledialog.askstring("Input", "Enter a word...\nYou may have to try twice to get it to work...")
+            new_word = simpledialog.askstring("Input", "Enter a word")
             print(f"got input 1: {new_word}")
             #read_input = input("Enter a 4-digit word: ") # Receives input from user.
             inputInt = int(new_word) # Converts from string to int.
