@@ -48,7 +48,7 @@ class InputPanel:
             width=30)
         self.file_choice_label.grid(row=1, column=1, columnspan=3, sticky="w")
 
-
+        """
         word_entry_frame = tk.Frame(
             self.container)
         word_entry_frame.pack(padx=10, pady=6)
@@ -92,6 +92,7 @@ class InputPanel:
             text="--No word submitted--"
         )
         self.word_choice_label.grid(row=3, column=1, columnspan=2)
+        """
 
     def file_entered(self):
         file_path = self.file_entry.get()
@@ -99,9 +100,10 @@ class InputPanel:
         self.input_to.userProgram.program = []
         self.input_to.userProgram.inputProgram(file_path)
         self.input_to.loadProgram(self.input_to.userProgram)
-
+    """
     def word_entered(self):
         var_to_change = self.word_entry.get()
         self.word_choice_label.config(text=var_to_change)
+    """
 
 
