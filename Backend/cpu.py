@@ -32,30 +32,30 @@ class CPU:
         match(self.opcode):
             case 0:
                 pass
-            case 10:
+            case 10: #READ
                 self.basicml.read(self.memory.mainMemory, self.operand)
                 return
-            case 11:
+            case 11: #WRITE
                 self.basicml.write(self.memory.mainMemory, self.operand)
-            case 20:
+            case 20: #LOAD
                 self.accumulator = self.basicml.load(self.memory.mainMemory, self.operand)
-            case 21:
+            case 21: #STORE
                 self.basicml.store(self.memory.mainMemory, self.operand, self.accumulator)
-            case 30:
+            case 30: #ADD
                 self.accumulator = self.basicml.add(self.memory.mainMemory, self.operand, self.accumulator)
-            case 31:
+            case 31: #SUBTRACT
                 self.accumulator = self.basicml.subtract(self.memory.mainMemory, self.operand, self.accumulator)
-            case 32:
+            case 32: #DIVIDE
                 self.accumulator = self.basicml.divide(self.memory.mainMemory, self.operand, self.accumulator)
-            case 33:
+            case 33: #MULTIPLY
                 self.accumulator = self.basicml.multiply(self.memory.mainMemory, self.operand, self.accumulator)
-            case 40:
+            case 40: #BRANCH
                 self.instructionCounter = self.basicml.branch(self.operand)
-            case 41:
+            case 41: #BRANCHNEG
                 self.instructionCounter = self.basicml.branchNeg(self.operand, self.instructionCounter, self.accumulator)
-            case 42:
+            case 42: #BRANCHZERO
                 self.instructionCounter = self.basicml.branchZero(self.operand, self.instructionCounter, self.accumulator)
-            case 43:
+            case 43: #HALT
                 self.running = self.basicml.halt()
             case _:
                 self.errorMessage = f"Invalid opcode: {self.opcode}"

@@ -75,7 +75,7 @@ class BasicML:
         if memory[operand] == 0:
             self.errorMessage = "Error: Division by zero."
         else:
-            return accumulator / memory[operand]
+            return accumulator // memory[operand]
 
     def multiply(self, memory, operand, accumulator):
         '''
