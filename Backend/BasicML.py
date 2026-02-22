@@ -60,7 +60,7 @@ class BasicML:
 
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
-            return None
+            return 0
 
         return result
 
@@ -74,7 +74,7 @@ class BasicML:
 
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
-            return None
+            return 0
 
         return result
 
@@ -89,7 +89,7 @@ class BasicML:
             self.errorMessage = "Error: Division by zero."
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
-            return None
+            return 0
 
         return result
 
@@ -102,7 +102,7 @@ class BasicML:
 
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
-            return None
+            return 0
 
         return result
 
