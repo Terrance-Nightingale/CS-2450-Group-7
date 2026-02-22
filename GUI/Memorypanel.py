@@ -39,7 +39,7 @@ class MemoryPanel:
         scroll_pos = self.memory_box.yview()
         memory_text = '\n'.join(
             f'{i}: {x}'
-            for i, x in enumerate(self.memory_ref, start=1)
+            for i, x in enumerate(self.memory_ref)#, start=1)
         )
         self.memory_box.config(state="normal")
         self.memory_box.delete("1.0", tk.END)
