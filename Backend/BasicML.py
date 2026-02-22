@@ -1,3 +1,5 @@
+from tkinter import simpledialog
+
 class BasicML:
     def __init__(self, inputPanel=None, inputInfoPanel=None):
         self.inputPanel = inputPanel
@@ -7,7 +9,7 @@ class BasicML:
     
     def read(self, memory, operand):
         if self.inputPanel:
-            read_input = self.inputPanel.word_entry.get()
+            read_input = simpledialog.askstring("Input", "Enter a word")
             try:
                 inputInt = int(read_input)
             except ValueError:
@@ -16,7 +18,7 @@ class BasicML:
 
             if -9999 <= inputInt <= 9999:
                 memory[operand] = inputInt
-                self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
+                #self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
 
                 if self.inputInfoPanel:
                     self.inputInfoPanel.update_prev_inputs(f"READ {inputInt}")
