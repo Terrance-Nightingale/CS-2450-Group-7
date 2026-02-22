@@ -19,7 +19,7 @@ How to use:
 2. Click RUN to execute until HALT or error
 3. Use RESET to start over
 4. Watch CPU State and Memory update as it runs
-5. Type numbers in console when READ (10xx) is executed
+5. Type numbers in pop-ups when READ (10xx) is executed - pop-ups may not always appear on top
 """
 
     def __init__(self, master):
