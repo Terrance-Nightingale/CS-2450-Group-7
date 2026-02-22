@@ -2,8 +2,8 @@ import tkinter as tk
 
 
 class InputPanel:
-    def __init__(self, container, interface_with_backend):
-        self.input_to = interface_with_backend
+    def __init__(self, container, backend_controller):
+        self.backend_controller = backend_controller
         self.container = container
         
         self.file_entry_frame = tk.Frame(
@@ -48,7 +48,12 @@ class InputPanel:
             width=30)
         self.file_choice_label.grid(row=1, column=1, columnspan=3, sticky="w")
 
+        tk.Label(
+            self.file_entry_frame,
+            text="If pop up doesn't appear during 'READ' command,\ncheck behind main window."
+        ).grid(row=2, column=0, columnspan=4)
 
+        """
         word_entry_frame = tk.Frame(
             self.container)
         word_entry_frame.pack(padx=10, pady=6)
@@ -92,15 +97,19 @@ class InputPanel:
             text="--No word submitted--"
         )
         self.word_choice_label.grid(row=3, column=1, columnspan=2)
-
+        #"""
 
 
     def file_entered(self):
-        var_to_change = self.file_entry.get()
-        self.file_choice_label.config(text=var_to_change)
+        file_path = self.file_entry.get()
+        self.backend_controller.inputProgram(file_path)
+        self.backend_controller.loadProgram()
+        self.file_choice_label.config(text=file_path)
 
+    """
     def word_entered(self):
-        var_to_change = self.word_entry.get()
-        self.word_choice_label.config(text=var_to_change)
-
+        word = self.word_entry.get()
+        self.backend_controller.read_word_from_gui(word)
+        self.word_choice_label.config(text=word)
+    #"""
 

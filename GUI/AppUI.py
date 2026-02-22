@@ -62,11 +62,11 @@ class AppUI:
 
             if name == "Input":
                 panel.subPanel.statusLabel.destroy()
-                InputPanel(panel.subPanel.contentPanel, self.uvsim.cpu) #I haven't verified it's the cpu I'll need yet...
+                InputPanel(panel.subPanel.contentPanel, self.controller) #I haven't verified it's the cpu I'll need yet...
 
             if name == "Input Info":
                 panel.subPanel.statusLabel.destroy()
-                InputInfoPanel(panel.subPanel.contentPanel, self.uvsim.cpu) #I haven't verified it's the cpu I'll need yet...
+                InputInfoPanel(panel.subPanel.contentPanel, self.controller) #I haven't verified it's the cpu I'll need yet...
 
 
 
