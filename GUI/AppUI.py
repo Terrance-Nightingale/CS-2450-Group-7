@@ -4,6 +4,7 @@ from GUI.ContentPanel import ContentPanel
 from GUI.CPUStatePanel import CPUStatePanel
 from GUI.InputPanel import InputPanel
 from GUI.InputInfoPanel import InputInfoPanel
+from GUI.Memorypanel import MemoryPanel
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -68,7 +69,9 @@ class AppUI:
                 panel.subPanel.statusLabel.destroy()
                 InputInfoPanel(panel.subPanel.contentPanel, self.controller) #I haven't verified it's the cpu I'll need yet...
 
-
+            if name == "Memory":
+                panel.subPanel.statusLabel.destroy()
+                MemoryPanel(panel.subPanel.contentPanel, self.uvsim.cpu)
 
 # Test output. We can change the size of this window, but I am thinking about locking it to 1500x1200
 if __name__ == "__main__":
