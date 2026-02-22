@@ -1,20 +1,27 @@
 class BasicML:
-    def __init__(self):
-        pass
-
+    def __init__(self, inputPanel=None, inputInfoPanel=None):
+        self.inputPanel = inputPanel
+        self.inputInfoPanel = inputInfoPanel
+        self.read_value = None
+        self.errorMessage = ""
     
     def read(self, memory, operand):
-        '''
-        Reads a word from the keyboard into a location in memory specified by the operand.
-        '''
-        while True:
-            read_input = input("Enter a 4-digit word: ") # Receives input from user.
-            inputInt = int(read_input) # Converts from string to int.
-            if(-9999 <= inputInt <= 9999):
+        if self.inputPanel:
+            read_input = self.inputPanel.word_entry.get()
+            try:
+                inputInt = int(read_input)
+            except ValueError:
+                self.errorMessage = "Invalid input: not an integer"
+                return
+
+            if -9999 <= inputInt <= 9999:
                 memory[operand] = inputInt
-                break
+                self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
+
+                if self.inputInfoPanel:
+                    self.inputInfoPanel.update_prev_inputs(f"READ {inputInt}")
             else:
-                print("Number must be between -9999 and 9999.")
+                self.errorMessage = "Number must be between -9999 and 9999"
         
         
 
@@ -22,8 +29,8 @@ class BasicML:
         '''
         Writes a word from a location in memory specified by the operand to screen.
         '''
-        output = memory[operand] # Pulls the word from memory.
-        print(output) # Prints the word as the output.
+        output = memory[operand]
+        print(output)
 
 
     def load(self, memory, operand):
@@ -62,8 +69,8 @@ class BasicML:
         Divides the word in the accumulator by a word from a location specified by the operand in memory.
         Returns the result.
         '''
-        if memory[operand] == 0: # Checks memory value to prevent division by zero.
-            print("Error: Division by zero.")
+        if memory[operand] == 0:
+            self.errorMessage = "Error: Division by zero."
         else:
             return accumulator / memory[operand]
 

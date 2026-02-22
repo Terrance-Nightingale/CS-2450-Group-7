@@ -7,7 +7,7 @@ class MemoryPanel:
         self.master = master
         self.input_to = interface_with_backend
         memory = Memory()
-        self.memory_ref = memory.mainmemory()
+        self.memory_ref = self.input_to.memory.mainmemory()
         self.memory = "\n".join(
             f'{i}: {x}'
             for i, x in enumerate(self.memory_ref, start=1)

@@ -2,6 +2,7 @@ class UserProgram():
     def __init__(self):
         self.programSize = 0
         self.program = []
+        self.errorMsg = ""
 
     '''    def inputProgram(self):
             while True:
@@ -24,10 +25,14 @@ class UserProgram():
                     else:
                         print("Maximum program size reached, please enter -99999 to finish inputting your program: ")
     '''
-    def inputProgram(self):
-        file_path = input("Please enter the file path for the program you'd like to run: ")
-        with open(file_path, "r") as file:
-            for word in file:
-                if word == "-99999":
-                    break
-                self.program.append(word.rstrip("\n"))
+    def inputProgram(self, filePath):
+        try: 
+            with open(filePath, "r") as f:
+                for line in f:
+                    word = line.strip()
+                    if word == "-99999":
+                        break
+                    self.program.append(word)
+        except FileNotFoundError:
+            self.errorMsg = "File not found."
+

@@ -1,12 +1,14 @@
 from Backend.UserProgram import UserProgram
 from Backend.Memory import Memory
 from Backend.cpu import CPU
+from Backend.BasicML import BasicML
 
 class UVSim:
-    def __init__(self):
+    def __init__(self, inputPanel = None, inputInfoPanel = None):
         self.memory = Memory()
         self.cpu = CPU(self.memory)
         self.userProgram = UserProgram()
+        self.cpu.basicml = BasicML(inputPanel, inputInfoPanel)
 
     def loadProgram(self, userProgram):
         '''

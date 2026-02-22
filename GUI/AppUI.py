@@ -5,6 +5,7 @@ from GUI.CPUStatePanel import CPUStatePanel
 from GUI.InputPanel import InputPanel
 from GUI.InputInfoPanel import InputInfoPanel
 from GUI.Memorypanel import MemoryPanel
+from GUI.ErrorPanel import ErrorPanel
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -31,7 +32,6 @@ class AppUI:
         self.createGridPanels()
 
 
-    # Creates a set of rows and columns to place content panels within the window.
     def createGridPanels(self):
         for index, name in enumerate(self.subPanelNames):
             row = index // 3
@@ -63,19 +63,18 @@ class AppUI:
 
             if name == "Input":
                 panel.subPanel.statusLabel.destroy()
-                InputPanel(panel.subPanel.contentPanel, self.uvsim.cpu) #I haven't verified it's the cpu I'll need yet...
+                self.inputPanel = InputPanel(panel.subPanel.contentPanel, self.uvsim)
+                self.uvsim.cpu.basicml.inputPanel = self.inputPanel
 
             if name == "Input Info":
                 panel.subPanel.statusLabel.destroy()
-                InputInfoPanel(panel.subPanel.contentPanel, self.uvsim.cpu) #I haven't verified it's the cpu I'll need yet...
+                self.inputInfoPanel = InputInfoPanel(panel.subPanel.contentPanel, self.uvsim)
+                self.uvsim.cpu.basicml.inputInfoPanel = self.inputInfoPanel
 
             if name == "Memory":
                 panel.subPanel.statusLabel.destroy()
                 MemoryPanel(panel.subPanel.contentPanel, self.uvsim.cpu)
 
-# Test output. We can change the size of this window, but I am thinking about locking it to 1500x1200
-if __name__ == "__main__":
-    window = tk.Tk()
-    window.geometry("1500x1200")
-    app = AppUI(window)
-    window.mainloop()
+            if name == "Error Reports":
+                panel.subPanel.statusLabel.destroy()
+                ErrorPanel(panel.subPanel.contentPanel, self.uvsim.cpu)

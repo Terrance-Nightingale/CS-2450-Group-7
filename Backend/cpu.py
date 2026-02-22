@@ -11,6 +11,7 @@ class CPU:
         self.operand = 0
         self.accumulator = 0
         self.running = True
+        self.errorMessage = ""
 
     def fetch(self):
         if not self.running:
@@ -33,42 +34,32 @@ class CPU:
                 pass
             case 10:
                 self.basicml.read(self.memory.mainMemory, self.operand)
-                print("READ")
+                return
             case 11:
                 self.basicml.write(self.memory.mainMemory, self.operand)
-                print("WRITE")
             case 20:
                 self.accumulator = self.basicml.load(self.memory.mainMemory, self.operand)
-                print("LOAD")
             case 21:
                 self.basicml.store(self.memory.mainMemory, self.operand, self.accumulator)
-                print("STORE")
             case 30:
                 self.accumulator = self.basicml.add(self.memory.mainMemory, self.operand, self.accumulator)
-                print("ADD")
             case 31:
                 self.accumulator = self.basicml.subtract(self.memory.mainMemory, self.operand, self.accumulator)
-                print("SUB")
             case 32:
                 self.accumulator = self.basicml.divide(self.memory.mainMemory, self.operand, self.accumulator)
-                print("DIV")
             case 33:
                 self.accumulator = self.basicml.multiply(self.memory.mainMemory, self.operand, self.accumulator)
-                print("MUL")
             case 40:
                 self.instructionCounter = self.basicml.branch(self.operand)
-                print("BRANCH")
             case 41:
                 self.instructionCounter = self.basicml.branchNeg(self.operand, self.instructionCounter, self.accumulator)
-                print("BRANCHNEG")
             case 42:
                 self.instructionCounter = self.basicml.branchZero(self.operand, self.instructionCounter, self.accumulator)
-                print("BRANCHZERO")
             case 43:
                 self.running = self.basicml.halt()
-                print("HALT")
             case _:
-                print("Invalid")
+                self.errorMessage = f"Invalid opcode: {self.opcode}"
+                self.running = False
 
     def dump(self):
         '''
@@ -97,3 +88,5 @@ class CPU:
         self.opcode = 0
         self.operand = 0
         self.accumulator = 0
+        self.running = True
+        self.errorMessage = ""

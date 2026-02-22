@@ -93,11 +93,12 @@ class InputPanel:
         )
         self.word_choice_label.grid(row=3, column=1, columnspan=2)
 
-
-
     def file_entered(self):
-        var_to_change = self.file_entry.get()
-        self.file_choice_label.config(text=var_to_change)
+        file_path = self.file_entry.get()
+        self.file_choice_label.config(text=file_path)
+        self.input_to.userProgram.program = []
+        self.input_to.userProgram.inputProgram(file_path)
+        self.input_to.loadProgram(self.input_to.userProgram)
 
     def word_entered(self):
         var_to_change = self.word_entry.get()

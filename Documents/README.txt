@@ -9,6 +9,8 @@ if the program entered requires input from the terminal, you will be prompted to
 program will run as written
 after the program finished running/if an error in the program occurs, a memory dump will be printed to the terminal
 
+#Please input the full filepath to get the to the Test.txt files.
+
 ## How to use unittests
 run unittests.py
 ```pytest -v unittests.py```

@@ -6,17 +6,13 @@ from Backend.Controller import AppController
 import tkinter as tk
 
 if __name__ == "__main__":
-    uvsim = UVSim()
-    test = UserProgram()
-    controller = AppController(uvsim)
-
     window = tk.Tk()
     window.geometry("1500x900")
-    app = AppUI(window, controller, uvsim)
-    
-    test.inputProgram()
 
-    uvsim.loadProgram(test)
-    # uvsim.runProgram()
+    uvsim = UVSim()
+
+    controller = AppController(uvsim)
+
+    app = AppUI(window, controller, uvsim)
 
     window.mainloop()
