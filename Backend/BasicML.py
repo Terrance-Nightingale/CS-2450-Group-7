@@ -70,7 +70,7 @@ class BasicML:
         Subtracts a word from a location in memory specified by the operand from the word in the accumulator
         and returns the result.
         '''
-        result = accumulator - memory[operand]:
+        result = accumulator - memory[operand]
 
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
@@ -98,7 +98,7 @@ class BasicML:
         Multiplies a word from a location in memory specified by the operand to the word in the accumulator.
         Returns the result.
         '''
-        result = accumulator * memory[operand]:
+        result = accumulator * memory[operand]
 
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
