@@ -56,10 +56,12 @@ class BasicML:
         Adds a word from a location in memory specified by the operand to the word in the accumulator
         and returns the result.
         '''
-        result = accumulator + memory[operand]
+        result = accumulator + memory[operand]:
+
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
             return None
+
         return result
 
 
@@ -68,10 +70,12 @@ class BasicML:
         Subtracts a word from a location in memory specified by the operand from the word in the accumulator
         and returns the result.
         '''
-        result = accumulator - memory[operand]
+        result = accumulator - memory[operand]:
+
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
             return None
+
         return result
 
     
@@ -80,20 +84,26 @@ class BasicML:
         Divides the word in the accumulator by a word from a location specified by the operand in memory.
         Returns the result.
         '''
+        result = accumulator // memory[operand]
         if memory[operand] == 0:
             self.errorMessage = "Error: Division by zero."
-        else:
-            return accumulator // memory[operand]
+        if result > 9999 or result < -9999:
+            self.errorMessage = "Accumulator overflow!"
+            return None
+
+        return result
 
     def multiply(self, memory, operand, accumulator):
         '''
         Multiplies a word from a location in memory specified by the operand to the word in the accumulator.
         Returns the result.
         '''
-        result = accumulator * memory[operand]
+        result = accumulator * memory[operand]:
+
         if result > 9999 or result < -9999:
             self.errorMessage = "Accumulator overflow!"
             return None
+
         return result
 
 
