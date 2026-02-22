@@ -60,6 +60,9 @@ class CPU:
             case _:
                 self.errorMessage = f"Invalid opcode: {self.opcode}"
                 self.running = False
+        if self.basicml.errorMessage:
+            self.errorMessage = self.basicml.errorMessage
+            self.running = False
 
     def dump(self):
         '''
