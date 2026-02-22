@@ -32,7 +32,8 @@ class BasicML:
         Writes a word from a location in memory specified by the operand to screen.
         '''
         output = memory[operand]
-        print(output)
+        if self.inputInfoPanel:
+            self.inputInfoPanel.update_prev_inputs(f"WRITE {output}")
 
 
     def load(self, memory, operand):
