@@ -9,6 +9,7 @@ class AppController:
         '''
         if not self.busy:
             self.busy = True
+            self.app.loadProgram(self.app.userProgram)
             self.app.runProgram()
             self.busy = False
         
