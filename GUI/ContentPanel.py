@@ -6,7 +6,7 @@ from GUI.Subpanel import Subpanel
 class ContentPanel:
     def __init__(self, container, title, buttons = None):
         self.container = tk.Frame(container, borderwidth = 1, relief = "ridge", bg = "black")
-        self.container.rowconfigure(0, weight = 0, minsize = 80)
+        self.container.rowconfigure(0, weight = 0, minsize = 20)
         self.container.rowconfigure(1, weight = 1)
         self.container.columnconfigure(0, weight = 1)
         self.subPanel = Subpanel(self.container, title, buttons)
