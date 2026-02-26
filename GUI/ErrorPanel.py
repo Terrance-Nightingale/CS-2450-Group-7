@@ -1,16 +1,19 @@
 import tkinter as tk
-
+'''
+The color of this window is dictated by the subpanel class.
+'''
 class ErrorPanel:
     def __init__(self, master, cpu):
         self.cpu = cpu
         self.master = master
-        self.errorLabel = tk.Label(master, text="", bg="darkgrey", fg="black", font=("Arial", 14))
-        self.errorLabel.pack(expand=True, fill="both")
+        
+        self.mainLabel = tk.Label(master, text = "", bg = "darkgrey", fg = "black", font = ("Arial", 14))
+        self.mainLabel.pack(expand = False, fill = "both")
         self.update()
 
     def update(self):
         if hasattr(self.cpu, "errorMessage") and self.cpu.errorMessage:
-            self.errorLabel.config(text=self.cpu.errorMessage)
+            self.mainLabel.config(text = self.cpu.errorMessage)
         else:
-            self.errorLabel.config(text="No errors")
+            self.mainLabel.config(text = "No errors")
         self.master.after(100, self.update)

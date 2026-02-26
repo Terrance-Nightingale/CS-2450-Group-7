@@ -1,9 +1,10 @@
+import tkinter as tk
+from tkinter import messagebox
 from Backend.cpu import CPU
 from Backend.UserProgram import UserProgram
 from Backend.UVSim import UVSim
-from GUI.AppUI import AppUI
 from Backend.Controller import AppController
-import tkinter as tk
+from GUI.AppUI import AppUI
 
 if __name__ == "__main__":
     window = tk.Tk()
@@ -14,5 +15,8 @@ if __name__ == "__main__":
     controller = AppController(uvsim)
 
     app = AppUI(window, controller, uvsim)
+
+    #This will intercept the "x" on the window object itself and call a function within the appui class to close and destroy.
+    window.protocol("WM_DELETE_WINDOW", app.exitPrompt)
 
     window.mainloop()
