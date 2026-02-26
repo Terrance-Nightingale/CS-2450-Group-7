@@ -6,6 +6,7 @@ from GUI.InputPanel import InputPanel
 from GUI.InputInfoPanel import InputInfoPanel
 from GUI.Memorypanel import MemoryPanel
 from GUI.ErrorPanel import ErrorPanel
+from GUI.MenuBar import MenuBar
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -13,12 +14,13 @@ class AppUI:
         self.window = window
         self.window.title("UVSim")
         self.window.configure(bg = "darkgrey")
+        self.panels = {}
 
         self.controller = controller
 
         self.subPanelNames = ["Input", "CPU State", "Error Reports", "Input Info", "Memory", "Controls"]
 
-        self.titlePanel = TitlePanel(window)
+        #self.titlePanel = TitlePanel(window)
 
         self.container = tk.Frame(window)
         self.container.pack(expand = True, fill = "both")
@@ -31,6 +33,10 @@ class AppUI:
 
         self.createGridPanels()
 
+        menu = MenuBar(self.window, self)
+        menu.createFileMenu()
+        menu.createThemeMenu()
+        menu.createHelpMenu()
 
     def createGridPanels(self):
         for index, name in enumerate(self.subPanelNames):
@@ -53,23 +59,23 @@ class AppUI:
 
             panel = ContentPanel(self.container, name, buttons)
             panel.grid(row, col)
+
+            self.panels[name] = panel.subPanel
             
             if name == "CPU State":
                 panel.subPanel.statusLabel.destroy()
-                CPUStatePanel(panel.subPanel.contentPanel, self.uvsim.cpu)
+                self.cpuStatePanel = CPUStatePanel(panel.subPanel.contentPanel, self.uvsim.cpu)
         
             if name == "Controls":
                 panel.subPanel.statusLabel.destroy()
 
             if name == "Input":
                 panel.subPanel.statusLabel.destroy()
-                self.inputPanel = InputPanel(panel.subPanel.contentPanel, self.uvsim)
-                self.uvsim.cpu.basicml.inputPanel = self.inputPanel
+                InputPanel(panel.subPanel.contentPanel, self.uvsim)
 
             if name == "Input Info":
                 panel.subPanel.statusLabel.destroy()
-                self.inputInfoPanel = InputInfoPanel(panel.subPanel.contentPanel, self.uvsim)
-                self.uvsim.cpu.basicml.inputInfoPanel = self.inputInfoPanel
+                InputInfoPanel(panel.subPanel.contentPanel, self.uvsim)
 
             if name == "Memory":
                 panel.subPanel.statusLabel.destroy()
@@ -77,4 +83,17 @@ class AppUI:
 
             if name == "Error Reports":
                 panel.subPanel.statusLabel.destroy()
-                ErrorPanel(panel.subPanel.contentPanel, self.uvsim.cpu)
+                
+
+    '''
+    This will create an exit prompt upon clicking the "Exit" option in the File menu selection
+    '''
+    def exitPrompt(self):
+        areYouSure = tk.messagebox.askyesno("Exiting UVSim", "Are you sure you want to exit?")
+        
+        if areYouSure:
+            self.window.destroy()
+        else:
+            pass
+
+            
