@@ -1,5 +1,3 @@
-import tkinter as tk
-
 class AppController:
     def __init__(self, app):
         self.app = app
@@ -12,6 +10,7 @@ class AppController:
         if not self.busy:
             self.busy = True
             self.app.runProgram()
+            self.app.loadProgram(self.app.userProgram)
             self.busy = False
         
     '''
