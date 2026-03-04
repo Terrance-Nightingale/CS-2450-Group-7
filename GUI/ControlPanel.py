@@ -4,11 +4,7 @@ class ControlPanel:
     def __init__(self, parent_container, buttons=None):
         self.parent_container = parent_container
 
-        # Set parent container so that ControlPanel will fill parent
-        # self.parent_container.columnconfigure(0, weight=1)
-        # self.parent_container.rowconfigure(1, weight=1)
-
-        # Set ControlPanel so that buttons will fill container
+        # Configure parent container so that buttons will fill container
         self.parent_container.columnconfigure(0, weight=1)
         self.parent_container.columnconfigure(1, weight=2)
         self.parent_container.columnconfigure(2, weight=1)
