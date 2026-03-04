@@ -16,7 +16,3 @@ class Subpanel:
 
         self.statusLabel = tk.Label(self.contentPanel, text = title, bg = "#106511", font = ("Arial", 16))
         self.statusLabel.pack(expand = False)
-
-        if buttons:
-            for button in buttons:
-                tk.Button(self.contentPanel, command = button['command'], text = button['name'] , font = ("Arial", 16)).pack(fill="x", padx = 5, pady = 5)

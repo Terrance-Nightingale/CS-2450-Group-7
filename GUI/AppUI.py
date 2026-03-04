@@ -6,6 +6,7 @@ from GUI.InputPanel import InputPanel
 from GUI.InputInfoPanel import InputInfoPanel
 from GUI.Memorypanel import MemoryPanel
 from GUI.ErrorPanel import ErrorPanel
+from GUI.ControlPanel import ControlPanel
 from GUI.MenuBar import MenuBar
 
 class AppUI:
@@ -16,7 +17,7 @@ class AppUI:
         self.window.configure(bg = "darkgrey")
         self.panels = {}
 
-        self.controller = controller
+        self.controlsCtrl = controller
 
         self.subPanelNames = ["Input", "CPU State", "Error Reports", "Input Info", "Memory", "Controls"]
 
@@ -48,12 +49,12 @@ class AppUI:
                 buttons = [
                     {
                         'name': 'RUN',
-                        'command': self.controller.runProgram
+                        'command': self.controlsCtrl.runProgram
                     },
 
                     {
                         'name': 'RESET',
-                        'command': self.controller.resetProgram
+                        'command': self.controlsCtrl.resetProgram
                     }
                 ]
 
@@ -68,6 +69,8 @@ class AppUI:
         
             if name == "Controls":
                 panel.subPanel.statusLabel.destroy()
+                self.controlPanel = ControlPanel(panel.subPanel.contentPanel, buttons)
+                self.controlsCtrl.guiComponent = self.controlPanel
 
             if name == "Input":
                 panel.subPanel.statusLabel.destroy()
