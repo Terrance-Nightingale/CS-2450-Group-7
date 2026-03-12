@@ -55,7 +55,7 @@ class AppUI:
 
                     {
                         'name': 'RESET',
-                        'command': self.controller.resetProgram
+                        'command': self.controller.reset_program
                     }
                 ]
 
@@ -66,7 +66,7 @@ class AppUI:
             
             if name == "CPU State":
                 panel.sub_panel.status_label.destroy()
-                self.cpuStatePanel = CPUStatePanel(panel.sub_panel.content_panel, self.uvsim.cpu)
+                self.cup_state_panel = CPUStatePanel(panel.sub_panel.content_panel, self.uvsim.cpu)
         
             if name == "Controls":
                 panel.sub_panel.status_label.destroy()
@@ -82,8 +82,8 @@ class AppUI:
                 InputInfoPanel(panel.sub_panel.content_panel, self.uvsim)
 
             if name == "Memory":
-                panel.subPanel.status_label.destroy()
-                MemoryPanel(panel.subPanel.content_panel, self.uvsim.cpu)
+                panel.sub_panel.status_label.destroy()
+                MemoryPanel(panel.sub_panel.content_panel, self.uvsim.cpu)
 
             if name == "Error Reports":
                 panel.sub_panel.status_label.destroy()

@@ -1,17 +1,24 @@
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox
+import os
+import json
 
 '''
 A Menu Bar object to assist the user with saving, file uploads and a help page. I replaced the large button with the help guide
 because this looks a lot better. It has some color changing functionality too.
 '''
+
+CONFIG_FILE = "config.json"
+
 class MenuBar:
     def __init__(self, master, app_ui):
         self.menu_bar = tk.Menu(master, bg = "#0A3E0B", fg = "white") #I found out that this might actually be visible in Linux...
         self.master = master
         self.app_ui = app_ui
         self.master.config(menu = self.menu_bar)
+        saved_theme = self.load_config()
+        self.theme_commands(saved_theme)
         
 
     def create_file_menu(self):
@@ -90,31 +97,47 @@ class MenuBar:
                 color2 = "#203156"
                 self.menu_bar.config(bg = color2, fg = "white")
                 for panel in self.app_ui.panels.values():
-                    panel.contentPanel.config(bg = color1)
-                    panel.subPanelTitle.config(bg = color2)
+                    panel.content_panel.config(bg = color1)
+                    panel.sub_panel_title.config(bg = color2)
                     panel.title.config(bg = color2)
 
-                self.app_ui.cpuStatePanel.setColor(color1)
+                self.app_ui.cup_state_panel.setColor(color1)
             case 1:
                 color1 = "#A13830"
                 color2 = "#752823"
                 self.menu_bar.config(bg = color2, fg = "white")
                 for panel in self.app_ui.panels.values():
-                    panel.contentPanel.config(bg = color1)
-                    panel.subPanelTitle.config(bg = color2)
+                    panel.content_panel.config(bg = color1)
+                    panel.sub_panel_title.config(bg = color2)
                     panel.title.config(bg = color2)
                 
-                self.app_ui.cpuStatePanel.setColor(color1)
+                self.app_ui.cup_state_panel.setColor(color1)
             case 2:
                 color1 = "#106511"
                 color2 = "#0A3E0B"
                 self.menu_bar.config(bg = color2, fg = "white")
                 for panel in self.app_ui.panels.values():
-                    panel.contentPanel.config(bg = color1)
-                    panel.subPanelTitle.config(bg = color2)
+                    panel.content_panel.config(bg = color1)
+                    panel.sub_panel_title.config(bg = color2)
                     panel.title.config(bg = color2)
                 
-                self.app_ui.cpuStatePanel.setColor(color1)
+                self.app_ui.cup_state_panel.setColor(color1)
+
+        self.save_config(theme_id)
+
+    def save_config(self, theme_id):
+        config = {"theme_id": theme_id}
+        with open(CONFIG_FILE, "w") as f:
+            json.dump(config, f)
+
+    def load_config(self):
+        if os.path.exists(CONFIG_FILE):
+            try:
+                with open(CONFIG_FILE, "r") as f:
+                    config = json.load(f)
+                    return config.get("theme_id", 0)
+            except json.JSONDecodeError:
+                return 0;
 
     '''
     This was moved over from the title panel class. I think having this in a menu bar looks cleaner.

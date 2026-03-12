@@ -2,17 +2,17 @@ class AppController:
     def __init__(self, app, root, gui_component=None):
         self.app = app
         self.root = root
-        self.gui_component = gui_component
+        self._gui_component = gui_component
         self.busy = False
 
     # region Getter/Setters
     @property
     def gui_component(self):
-        return self.gui_component
+        return self._gui_component
 
     @gui_component.setter
     def gui_component(self, a):
-        self.gui_component = a
+        self._gui_component = a
     
     @property
     def root_ui(self):
@@ -29,7 +29,7 @@ class AppController:
         if not self.busy:
             self.busy = True
             self.gui_component.set_button_state('RUN', 'disabled')  # Gray out RUN button
-            self.app.load_program(self.app.user_program)
+            self.app.load_program(self.app.userProgram)
             self.app.run_program()
 
             # If current opcode is READ, creates a popup that prompts the user for their input.
