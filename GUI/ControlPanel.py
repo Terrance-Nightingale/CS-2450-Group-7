@@ -16,6 +16,15 @@ class ControlPanel:
                 tk.Button(self.parent_container, command=button['command'], text=button['name'] , font = ("Arial", 16)).grid(
                     row=index, column=1, sticky="nsew", pady = 5
                 )
+    
+    def setButtonState(self, button_name, state):
+        '''Sets the button state for any buttons'''
+        for widget in self.parent_container.winfo_children():
+            if isinstance(widget, tk.Button) and widget.cget('text') == button_name:
+                if state == 'disabled':
+                    widget.config(state=state, bg='#acb3bd')
+                else:
+                    widget.config(state=state, bg='#F0F0F0')
 
 
-    # This setup will allow the controller to interact with the buttons and change color/style if necessary.
+    # This setup will allow the controller to interact with the buttons and change button color/style if necessary.

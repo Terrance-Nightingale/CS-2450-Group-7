@@ -8,7 +8,7 @@ class UVSim:
         self.memory = Memory()
         self.cpu = CPU(self.memory)
         self.userProgram = UserProgram()
-        self.cpu.basicml = BasicML(inputPanel, inputInfoPanel)
+        self.cpu.basicml = BasicML(inputInfoPanel)
 
     def loadProgram(self, userProgram):
         '''
@@ -23,6 +23,10 @@ class UVSim:
         '''
         while self.cpu.fetch():
                 self.cpu.decode()
+
+                # Check if this is a READ instruction
+                if self.cpu.opcode == 10:
+                    return  # Pause and exit loop, GUI will handle READ
                 self.cpu.execute()
 
     def resetProgram(self):    

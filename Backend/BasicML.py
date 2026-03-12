@@ -1,36 +1,22 @@
 from tkinter import simpledialog
 
 class BasicML:
-    def __init__(self, inputPanel=None, inputInfoPanel=None):
-        self.inputPanel = inputPanel
+    def __init__(self, inputInfoPanel=None):
         self.inputInfoPanel = inputInfoPanel
         self.read_value = None
         self.errorMessage = ""
     
-    def read(self, memory, operand):
-        if self.inputPanel:
-            read_input = simpledialog.askstring("Input", "Enter a word")
-            try:
-                inputInt = int(read_input)
-            except ValueError:
-                self.errorMessage = "Invalid input: not an integer"
-                return
-
-            if -9999 <= inputInt <= 9999:
-                memory[operand] = inputInt
-                #self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
-
-                if self.inputInfoPanel:
-                    self.inputInfoPanel.update_prev_inputs(f"READ {inputInt}")
-            else:
-                self.errorMessage = "Number must be between -9999 and 9999"
+    def read(self, memory, operand, userInput): # Last edited by: Josh 3/11/2026
+            '''Reads a word from the keyboard and stores it into a location specified by the operand.'''
+            memory[operand] = userInput
+            # self.inputInfoPanel.update_prev_inputs(f"READ {userInput}")
+            # self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
         
-        
-
     def write(self, memory, operand):
         '''
         Writes a word from a location in memory specified by the operand to screen.
         '''
+        # TODO: Output portion should be handled by GUI
         output = memory[operand]
         if self.inputInfoPanel:
             self.inputInfoPanel.update_prev_inputs(f"WRITE {output}")
