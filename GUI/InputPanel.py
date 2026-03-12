@@ -97,13 +97,15 @@ class InputPanel:
     def file_entered(self):
         file_path = self.file_entry.get()
         self.file_choice_label.config(text=file_path)
-        self.input_to.userProgram.program = []
-        self.input_to.userProgram.inputProgram(file_path)
-        self.input_to.loadProgram(self.input_to.userProgram)
+        self.input_to.user_program.program = []
+        self.input_to.user_program.inputProgram(file_path)
+        self.input_to.load_program(self.input_to.user_program)
     """
     def word_entered(self):
         var_to_change = self.word_entry.get()
         self.word_choice_label.config(text=var_to_change)
     """
+
+
 
 

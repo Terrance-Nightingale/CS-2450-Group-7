@@ -9,7 +9,7 @@ class ContentPanel:
         self.container.rowconfigure(0, weight = 0, minsize = 20)
         self.container.rowconfigure(1, weight = 1)
         self.container.columnconfigure(0, weight = 1)
-        self.subPanel = Subpanel(self.container, title, buttons)
+        self.sub_panel = Subpanel(self.container, title, buttons)
 
     def grid(self, row, col):
         self.container.grid(row = row, column = col, sticky = "nsew")

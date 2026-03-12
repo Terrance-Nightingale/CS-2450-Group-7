@@ -1,8 +1,8 @@
 class UserProgram():
     def __init__(self):
-        self.programSize = 0
+        self.program_size = 0
         self.program = []
-        self.errorMsg = ""
+        self.error_message = ""
 
     '''    def inputProgram(self):
             while True:
@@ -25,14 +25,14 @@ class UserProgram():
                     else:
                         print("Maximum program size reached, please enter -99999 to finish inputting your program: ")
     '''
-    def inputProgram(self, filePath):
+    def inputProgram(self, filepath):
         try: 
-            with open(filePath, "r") as f:
+            with open(filepath, "r") as f:
                 for line in f:
                     word = line.strip()
                     if word == "-99999":
                         break
                     self.program.append(word)
         except FileNotFoundError:
-            self.errorMsg = "File not found."
+            self.error_message = "File not found."
 

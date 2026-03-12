@@ -17,7 +17,7 @@ class ControlPanel:
                     row=index, column=1, sticky="nsew", pady = 5
                 )
     
-    def setButtonState(self, button_name, state):
+    def set_button_state(self, button_name, state):
         '''Sets the button state for any buttons'''
         for widget in self.parent_container.winfo_children():
             if isinstance(widget, tk.Button) and widget.cget('text') == button_name:

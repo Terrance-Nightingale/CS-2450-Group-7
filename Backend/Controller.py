@@ -7,41 +7,41 @@ class AppController:
 
     # region Getter/Setters
     @property
-    def guiComponent(self):
+    def gui_component(self):
         return self.gui_component
 
-    @guiComponent.setter
-    def guiComponent(self, a):
+    @gui_component.setter
+    def gui_component(self, a):
         self.gui_component = a
     
     @property
-    def rootUI(self):
+    def root_ui(self):
         return self.root
     
-    @rootUI.setter
-    def rootUI(self, a):
+    @root_ui.setter
+    def root_ui(self, a):
         self.root = a
     # endregion
     
     # region Program Methods
-    def runProgram(self): # Last edited by: Josh 3/11/2026
+    def run_program(self): # Last edited by: Josh 3/11/2026
         '''Calls the app's runProgram method.'''
         if not self.busy:
             self.busy = True
-            self.gui_component.setButtonState('RUN', 'disabled')  # Gray out RUN button
-            self.app.loadProgram(self.app.userProgram)
-            self.app.runProgram()
+            self.gui_component.set_button_state('RUN', 'disabled')  # Gray out RUN button
+            self.app.load_program(self.app.user_program)
+            self.app.run_program()
 
             # If current opcode is READ, creates a popup that prompts the user for their input.
                 # Will continue the program from where it left off after receiving/processing user input.
             if self.app.cpu.opcode == 10:
                 self.root.create_input_popup()
     
-    def continueProgram(self, userInput):
+    def continue_program(self, user_input):
         '''Executes Read command, then continues program execution.'''
         # Pass input to READ, then continue execution
-        self.app.cpu.basicml.read(self.app.memory.mainMemory, self.app.cpu.operand, userInput)
-        self.app.runProgram() # Resume program from last opcode
+        self.app.cpu.basicml.read(self.app.memory.main_memory, self.app.cpu.operand, user_input)
+        self.app.run_program() # Resume program from last opcode
 
         # Check for READ opcode again
         if self.app.cpu.opcode == 10:
@@ -49,12 +49,12 @@ class AppController:
         else:
             # Re-enable only when fully done
             self.busy = False
-            self.gui_component.setButtonState('RUN', 'normal')
+            self.gui_component.set_button_state('RUN', 'normal')
         
-    def resetProgram(self):
+    def reset_program(self):
         '''Calls the app's resetProgram method.'''
         if not self.busy:
-            self.app.resetProgram()
+            self.app.reset_program()
     # endregion
 
     def validate_user_input(self, popup_box, user_input): # Last edited by: Josh 3/11/2026
@@ -63,7 +63,7 @@ class AppController:
         '''
         # If user input is not an integer, display "Not an integer" error message.
         try:
-            inputInt = int(user_input)
+            input_int = int(user_input)
         except ValueError:
             error_message = "Invalid input: not an integer."
             self.root.create_error_popup(error_message)
@@ -76,5 +76,5 @@ class AppController:
             return
     
         popup_box.destroy() # Destroys popup box.
-        self.continueProgram(inputInt) # Continues the program from where it left off.
+        self.continue_program(input_int) # Continues the program from where it left off.
     

@@ -16,9 +16,9 @@ class InputInfoPanel:
         )
         self.prev_inputs_label.grid(row=1, column=0, columnspan=2)
 
-        self.inputsHistory = []
+        self.inputs_history = []
 
     def update_prev_inputs(self, recent_input):
-        self.inputsHistory.append(recent_input)
-        self.prev_inputs_label.config(text="\n".join(self.inputsHistory))
+        self.inputs_history.append(recent_input)
+        self.prev_inputs_label.config(text="\n".join(self.inputs_history))
 

@@ -1,14 +1,14 @@
 from tkinter import simpledialog
 
 class BasicML:
-    def __init__(self, inputInfoPanel=None):
-        self.inputInfoPanel = inputInfoPanel
+    def __init__(self, input_info_panel=None):
+        self.input_info_panel = input_info_panel
         self.read_value = None
-        self.errorMessage = ""
+        self.error_message = ""
     
-    def read(self, memory, operand, userInput): # Last edited by: Josh 3/11/2026
+    def read(self, memory, operand, user_input): # Last edited by: Josh 3/11/2026
             '''Reads a word from the keyboard and stores it into a location specified by the operand.'''
-            memory[operand] = userInput
+            memory[operand] = user_input
             # self.inputInfoPanel.update_prev_inputs(f"READ {userInput}")
             # self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
         
@@ -18,8 +18,8 @@ class BasicML:
         '''
         # TODO: Output portion should be handled by GUI
         output = memory[operand]
-        if self.inputInfoPanel:
-            self.inputInfoPanel.update_prev_inputs(f"WRITE {output}")
+        if self.input_info_panel:
+            self.input_info_panel.update_prev_inputs(f"WRITE {output}")
 
 
     def load(self, memory, operand):
@@ -45,7 +45,7 @@ class BasicML:
         result = accumulator + memory[operand]
 
         if result > 9999 or result < -9999:
-            self.errorMessage = "Accumulator overflow!"
+            self.error_message = "Accumulator overflow!"
             return 0
 
         return result
@@ -59,7 +59,7 @@ class BasicML:
         result = accumulator - memory[operand]
 
         if result > 9999 or result < -9999:
-            self.errorMessage = "Accumulator overflow!"
+            self.error_message = "Accumulator overflow!"
             return 0
 
         return result
@@ -72,9 +72,9 @@ class BasicML:
         '''
         result = accumulator // memory[operand]
         if memory[operand] == 0:
-            self.errorMessage = "Error: Division by zero."
+            self.error_message = "Error: Division by zero."
         if result > 9999 or result < -9999:
-            self.errorMessage = "Accumulator overflow!"
+            self.error_message = "Accumulator overflow!"
             return 0
 
         return result
@@ -87,7 +87,7 @@ class BasicML:
         result = accumulator * memory[operand]
 
         if result > 9999 or result < -9999:
-            self.errorMessage = "Accumulator overflow!"
+            self.error_message = "Accumulator overflow!"
             return 0
 
         return result
@@ -100,24 +100,24 @@ class BasicML:
         return operand
 
 
-    def branchNeg(self, operand, instructionCounter, accumulator):
+    def branch_neg(self, operand, instruction_counter, accumulator):
         '''
         Returns the location to be branched to in memory specified by the operand if the accumulator is negative.
         '''
         if accumulator < 0:
             return operand
         else:
-            return instructionCounter
+            return instruction_counter
 
 
-    def branchZero(self, operand, instructionCounter, accumulator):
+    def branch_zero(self, operand, instruction_counter, accumulator):
         '''
         Returns the location to be branched to in memory specified by the operand if the accumulator is zero.
         '''
         if accumulator == 0:
             return operand
         else:
-            return instructionCounter
+            return instruction_counter
 
 
     def halt(self):

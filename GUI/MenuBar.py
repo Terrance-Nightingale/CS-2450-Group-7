@@ -7,47 +7,47 @@ A Menu Bar object to assist the user with saving, file uploads and a help page. 
 because this looks a lot better. It has some color changing functionality too.
 '''
 class MenuBar:
-    def __init__(self, master, appUi):
-        self.menuBar = tk.Menu(master, bg = "#0A3E0B", fg = "white") #I found out that this might actually be visible in Linux...
+    def __init__(self, master, app_ui):
+        self.menu_bar = tk.Menu(master, bg = "#0A3E0B", fg = "white") #I found out that this might actually be visible in Linux...
         self.master = master
-        self.appUi = appUi
-        self.master.config(menu = self.menuBar)
+        self.app_ui = app_ui
+        self.master.config(menu = self.menu_bar)
         
 
-    def createFileMenu(self):
-        fileMenu = tk.Menu(self.menuBar, tearoff = 0)
-        fileMenu.add_command(label = "Save CPU state to text file")
-        fileMenu.add_command(label = "Exit", command = self.appUi.exitPrompt)
+    def create_file_menu(self):
+        file_menu = tk.Menu(self.menu_bar, tearoff = 0)
+        file_menu.add_command(label = "Save CPU state to text file")
+        file_menu.add_command(label = "Exit", command = self.app_ui.exit_prompt)
 
-        self.menuBar.add_cascade(label = "File", menu = fileMenu)
+        self.menu_bar.add_cascade(label = "File", menu = file_menu)
 
     '''
     Creates a theme menu that the user can use to swap out different color themes
 
     TODO I need to make this a menu that saves the choice to a config file that gets loaded to the program upon start.
     '''
-    def createThemeMenu(self):
-        themeMenu = tk.Menu(self.menuBar, tearoff = 0)
-        themeMenu.add_command(label = "DarkAzure", command = lambda: self.themeCommands(0))
-        themeMenu.add_command(label = "DarkCrimson", command = lambda: self.themeCommands(1))
-        themeMenu.add_command(label = "DarkGreen", command = lambda: self.themeCommands(2))
+    def create_theme_menu(self):
+        theme_menu = tk.Menu(self.menu_bar, tearoff = 0)
+        theme_menu.add_command(label = "DarkAzure", command = lambda: self.theme_commands(0))
+        theme_menu.add_command(label = "DarkCrimson", command = lambda: self.theme_commands(1))
+        theme_menu.add_command(label = "DarkGreen", command = lambda: self.theme_commands(2))
 
-        self.menuBar.add_cascade(label = "Theme", menu = themeMenu)
+        self.menu_bar.add_cascade(label = "Theme", menu = theme_menu)
 
     '''
     Creates a help menu drop down for the tk menu.
     '''
-    def createHelpMenu(self):
-        helpMenu = tk.Menu(self.menuBar, tearoff = 0)
-        helpMenu.add_command(label = "User Help Guide", command = self.show_guide)
-        helpMenu.add_command(label = "Version", command = self.versionInfo)
+    def create_help_menu(self):
+        help_menu = tk.Menu(self.menu_bar, tearoff = 0)
+        help_menu.add_command(label = "User Help Guide", command = self.show_guide)
+        help_menu.add_command(label = "Version", command = self.version_info)
 
-        self.menuBar.add_cascade(label = "Help", menu = helpMenu)
+        self.menu_bar.add_cascade(label = "Help", menu = help_menu)
 
     '''
     Just a silly thing for fun. I made it 0.4 since we will be on the 4th milestone.
     '''
-    def versionInfo(self):
+    def version_info(self):
         tk.messagebox.showinfo("Version info", "UVSim version 0.4")
     '''
     Copied this over from the TitleBarClass. A menu bar with dropdowns just made more sense.
@@ -74,7 +74,7 @@ class MenuBar:
         
         text.pack(fill="both", expand=True)
 
-        text.insert(tk.END, self.helpGuideContent())
+        text.insert(tk.END, self.help_guide_content())
         text.config(state="disabled")
 
         guide_win.bind("<Escape>", lambda e: guide_win.destroy())
@@ -83,43 +83,43 @@ class MenuBar:
     '''
     Changes the background theme.
     '''
-    def themeCommands(self, theme_id):
+    def theme_commands(self, theme_id):
         match(theme_id):
             case 0:
                 color1 = "#2F4880"
                 color2 = "#203156"
-                self.menuBar.config(bg = color2, fg = "white")
-                for panel in self.appUi.panels.values():
+                self.menu_bar.config(bg = color2, fg = "white")
+                for panel in self.app_ui.panels.values():
                     panel.contentPanel.config(bg = color1)
                     panel.subPanelTitle.config(bg = color2)
                     panel.title.config(bg = color2)
 
-                self.appUi.cpuStatePanel.setColor(color1)
+                self.app_ui.cpuStatePanel.setColor(color1)
             case 1:
                 color1 = "#A13830"
                 color2 = "#752823"
-                self.menuBar.config(bg = color2, fg = "white")
-                for panel in self.appUi.panels.values():
+                self.menu_bar.config(bg = color2, fg = "white")
+                for panel in self.app_ui.panels.values():
                     panel.contentPanel.config(bg = color1)
                     panel.subPanelTitle.config(bg = color2)
                     panel.title.config(bg = color2)
                 
-                self.appUi.cpuStatePanel.setColor(color1)
+                self.app_ui.cpuStatePanel.setColor(color1)
             case 2:
                 color1 = "#106511"
                 color2 = "#0A3E0B"
-                self.menuBar.config(bg = color2, fg = "white")
-                for panel in self.appUi.panels.values():
+                self.menu_bar.config(bg = color2, fg = "white")
+                for panel in self.app_ui.panels.values():
                     panel.contentPanel.config(bg = color1)
                     panel.subPanelTitle.config(bg = color2)
                     panel.title.config(bg = color2)
                 
-                self.appUi.cpuStatePanel.setColor(color1)
+                self.app_ui.cpuStatePanel.setColor(color1)
 
     '''
     This was moved over from the title panel class. I think having this in a menu bar looks cleaner.
     '''
-    def helpGuideContent(self):
+    def help_guide_content(self):
         GUIDE_CONTENT = """\
 UVSim Guide
 ───────────

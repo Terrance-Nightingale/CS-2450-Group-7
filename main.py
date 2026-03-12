@@ -15,6 +15,7 @@ if __name__ == "__main__":
     controller.root = app
 
     #This will intercept the "x" on the window object itself and call a function within the appui class to close and destroy.
-    window.protocol("WM_DELETE_WINDOW", app.exitPrompt)
+    window.protocol("WM_DELETE_WINDOW", app.exit_prompt)
 
     window.mainloop()
+

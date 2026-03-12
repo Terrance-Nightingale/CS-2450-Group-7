@@ -4,20 +4,20 @@ from Backend.cpu import CPU
 from Backend.BasicML import BasicML
 
 class UVSim:
-    def __init__(self, inputPanel = None, inputInfoPanel = None):
+    def __init__(self, inputPanel = None, input_info_panel = None):
         self.memory = Memory()
         self.cpu = CPU(self.memory)
-        self.userProgram = UserProgram()
-        self.cpu.basicml = BasicML(inputInfoPanel)
+        self.user_program = UserProgram()
+        self.cpu.basicml = BasicML(input_info_panel)
 
-    def loadProgram(self, userProgram):
+    def load_program(self, user_program):
         '''
         Loads the user's program into memory.
         '''
-        for i, word in enumerate(userProgram.program):
-            self.memory.mainMemory[i] = int(word)
+        for i, word in enumerate(user_program.program):
+            self.memory.main_memory[i] = int(word)
 
-    def runProgram(self):
+    def run_program(self):
         '''
         Decodes and runs the user's program.
         '''
@@ -29,7 +29,7 @@ class UVSim:
                     return  # Pause and exit loop, GUI will handle READ
                 self.cpu.execute()
 
-    def resetProgram(self):    
+    def reset_program(self):    
         '''
         Excecute's the CPU's reset function.
         '''    

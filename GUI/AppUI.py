@@ -18,9 +18,9 @@ class AppUI:
         self.panels = {}
         self.error_popup = None
 
-        self.controlsCtrl = controller
+        self.controller = controller
 
-        self.subPanelNames = ["Input", "CPU State", "Error Reports", "Input Info", "Memory", "Controls"]
+        self.sub_panel_names = ["Input", "CPU State", "Error Reports", "Input Info", "Memory", "Controls"]
 
         #self.titlePanel = TitlePanel(window)
 
@@ -33,15 +33,15 @@ class AppUI:
         for i in range(3):
             self.container.columnconfigure(i, weight = 1)
 
-        self.createGridPanels()
+        self.create_grid_panels()
 
         menu = MenuBar(self.window, self)
-        menu.createFileMenu()
-        menu.createThemeMenu()
-        menu.createHelpMenu()
+        menu.create_file_menu()
+        menu.create_theme_menu()
+        menu.create_help_menu()
 
-    def createGridPanels(self):
-        for index, name in enumerate(self.subPanelNames):
+    def create_grid_panels(self):
+        for index, name in enumerate(self.sub_panel_names):
             row = index // 3
             col = index % 3
             buttons = None
@@ -50,43 +50,43 @@ class AppUI:
                 buttons = [
                     {
                         'name': 'RUN',
-                        'command': self.controlsCtrl.runProgram
+                        'command': self.controller.run_program
                     },
 
                     {
                         'name': 'RESET',
-                        'command': self.controlsCtrl.resetProgram
+                        'command': self.controller.resetProgram
                     }
                 ]
 
             panel = ContentPanel(self.container, name, buttons)
             panel.grid(row, col)
 
-            self.panels[name] = panel.subPanel
+            self.panels[name] = panel.sub_panel
             
             if name == "CPU State":
-                panel.subPanel.statusLabel.destroy()
-                self.cpuStatePanel = CPUStatePanel(panel.subPanel.contentPanel, self.uvsim.cpu)
+                panel.sub_panel.status_label.destroy()
+                self.cpuStatePanel = CPUStatePanel(panel.sub_panel.content_panel, self.uvsim.cpu)
         
             if name == "Controls":
-                panel.subPanel.statusLabel.destroy()
-                self.controlPanel = ControlPanel(panel.subPanel.contentPanel, buttons)
-                self.controlsCtrl.guiComponent = self.controlPanel # Allow the controller access to the Controls panel gui component.
+                panel.sub_panel.status_label.destroy()
+                self.control_panel = ControlPanel(panel.sub_panel.content_panel, buttons)
+                self.controller.gui_component = self.control_panel # Allow the controller access to the Controls panel gui component.
 
             if name == "Input":
-                panel.subPanel.statusLabel.destroy()
-                InputPanel(panel.subPanel.contentPanel, self.uvsim)
+                panel.sub_panel.status_label.destroy()
+                InputPanel(panel.sub_panel.content_panel, self.uvsim)
 
             if name == "Input Info":
-                panel.subPanel.statusLabel.destroy()
-                InputInfoPanel(panel.subPanel.contentPanel, self.uvsim)
+                panel.sub_panel.status_label.destroy()
+                InputInfoPanel(panel.sub_panel.content_panel, self.uvsim)
 
             if name == "Memory":
-                panel.subPanel.statusLabel.destroy()
-                MemoryPanel(panel.subPanel.contentPanel, self.uvsim.cpu)
+                panel.subPanel.status_label.destroy()
+                MemoryPanel(panel.subPanel.content_panel, self.uvsim.cpu)
 
             if name == "Error Reports":
-                panel.subPanel.statusLabel.destroy()
+                panel.sub_panel.status_label.destroy()
     
 
     def create_input_popup(self): # Last edited by: Josh 3/11/2026
@@ -112,8 +112,8 @@ class AppUI:
         input_box.focus_set() # Auto-focus input box when popup opens.
 
         # Create submit button and set orientation to left. Also allow the user to press 'Enter' to submit.
-        input_box.bind('<Return>', lambda event: self.controlsCtrl.validate_user_input(read_popup, input_box.get()))
-        submit_button = tk.Button(read_popup, text='Submit', command=lambda: self.controlsCtrl.validate_user_input(read_popup, input_box.get()))
+        input_box.bind('<Return>', lambda event: self.controller.validate_user_input(read_popup, input_box.get()))
+        submit_button = tk.Button(read_popup, text='Submit', command=lambda: self.controller.validate_user_input(read_popup, input_box.get()))
         submit_button.grid(column=2, row=0, pady=5, padx=5)
     
 
@@ -140,11 +140,11 @@ class AppUI:
     '''
     This will create an exit prompt upon clicking the "Exit" option in the File menu selection
     '''
-    def exitPrompt(self): # Last edited by: Josh 3/11/2026
+    def exit_prompt(self): # Last edited by: Josh 3/11/2026
         self.window.attributes('-topmost', True) # Set window priority to appear above all other windows.
-        areYouSure = tk.messagebox.askyesno("Exiting UVSim", "Are you sure you want to exit?")
+        are_you_sure = tk.messagebox.askyesno("Exiting UVSim", "Are you sure you want to exit?")
 
-        if areYouSure:
+        if are_you_sure:
             self.window.destroy()
         else:
             self.window.attributes('-topmost', False) # Reset window priority to appear behind popups.
