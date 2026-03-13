@@ -28,8 +28,9 @@ class AppController:
         '''Calls the app's runProgram method.'''
         if not self.busy:
             self.busy = True
-            self.gui_component.set_button_state('RUN', 'disabled')  # Gray out RUN button
-            self.app.load_program(self.app.userProgram)
+            self.gui_component.set_button_state('RUN', 'disabled') # Gray out Control buttons
+            self.gui_component.set_button_state('RESET', 'disabled')
+            self.app.load_program(self.app.user_program)
             self.app.run_program()
 
             # If current opcode is READ, creates a popup that prompts the user for their input.
@@ -40,7 +41,7 @@ class AppController:
     def continue_program(self, user_input):
         '''Executes Read command, then continues program execution.'''
         # Pass input to READ, then continue execution
-        self.app.cpu.basicml.read(self.app.memory.main_memory, self.app.cpu.operand, user_input)
+        self.app.cpu.basicml.read(self.app.memory.main_memory(), self.app.cpu.operand, user_input)
         self.app.run_program() # Resume program from last opcode
 
         # Check for READ opcode again
@@ -50,6 +51,7 @@ class AppController:
             # Re-enable only when fully done
             self.busy = False
             self.gui_component.set_button_state('RUN', 'normal')
+            self.gui_component.set_button_state('RESET', 'normal')
         
     def reset_program(self):
         '''Calls the app's resetProgram method.'''

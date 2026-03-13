@@ -17,10 +17,10 @@ class CPU:
         if not self.running:
             return False
         
-        if self.instruction_counter >= len(self.memory.main_memory):
+        if self.instruction_counter >= len(self.memory.main_memory()):
             return False
 
-        self.instruction_register = self.memory.main_memory[self.instruction_counter]
+        self.instruction_register = self.memory.main_memory()[self.instruction_counter]
         self.instruction_counter += 1
         return True
 
@@ -33,22 +33,22 @@ class CPU:
             case 0:
                 pass
             case 10: #READ
-                self.basicml.read(self.memory.main_memory, self.operand)
+                self.basicml.read(self.memory.main_memory(), self.operand)
                 return
             case 11: #WRITE
-                self.basicml.write(self.memory.main_memory, self.operand)
+                self.basicml.write(self.memory.main_memory(), self.operand)
             case 20: #LOAD
-                self.accumulator = self.basicml.load(self.memory.main_memory, self.operand)
+                self.accumulator = self.basicml.load(self.memory.main_memory(), self.operand)
             case 21: #STORE
-                self.basicml.store(self.memory.main_memory, self.operand, self.accumulator)
+                self.basicml.store(self.memory.main_memory(), self.operand, self.accumulator)
             case 30: #ADD
-                self.accumulator = self.basicml.add(self.memory.main_memory, self.operand, self.accumulator)
+                self.accumulator = self.basicml.add(self.memory.main_memory(), self.operand, self.accumulator)
             case 31: #SUBTRACT
-                self.accumulator = self.basicml.subtract(self.memory.main_memory, self.operand, self.accumulator)
+                self.accumulator = self.basicml.subtract(self.memory.main_memory(), self.operand, self.accumulator)
             case 32: #DIVIDE
-                self.accumulator = self.basicml.divide(self.memory.main_memory, self.operand, self.accumulator)
+                self.accumulator = self.basicml.divide(self.memory.main_memory(), self.operand, self.accumulator)
             case 33: #MULTIPLY
-                self.accumulator = self.basicml.multiply(self.memory.main_memory, self.operand, self.accumulator)
+                self.accumulator = self.basicml.multiply(self.memory.main_memory(), self.operand, self.accumulator)
             case 40: #BRANCH
                 self.instruction_counter = self.basicml.branch(self.operand)
             case 41: #BRANCHNEG
@@ -83,8 +83,8 @@ class CPU:
         '''
         Resets the contents of the CPU to 0.
         '''
-        for i in range(len(self.memory.main_memory) - 1):
-            self.memory.main_memory[i] = 0
+        for i in range(len(self.memory.main_memory()) - 1):
+            self.memory.main_memory()[i] = 0
 
         self.instruction_counter = 0
         self.instruction_register = 0
