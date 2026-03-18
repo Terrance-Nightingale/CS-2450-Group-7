@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from tkinter import filedialog
 
 class InputPanel:
     def __init__(self, container, interface_with_backend):
@@ -33,6 +33,13 @@ class InputPanel:
             height=1)
         self.file_entry_button.grid(padx=2, pady=2, row=0, column=3)
         
+        self.load_button = tk.Button(
+            self.file_entry_frame,
+            text="Load",
+            command=self.browse_file
+)
+        self.load_button.grid(padx=2, pady=2, row=0, column=4)
+
         tk.Label(
             self.file_entry_frame, 
             text="Chosen file:",
@@ -105,6 +112,19 @@ class InputPanel:
         var_to_change = self.word_entry.get()
         self.word_choice_label.config(text=var_to_change)
     """
+
+    def browse_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Select Program File",
+            filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+        )
+
+        if not file_path:
+            return  
+
+        self.file_entry.delete(0, tk.END)
+        self.file_entry.insert(0, file_path)
+        self.file_entered()
 
 
 
