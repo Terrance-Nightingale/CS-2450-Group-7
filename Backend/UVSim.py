@@ -2,6 +2,7 @@ from Backend.UserProgram import UserProgram
 from Backend.Memory import Memory
 from Backend.cpu import CPU
 from Backend.BasicML import BasicML
+from tkinter import filedialog
 
 class UVSim:
     def __init__(self, inputPanel = None, input_info_panel = None):
@@ -34,3 +35,17 @@ class UVSim:
         Excecute's the CPU's reset function.
         '''    
         self.cpu.reset()
+
+    def save_program(self):
+         file_path = filedialog.asksaveasfilename(
+              title="Save File As",
+              defaultextension=".txt",
+              filetypes=[("Text Files", "*.txt")]
+         )
+         current_memory = self.memory.main_memory()
+         with open(file_path, "w", encoding="utf-8") as file:
+              for value in current_memory:
+                   if value == 0:
+                        pass
+                   else:
+                        file.write(f"{value}\n")

@@ -56,6 +56,11 @@ class AppUI:
                     {
                         'name': 'RESET',
                         'command': self.controller.reset_program
+                    },
+
+                    {
+                        'name': 'SAVE',
+                        'command' : self.controller.save_program
                     }
                 ]
 
@@ -110,7 +115,8 @@ class AppUI:
         input_box = tk.Entry(read_popup, width=40) # Add input box after Label.
         input_box.grid(column=1, row=0, pady=5, padx=5) # Set orientation to left.
         input_box.focus_set() # Auto-focus input box when popup opens.
-
+        
+     
         # Create submit button and set orientation to left. Also allow the user to press 'Enter' to submit.
         input_box.bind('<Return>', lambda event: self.controller.validate_user_input(read_popup, input_box.get()))
         submit_button = tk.Button(read_popup, text='Submit', command=lambda: self.controller.validate_user_input(read_popup, input_box.get()))

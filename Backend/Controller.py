@@ -59,6 +59,11 @@ class AppController:
             self.app.reset_program()
     # endregion
 
+    def save_program(self):
+        if not self.busy:
+            self.app.save_program()
+            
+
     def validate_user_input(self, popup_box, user_input): # Last edited by: Josh 3/11/2026
         '''
         Validates the user's input and throws an error if validation conditions are not met.
@@ -79,4 +84,3 @@ class AppController:
     
         popup_box.destroy() # Destroys popup box.
         self.continue_program(input_int) # Continues the program from where it left off.
-    
