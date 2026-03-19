@@ -148,6 +148,7 @@ class AppUI:
     '''
     def exit_prompt(self): # Last edited by: Josh 3/11/2026
         self.window.attributes('-topmost', True) # Set window priority to appear above all other windows.
+        self.window.focus_force()
         are_you_sure = tk.messagebox.askyesno("Exiting UVSim", "Are you sure you want to exit?")
 
         if are_you_sure:
