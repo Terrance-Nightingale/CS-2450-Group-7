@@ -3,7 +3,7 @@ from GUI.TitlePanel import TitlePanel
 from GUI.ContentPanel import ContentPanel
 from GUI.CPUStatePanel import CPUStatePanel
 from GUI.InputPanel import InputPanel
-from GUI.InputInfoPanel import InputInfoPanel
+from GUI.ConsolePanel import ConsolePanel
 from GUI.Memorypanel import MemoryPanel
 from GUI.ErrorPanel import ErrorPanel
 from GUI.ControlPanel import ControlPanel
@@ -20,7 +20,7 @@ class AppUI:
 
         self.controller = controller
 
-        self.sub_panel_names = ["Input", "CPU State", "Error Reports", "Input Info", "Memory", "Controls"]
+        self.sub_panel_names = ["Input", "CPU State", "Error Reports", "Console", "Memory", "Controls"]
 
         #self.titlePanel = TitlePanel(window)
 
@@ -82,9 +82,9 @@ class AppUI:
                 panel.sub_panel.status_label.destroy()
                 InputPanel(panel.sub_panel.content_panel, self.uvsim)
 
-            if name == "Input Info":
+            if name == "Console":
                 panel.sub_panel.status_label.destroy()
-                InputInfoPanel(panel.sub_panel.content_panel, self.uvsim)
+                self.console = ConsolePanel(panel.sub_panel.content_panel, self.uvsim)
 
             if name == "Memory":
                 panel.sub_panel.status_label.destroy()

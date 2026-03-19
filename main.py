@@ -12,6 +12,9 @@ if __name__ == "__main__":
     controller = AppController(uvsim, window)
 
     app = AppUI(window, controller, uvsim)
+    uvsim.cpu.basicml.console_panel = app.console # <- This is a temporary fix for the input_info_panel.
+                                                     # Should honestly be tied to a ConsoleController or something when refactored.
+                                                     # Added by: Josh 3/18/2026
     controller.root = app
 
     #This will intercept the "x" on the window object itself and call a function within the appui class to close and destroy.

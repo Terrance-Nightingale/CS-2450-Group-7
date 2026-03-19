@@ -24,19 +24,19 @@ class AppController:
     # endregion
     
     # region Program Methods
-    def run_program(self): # Last edited by: Josh 3/11/2026
-        '''Calls the app's runProgram method.'''
+    def run_program(self): # Last edited by: Josh 3/18/2026
+        '''Calls the app's runProgram method. Runs the program as it currently exists in memory.'''
         if not self.busy:
-            self.busy = True
-            self.gui_component.set_button_state('RUN', 'disabled') # Gray out Control buttons
-            self.gui_component.set_button_state('RESET', 'disabled')
-            self.app.load_program(self.app.user_program)
+            self.disable_control_buttons()
             self.app.run_program()
 
             # If current opcode is READ, creates a popup that prompts the user for their input.
                 # Will continue the program from where it left off after receiving/processing user input.
             if self.app.cpu.opcode == 10:
                 self.root.create_input_popup()
+            # If program is no longer running, re-enables the control buttons.
+            elif not self.app.cpu.running:
+                self.enable_control_buttons()
     
     def continue_program(self, user_input):
         '''Executes Read command, then continues program execution.'''
@@ -47,9 +47,9 @@ class AppController:
         # Check for READ opcode again
         if self.app.cpu.opcode == 10:
             self.root.create_input_popup()
-        else:
-            # Re-enable only when fully done
-            self.set_not_busy()
+        # Re-enable only when fully done
+        elif not self.app.cpu.running:
+            self.enable_control_buttons()
         
     def reset_program(self):
         '''Calls the app's resetProgram method.'''
@@ -61,10 +61,19 @@ class AppController:
             self.app.save_program()
     # endregion
 
-    def set_not_busy(self):
+    def enable_control_buttons(self): # Last edited by: Josh 3/18/2026
+        '''Enables the Control buttons.'''
         self.busy = False
         self.gui_component.set_button_state('RUN', 'normal')
         self.gui_component.set_button_state('RESET', 'normal')
+        self.gui_component.set_button_state('SAVE', 'normal')
+    
+    def disable_control_buttons(self): # Last edited by: Josh 3/18/2026
+        '''Disables the Control buttons.'''
+        self.busy = True
+        self.gui_component.set_button_state('RUN', 'disabled')
+        self.gui_component.set_button_state('RESET', 'disabled')
+        self.gui_component.set_button_state('SAVE', 'disabled')
             
     def validate_user_input(self, popup_box, user_input): # Last edited by: Josh 3/11/2026
         '''

@@ -1,8 +1,6 @@
-from tkinter import simpledialog
-
 class BasicML:
-    def __init__(self, input_info_panel=None):
-        self.input_info_panel = input_info_panel
+    def __init__(self, console_panel=None):
+        self.console_panel = console_panel
         self.read_value = None
         self.error_message = ""
     
@@ -18,8 +16,8 @@ class BasicML:
         '''
         # TODO: Output portion should be handled by GUI
         output = memory[operand]
-        if self.input_info_panel:
-            self.input_info_panel.update_prev_inputs(f"WRITE {output}")
+        if self.console_panel:
+            self.console_panel.update_prev_inputs(f"WRITE {output}")
 
 
     def load(self, memory, operand):

@@ -18,6 +18,7 @@ class CPU:
             return False
         
         if self.instruction_counter >= len(self.memory.main_memory()):
+            self.running = False
             return False
 
         self.instruction_register = self.memory.main_memory()[self.instruction_counter]
@@ -60,7 +61,7 @@ class CPU:
             case _:
                 self.error_message = f"Invalid opcode: {self.opcode}"
                 self.running = False
-        if self.basicml.error_message:
+        if self.basicml.error_message: # TODO: Error messages for the InputInfoPanel would be pulled from here perhaps?
             self.error_message = self.basicml.error_message
             self.running = False
 
@@ -85,6 +86,9 @@ class CPU:
         '''
         for i in range(len(self.memory.main_memory()) - 1):
             self.memory.main_memory()[i] = 0
+
+        self.basicml.console_panel.reset_inputs() # Reset's the console's display.
+                                                 # Added by: Josh 3/18/2026
 
         self.instruction_counter = 0
         self.instruction_register = 0

@@ -1,6 +1,6 @@
 import tkinter as tk
 
-class InputInfoPanel:
+class ConsolePanel:
     def __init__(self, container, interface_with_backend):
         self.input_to = interface_with_backend
         self.container = container
@@ -18,7 +18,10 @@ class InputInfoPanel:
 
         self.inputs_history = []
 
-    def update_prev_inputs(self, recent_input):
-        self.inputs_history.append(recent_input)
+    def update_prev_inputs(self, new_input):
+        self.inputs_history.append(new_input)
         self.prev_inputs_label.config(text="\n".join(self.inputs_history))
-
+    
+    def reset_inputs(self):
+        self.inputs_history = []
+        self.prev_inputs_label.config(text="Previous inputs will appear here...")

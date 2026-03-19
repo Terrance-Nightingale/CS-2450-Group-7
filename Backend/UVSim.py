@@ -5,7 +5,7 @@ from Backend.BasicML import BasicML
 from tkinter import filedialog
 
 class UVSim:
-    def __init__(self, inputPanel = None, input_info_panel = None):
+    def __init__(self, input_info_panel = None):
         self.memory = Memory()
         self.cpu = CPU(self.memory)
         self.user_program = UserProgram()
