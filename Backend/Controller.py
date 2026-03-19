@@ -49,21 +49,23 @@ class AppController:
             self.root.create_input_popup()
         else:
             # Re-enable only when fully done
-            self.busy = False
-            self.gui_component.set_button_state('RUN', 'normal')
-            self.gui_component.set_button_state('RESET', 'normal')
+            self.set_not_busy()
         
     def reset_program(self):
         '''Calls the app's resetProgram method.'''
         if not self.busy:
             self.app.reset_program()
-    # endregion
-
+    
     def save_program(self):
         if not self.busy:
             self.app.save_program()
-            
+    # endregion
 
+    def set_not_busy(self):
+        self.busy = False
+        self.gui_component.set_button_state('RUN', 'normal')
+        self.gui_component.set_button_state('RESET', 'normal')
+            
     def validate_user_input(self, popup_box, user_input): # Last edited by: Josh 3/11/2026
         '''
         Validates the user's input and throws an error if validation conditions are not met.
