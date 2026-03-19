@@ -36,8 +36,8 @@ class InputPanel:
         self.load_button = tk.Button(
             self.file_entry_frame,
             text="Load",
-            command=self.browse_file
-)
+            command=self.browse_file)
+        
         self.load_button.grid(padx=2, pady=2, row=0, column=4)
 
         tk.Label(
@@ -55,63 +55,12 @@ class InputPanel:
             width=30)
         self.file_choice_label.grid(row=1, column=1, columnspan=3, sticky="w")
 
-        """
-        word_entry_frame = tk.Frame(
-            self.container)
-        word_entry_frame.pack(padx=10, pady=6)
-
-        tk.Label(
-            word_entry_frame,
-            text="Upon 'READ' command, enter word here:", 
-            font="Arial, 11"
-        ).grid(row=0, column=0, columnspan=3)
-
-        self.word_entry = tk.Entry(
-            word_entry_frame,
-            bg="light gray",
-            font= "Arial, 20",
-            width=15
-        )
-        self.word_entry.bind("<Return>", lambda event=None: self.word_entered())
-        self.word_entry.grid(row=1, column=0, columnspan=2)
-
-        word_entry_button = tk.Button(
-            word_entry_frame, 
-            text=">", 
-            command=self.word_entered,
-            width=2, 
-            height=1)
-        word_entry_button.grid(padx=2, pady=2, row=1, column=2)
-
-        tk.Label(
-            word_entry_frame,
-            text="Note: word must be an integer between -/+9999",
-            font= "Arial, 8"
-        ).grid(row=2, column=0, columnspan=3)
-
-        tk.Label(
-            word_entry_frame,
-            text="Last word submitted:"
-        ).grid(row=3, column=0)
-
-        self.word_choice_label = tk.Label(
-            word_entry_frame,
-            text="--No word submitted--"
-        )
-        self.word_choice_label.grid(row=3, column=1, columnspan=2)
-        """
-
     def file_entered(self):
         file_path = self.file_entry.get()
         self.file_choice_label.config(text=file_path)
         self.input_to.user_program.program = []
         self.input_to.user_program.inputProgram(file_path)
         self.input_to.load_program(self.input_to.user_program)
-    """
-    def word_entered(self):
-        var_to_change = self.word_entry.get()
-        self.word_choice_label.config(text=var_to_change)
-    """
 
     def browse_file(self):
         file_path = filedialog.askopenfilename(
