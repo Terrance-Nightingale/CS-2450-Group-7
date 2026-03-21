@@ -18,10 +18,10 @@ class ConsolePanel:
 
         self.inputs_history = []
 
-    def update_prev_inputs(self, new_input):
+    def update_prev_outputs(self, new_input):
         self.inputs_history.append(new_input)
         self.prev_inputs_label.config(text="\n".join(self.inputs_history))
     
-    def reset_inputs(self):
+    def reset_outputs(self):
         self.inputs_history = []
         self.prev_inputs_label.config(text="Program Outputs will appear here...")

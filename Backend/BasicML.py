@@ -15,9 +15,10 @@ class BasicML:
         Writes a word from a location in memory specified by the operand to screen.
         '''
         # TODO: Output portion should be handled by GUI
+        #       Looks like this is done? ^^
         output = memory[operand]
         if self.console_panel:
-            self.console_panel.update_prev_inputs(f"WRITE {output}")
+            self.console_panel.update_prev_outputs(f"WRITE {output}")
 
 
     def load(self, memory, operand):

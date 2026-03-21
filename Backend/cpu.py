@@ -87,7 +87,7 @@ class CPU:
         for i in range(len(self.memory.main_memory()) - 1):
             self.memory.main_memory()[i] = 0
 
-        self.basicml.console_panel.reset_inputs() # Reset's the console's display.
+        self.basicml.console_panel.reset_outputs() # Reset's the console's display.
                                                  # Added by: Josh 3/18/2026
 
         self.instruction_counter = 0
