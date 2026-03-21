@@ -41,15 +41,15 @@ def test_read_overwrites_existing_value(testUVSim):
 # Use Case 02: WRITE command
 # --------------------------
 @pytest.mark.uc02
-def test_write_echos(testUVSim):
+def test_write_echoes(testUVSim):
     """
-    Preload a value into memory, then mock the input panel, then test if write echoes the contents of the specified memory location
+    Preload a value into memory, then mock the console panel, then test if write echoes the contents of the specified memory location
     """
     testUVSim.cpu.memory.main_memory()[67] = 1234
     mock_panel = MagicMock()
-    testUVSim.cpu.basicml.input_info_panel = mock_panel
+    testUVSim.cpu.basicml.console_panel = mock_panel
     testUVSim.cpu.basicml.write(testUVSim.cpu.memory.main_memory(), 67)
-    mock_panel.update_prev_inputs.assert_called_once_with("WRITE 1234")
+    mock_panel.update_prev_outputs.assert_called_once_with("WRITE 1234")
 
 @pytest.mark.uc02
 def test_write_no_panel(testUVSim):
@@ -57,7 +57,7 @@ def test_write_no_panel(testUVSim):
     Preload a value into memory, then check that the write command doesn't crash if an output panel isn't present
     """
     testUVSim.cpu.memory.main_memory()[67] = 1234
-    testUVSim.cpu.basicml.input_info_panel = None
+    testUVSim.cpu.basicml.console_panel = None
     testUVSim.cpu.basicml.write(testUVSim.cpu.memory.main_memory(), 67)
 
 # --------------------------
