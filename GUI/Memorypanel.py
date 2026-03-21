@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 from tkinter import Menu, messagebox
+from tkinter.constants import RIGHT
 
 
 class MemoryPanel:
@@ -27,14 +28,45 @@ class MemoryPanel:
         self.memory_ref = self.input_to.memory.main_memory()
 
         self.output_frame = tk.Frame(self.master)
-        self.output_frame.pack(padx=6, pady=6, fill="both", expand=True)
-        self.output_frame.grid_rowconfigure(0, weight=1)
-        self.output_frame.grid_columnconfigure(0, weight=1)
+        self.output_frame.grid(row=1, column=0, columnspan=2)
+
+
+        tk.Label(
+            self.output_frame,
+            height=1,
+            width=7,
+            text="Index"
+        ).grid(row=0, column=0, sticky="nsew")
+        tk.Label(
+            self.output_frame,
+            height=1,
+            text="      Program",
+        ).grid(row=0, column=1, sticky="nsew")
+
+
+        #TODO: make the indexes_box and memory_box sync their scrolling
+        self.indexes_box = ScrolledText(
+            self.output_frame,
+            width=7,
+            #height=20,
+            bg="light grey",
+            fg="black",
+            font=("consolas", 10)
+        )
+        
+        self.indexes_box.tag_configure('tag-right', justify=RIGHT)
+
+        self.indexes_text = '\n'.join([str(n) + ":" for n in range(100)])
+        self.indexes_box.insert("1.0", self.indexes_text.strip(), 'tag-right')
+        
+        self.indexes_box.config(state=tk.DISABLED)
+        self.indexes_box.grid(row=1, column=0, sticky="nsew")
+
 
         self.memory_box = ScrolledText(
             self.output_frame,
             width=100,
-            height=20,
+            #height=20,
             bg="dark grey",
             fg="white",
             font=("consolas", 10),
@@ -45,7 +77,8 @@ class MemoryPanel:
             undo=True,
             maxundo=-1
         )
-        self.memory_box.grid(row=0, column=0, sticky="nsew")
+        self.memory_box.grid(row=1, column=1, sticky="nsew")
+
 
         self.memory_box.config(state="normal")
 
@@ -141,7 +174,7 @@ class MemoryPanel:
                 continue
             if ':' in line:
                 try:
-                    value_str = line.split(':', 1)[1].strip()
+                    value_str = line.split(':', 1)[1].strip() #TODO: get rid of the extra code for dealing with the indexes and colons
                     self.memory_ref[i] = int(value_str)
                 except ValueError:
                     pass
@@ -162,7 +195,7 @@ class MemoryPanel:
             self.memory_box.yview_moveto(scroll_pos[0])
             return
 
-        memory_text = '\n'.join(f'{i}: {x}' for i, x in enumerate(self.memory_ref))
+        memory_text = '\n'.join(str(data) for data in self.memory_ref)
 
         current = self.memory_box.get("1.0", tk.END).rstrip('\n')
         if current != memory_text:
