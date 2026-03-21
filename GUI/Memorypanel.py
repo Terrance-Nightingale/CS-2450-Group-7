@@ -47,22 +47,29 @@ class MemoryPanel:
                                         lambda e: self.program_canvas.yview_scroll(
                                             int(-1*(e.delta/120)), "units"))
 
-
+        self.labels_frame = tk.Frame(self.program_frame)#.pack(fill="x")
 
         tk.Label( #Address Label
-            self.program_frame,
+            self.labels_frame,
             height=1,
             width=7,
             text="Address"
-        ).grid(row=0, column=0, sticky="nsew")
+        ).pack(side="left")#.grid(row=0, column=0, sticky="nsew")
         tk.Label( #Program Label
-            self.program_frame,
+            self.labels_frame,
             height=1,
             text="      Program",
-        ).grid(row=0, column=1, sticky="nsew")
+            # justify="left", #TODO: justify not working, come back to this
+            #bg="green"
+        ).pack(side="left", fill="both", expand=True)#.grid(row=0, column=1, sticky="nsew")
+
+        self.labels_frame.pack(fill="x")
+
+
+        self.address_program_frame = tk.Frame(self.program_frame, bg="green")
 
         self.address_box = tk.Label( #renamed from "indexes_box"
-            self.program_frame,
+            self.address_program_frame,
             width=7,
             background="light grey",
             fg="black",
@@ -71,15 +78,26 @@ class MemoryPanel:
             text='\n'.join([str(n) for n in range(100)])
         )
                 
-        #self.address_box.config(state=tk.DISABLED)
-        self.address_box.grid(row=1, column=0, sticky="nsew")
+        self.address_box.pack(side="left", anchor="nw")
 
 
         #TODO: program_box needn't be scrollable anymore on its own.
-        self.program_box = ScrolledText( #renamed from "memory_box"
-            self.program_frame,
-            width=100,
-            #height=20,
+        """
+        self.program_box = tk.Text(
+            self.address_program_frame,
+            bg="dark grey",
+            fg="white",
+            font=("consolas", 10),
+            wrap="none",
+            insertbackground="white",
+            selectbackground="#3399ff",
+            selectforeground="white",
+            undo=True,
+            maxundo=-1
+        )#"""
+
+        self.program_box = tk.Text( #renamed from "memory_box"
+            self.address_program_frame,
             bg="dark grey",
             fg="white",
             font=("consolas", 10),
@@ -90,7 +108,8 @@ class MemoryPanel:
             undo=True,
             maxundo=-1
         )
-        self.program_box.grid(row=1, column=1, sticky="nsew")
+        self.program_box.pack(anchor="nw", fill="both", expand=True)
+        self.address_program_frame.pack(fill="both", expand=True)
 
 
         self.program_box.config(state="normal")
