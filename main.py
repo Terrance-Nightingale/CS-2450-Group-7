@@ -5,7 +5,7 @@ from GUI.AppUI import AppUI
 
 if __name__ == "__main__":
     window = tk.Tk()
-    window.geometry("1500x900")
+    window.geometry("1500x800")
 
     uvsim = UVSim()
 

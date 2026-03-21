@@ -34,9 +34,8 @@ class MemoryPanel:
         tk.Label(
             self.output_frame,
             height=1,
-            width=13,
-            text="Memory Index",
-            justify="right"
+            width=7,
+            text="Index"
         ).grid(row=0, column=0, sticky="nsew")
         tk.Label(
             self.output_frame,
@@ -46,7 +45,7 @@ class MemoryPanel:
 
         self.indexes_box = ScrolledText(
             self.output_frame,
-            width=13,
+            width=7,
             #height=20,
             bg="light grey",
             fg="black",
@@ -55,10 +54,9 @@ class MemoryPanel:
         
         self.indexes_box.tag_configure('tag-right', justify=RIGHT)
 
-        self.indexes_text = ""
-        for entry in [str(n) + ":\n" for n in range(100)]:
-            self.indexes_text = self.indexes_text + entry
+        self.indexes_text = '\n'.join([str(n) + ":" for n in range(100)])
         self.indexes_box.insert("1.0", self.indexes_text.strip(), 'tag-right')
+        
         self.indexes_box.config(state=tk.DISABLED)
         self.indexes_box.grid(row=1, column=0, sticky="nsew")
 
@@ -78,6 +76,7 @@ class MemoryPanel:
             maxundo=-1
         )
         self.memory_box.grid(row=1, column=1, sticky="nsew")
+
 
         self.memory_box.config(state="normal")
 
@@ -194,7 +193,7 @@ class MemoryPanel:
             self.memory_box.yview_moveto(scroll_pos[0])
             return
 
-        memory_text = '\n'.join(f'{i}: {x}' for i, x in enumerate(self.memory_ref))
+        memory_text = '\n'.join(str(data) for data in self.memory_ref)
 
         current = self.memory_box.get("1.0", tk.END).rstrip('\n')
         if current != memory_text:
