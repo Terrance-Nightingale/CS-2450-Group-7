@@ -49,11 +49,11 @@ class MemoryPanel:
 
 
 
-        tk.Label( #Index Label
+        tk.Label( #Address Label
             self.program_frame,
             height=1,
             width=7,
-            text="Index"
+            text="Address"
         ).grid(row=0, column=0, sticky="nsew")
         tk.Label( #Program Label
             self.program_frame,
@@ -61,25 +61,22 @@ class MemoryPanel:
             text="      Program",
         ).grid(row=0, column=1, sticky="nsew")
 
-
-        #TODO: make the indexes_box and memory_box sync their scrolling
-        self.indexes_box = tk.Label(
+        self.address_box = tk.Label( #renamed from "indexes_box"
             self.program_frame,
             width=7,
             #height=20,
             bg="light grey",
             fg="black",
             font=("consolas", 10),
-            justify="right",
-            text='\n'.join([str(n) + ":" for n in range(100)])
+            justify="center",
+            text='\n'.join([str(n) for n in range(100)])
         )
-        
-        #self.indexes_box.configure(text='\n'.join([str(n) + ":" for n in range(100)]))
-        
-        self.indexes_box.config(state=tk.DISABLED)
-        self.indexes_box.grid(row=1, column=0, sticky="nsew")
+                
+        self.address_box.config(state=tk.DISABLED)
+        self.address_box.grid(row=1, column=0, sticky="nsew")
 
 
+        #TODO: memory_box needn't be scrollable anymore on its own.
         self.memory_box = ScrolledText(
             self.program_frame,
             width=100,
