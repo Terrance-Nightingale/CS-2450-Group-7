@@ -24,7 +24,7 @@ class MemoryPanel:
         """
         self.master = master
         self.input_to = interface_with_backend
-        self.memory_ref = self.input_to.memory.mainmemory()
+        self.memory_ref = self.input_to.memory.main_memory()
 
         self.output_frame = tk.Frame(self.master)
         self.output_frame.pack(padx=6, pady=6, fill="both", expand=True)
