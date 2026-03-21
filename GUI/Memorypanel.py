@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 from tkinter import Menu, messagebox
 from tkinter.constants import RIGHT
@@ -27,18 +28,35 @@ class MemoryPanel:
         self.input_to = interface_with_backend
         self.memory_ref = self.input_to.memory.main_memory()
 
-        self.output_frame = tk.Frame(self.master)
-        self.output_frame.grid(row=1, column=0, columnspan=2)
+
+        self.program_canvas = tk.Canvas(self.master)
+        self.scrollbar = ttk.Scrollbar(self.master, command=self.program_canvas.yview)
+        self.program_frame = ttk.Frame(self.program_canvas)
+
+        #Make sure the program_frame still scrolls when program_canvas resizes:
+        self.program_frame.bind("<Configure>", 
+                                lambda _: self.program_canvas.configure(
+                                    scrollregion=self.program_canvas.bbox("all")))
+        self.program_canvas.create_window((0, 0), window=self.program_frame, anchor = "nw")
+        self.program_canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        self.scrollbar.pack(side="right", fill="y")
+        self.program_canvas.pack(fill="both", expand=True)
+
+        self.program_canvas.bind_all("<MouseWheel>", 
+                                        lambda e: self.program_canvas.yview_scroll(
+                                            int(-1*(e.delta/120)), "units"))
 
 
-        tk.Label(
-            self.output_frame,
+
+        tk.Label( #Index Label
+            self.program_frame,
             height=1,
             width=7,
             text="Index"
         ).grid(row=0, column=0, sticky="nsew")
-        tk.Label(
-            self.output_frame,
+        tk.Label( #Program Label
+            self.program_frame,
             height=1,
             text="      Program",
         ).grid(row=0, column=1, sticky="nsew")
@@ -46,7 +64,7 @@ class MemoryPanel:
 
         #TODO: make the indexes_box and memory_box sync their scrolling
         self.indexes_box = ScrolledText(
-            self.output_frame,
+            self.program_frame,
             width=7,
             #height=20,
             bg="light grey",
@@ -64,7 +82,7 @@ class MemoryPanel:
 
 
         self.memory_box = ScrolledText(
-            self.output_frame,
+            self.program_frame,
             width=100,
             #height=20,
             bg="dark grey",
