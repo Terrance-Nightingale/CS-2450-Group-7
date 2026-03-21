@@ -64,20 +64,19 @@ class MemoryPanel:
         self.address_box = tk.Label( #renamed from "indexes_box"
             self.program_frame,
             width=7,
-            #height=20,
-            bg="light grey",
+            background="light grey",
             fg="black",
             font=("consolas", 10),
             justify="center",
             text='\n'.join([str(n) for n in range(100)])
         )
                 
-        self.address_box.config(state=tk.DISABLED)
+        #self.address_box.config(state=tk.DISABLED)
         self.address_box.grid(row=1, column=0, sticky="nsew")
 
 
-        #TODO: memory_box needn't be scrollable anymore on its own.
-        self.memory_box = ScrolledText(
+        #TODO: program_box needn't be scrollable anymore on its own.
+        self.program_box = ScrolledText( #renamed from "memory_box"
             self.program_frame,
             width=100,
             #height=20,
@@ -91,20 +90,20 @@ class MemoryPanel:
             undo=True,
             maxundo=-1
         )
-        self.memory_box.grid(row=1, column=1, sticky="nsew")
+        self.program_box.grid(row=1, column=1, sticky="nsew")
 
 
-        self.memory_box.config(state="normal")
+        self.program_box.config(state="normal")
 
-        self.memory_box.bind("<Control-c>", self.copy)
-        self.memory_box.bind("<Control-x>", self.cut)
-        self.memory_box.bind("<Control-v>", self.paste)
+        self.program_box.bind("<Control-c>", self.copy)
+        self.program_box.bind("<Control-x>", self.cut)
+        self.program_box.bind("<Control-v>", self.paste)
 
         self.context_menu = Menu(self.master, tearoff=0)
         self.context_menu.add_command(label="Copy", command=self.copy)
         self.context_menu.add_command(label="Cut", command=self.cut)
         self.context_menu.add_command(label="Paste", command=self.paste)
-        self.memory_box.bind("<Button-3>", self.show_context_menu)
+        self.program_box.bind("<Button-3>", self.show_context_menu)
 
         self.refresh_memory()
         self.auto_refresh_id = None
@@ -121,7 +120,7 @@ class MemoryPanel:
         """Copy currently selected text to the system clipboard."""
         try:
             self.master.clipboard_clear()
-            self.master.clipboard_append(self.memory_box.selection_get())
+            self.master.clipboard_append(self.program_box.selection_get())
         except tk.TclError:
             pass
         return "break"
@@ -130,7 +129,7 @@ class MemoryPanel:
         """Cut selected text (copy to clipboard + delete from editor)."""
         self.copy()
         try:
-            self.memory_box.delete("sel.first", "sel.last")
+            self.program_box.delete("sel.first", "sel.last")
             self.schedule_sync()
         except tk.TclError:
             pass
@@ -148,14 +147,14 @@ class MemoryPanel:
             if not lines:
                 return "break"
 
-            current_lines = self.memory_box.get("1.0", tk.END).strip().splitlines()
+            current_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
             current_count = len([l for l in current_lines if l.strip()])
 
             if current_count + len(lines) > 100:
                 messagebox.showwarning("Memory Limit", "Cannot paste: would exceed 100 memory locations.")
                 return "break"
 
-            self.memory_box.insert(tk.INSERT, clipboard)
+            self.program_box.insert(tk.INSERT, clipboard)
             self.schedule_sync()
 
         except tk.TclError:
@@ -174,7 +173,7 @@ class MemoryPanel:
         Clears memory first, then sets values from each line (after colon if present).
         Invalid lines are ignored (left as 0).
         """
-        text = self.memory_box.get("1.0", tk.END).strip()
+        text = self.program_box.get("1.0", tk.END).strip()
         lines = text.splitlines()
 
         for i in range(len(self.memory_ref)):
@@ -203,25 +202,25 @@ class MemoryPanel:
         Update editor content from backend memory if not currently focused.
         Preserves scroll position and cursor location when possible.
         """
-        scroll_pos = self.memory_box.yview()
+        scroll_pos = self.program_box.yview()
 
-        if self.memory_box.focus_get() == self.memory_box:
-            self.memory_box.yview_moveto(scroll_pos[0])
+        if self.program_box.focus_get() == self.program_box:
+            self.program_box.yview_moveto(scroll_pos[0])
             return
 
         memory_text = '\n'.join(str(data) for data in self.memory_ref)
 
-        current = self.memory_box.get("1.0", tk.END).rstrip('\n')
+        current = self.program_box.get("1.0", tk.END).rstrip('\n')
         if current != memory_text:
-            pos = self.memory_box.index(tk.INSERT)
-            self.memory_box.delete("1.0", tk.END)
-            self.memory_box.insert("1.0", memory_text)
+            pos = self.program_box.index(tk.INSERT)
+            self.program_box.delete("1.0", tk.END)
+            self.program_box.insert("1.0", memory_text)
             try:
-                self.memory_box.mark_set(tk.INSERT, pos)
+                self.program_box.mark_set(tk.INSERT, pos)
             except:
                 pass
 
-        self.memory_box.yview_moveto(scroll_pos[0])
+        self.program_box.yview_moveto(scroll_pos[0])
 
     def auto_refresh(self):
         """Periodically refresh display from backend memory (every 800ms)."""
