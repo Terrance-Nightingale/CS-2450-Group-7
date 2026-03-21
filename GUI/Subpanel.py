@@ -4,7 +4,7 @@ import tkinter as tk
 # The panel that holds the information should be changed depending on what the subPanelTitle is.
 class Subpanel:
     def __init__(self, container, title, buttons = None):
-        self.sub_panel_title = tk.Frame(container, borderwidth = 1, bg = "#0A3E0B", height = 30)
+        self.sub_panel_title = tk.Frame(container, borderwidth = 1, bg = "#0A3E0B", height = 50)
         self.sub_panel_title.grid(row = 0, column = 0, sticky = "nsew")
         self.sub_panel_title.pack_propagate(False)
 

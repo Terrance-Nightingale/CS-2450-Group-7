@@ -103,8 +103,8 @@ class MenuBar:
 
                 self.app_ui.cup_state_panel.setColor(color1)
             case 1:
-                color1 = "#A13830"
-                color2 = "#752823"
+                color1 = "#591303"
+                color2 = "#6E1804"
                 self.menu_bar.config(bg = color2, fg = "white")
                 for panel in self.app_ui.panels.values():
                     panel.content_panel.config(bg = color1)
