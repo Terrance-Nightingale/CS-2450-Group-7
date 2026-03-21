@@ -23,7 +23,7 @@ class MenuBar:
 
     def create_file_menu(self):
         file_menu = tk.Menu(self.menu_bar, tearoff = 0)
-        file_menu.add_command(label = "Save CPU state to text file")
+        file_menu.add_command(label = "Save CPU state to text file", command = self.app_ui.controller.save_program)
         file_menu.add_command(label = "Exit", command = self.app_ui.exit_prompt)
 
         self.menu_bar.add_cascade(label = "File", menu = file_menu)
