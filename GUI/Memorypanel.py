@@ -43,6 +43,8 @@ class MemoryPanel:
             text="      Program",
         ).grid(row=0, column=1, sticky="nsew")
 
+
+        #TODO: make the indexes_box and memory_box sync their scrolling
         self.indexes_box = ScrolledText(
             self.output_frame,
             width=7,
@@ -172,7 +174,7 @@ class MemoryPanel:
                 continue
             if ':' in line:
                 try:
-                    value_str = line.split(':', 1)[1].strip()
+                    value_str = line.split(':', 1)[1].strip() #TODO: get rid of the extra code for dealing with the indexes and colons
                     self.memory_ref[i] = int(value_str)
                 except ValueError:
                     pass
