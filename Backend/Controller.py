@@ -1,6 +1,6 @@
 class AppController:
-    def __init__(self, app, root, gui_component=None):
-        self.app = app
+    def __init__(self, sim, root, gui_component=None):
+        self.sim = sim
         self.root = root
         self._gui_component = gui_component
         self.busy = False
@@ -28,37 +28,37 @@ class AppController:
         '''Calls the app's runProgram method. Runs the program as it currently exists in memory.'''
         if not self.busy:
             self.disable_control_buttons()
-            self.app.run_program()
+            self.sim.run_program()
 
             # If current opcode is READ, creates a popup that prompts the user for their input.
                 # Will continue the program from where it left off after receiving/processing user input.
-            if self.app.cpu.opcode == 10:
+            if self.sim.cpu.opcode == 10:
                 self.root.create_input_popup()
             # If program is no longer running, re-enables the control buttons.
-            elif not self.app.cpu.running:
+            elif not self.sim.cpu.running:
                 self.enable_control_buttons()
     
     def continue_program(self, user_input):
         '''Executes Read command, then continues program execution.'''
         # Pass input to READ, then continue execution
-        self.app.cpu.basicml.read(self.app.memory.main_memory(), self.app.cpu.operand, user_input)
-        self.app.run_program() # Resume program from last opcode
+        self.sim.cpu.basicml.read(self.sim.memory.main_memory(), self.sim.cpu.operand, user_input)
+        self.sim.run_program() # Resume program from last opcode
 
         # Check for READ opcode again
-        if self.app.cpu.opcode == 10:
+        if self.sim.cpu.opcode == 10:
             self.root.create_input_popup()
         # Re-enable only when fully done
-        elif not self.app.cpu.running:
+        elif not self.sim.cpu.running:
             self.enable_control_buttons()
         
     def reset_program(self):
         '''Calls the app's resetProgram method.'''
         if not self.busy:
-            self.app.reset_program()
+            self.sim.reset_program()
     
     def save_program(self):
         if not self.busy:
-            self.app.save_program()
+            self.sim.save_program()
     # endregion
 
     def enable_control_buttons(self): # Last edited by: Josh 3/18/2026

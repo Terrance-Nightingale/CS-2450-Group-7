@@ -7,12 +7,12 @@ class ConsolePanel:
 
         tk.Label(
             self.container,
-            text="Previous inputs:"
+            text="Program Outputs:"
             ).grid(row=0, column=0)
 
         self.prev_inputs_label = tk.Label(
             self.container,
-            text="Previous inputs will appear here..."
+            text="Program Outputs will appear here..."
         )
         self.prev_inputs_label.grid(row=1, column=0, columnspan=2)
 
@@ -24,4 +24,4 @@ class ConsolePanel:
     
     def reset_inputs(self):
         self.inputs_history = []
-        self.prev_inputs_label.config(text="Previous inputs will appear here...")
+        self.prev_inputs_label.config(text="Program Outputs will appear here...")
