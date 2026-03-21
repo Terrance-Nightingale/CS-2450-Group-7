@@ -63,19 +63,18 @@ class MemoryPanel:
 
 
         #TODO: make the indexes_box and memory_box sync their scrolling
-        self.indexes_box = ScrolledText(
+        self.indexes_box = tk.Label(
             self.program_frame,
             width=7,
             #height=20,
             bg="light grey",
             fg="black",
-            font=("consolas", 10)
+            font=("consolas", 10),
+            justify="right",
+            text='\n'.join([str(n) + ":" for n in range(100)])
         )
         
-        self.indexes_box.tag_configure('tag-right', justify=RIGHT)
-
-        self.indexes_text = '\n'.join([str(n) + ":" for n in range(100)])
-        self.indexes_box.insert("1.0", self.indexes_text.strip(), 'tag-right')
+        #self.indexes_box.configure(text='\n'.join([str(n) + ":" for n in range(100)]))
         
         self.indexes_box.config(state=tk.DISABLED)
         self.indexes_box.grid(row=1, column=0, sticky="nsew")
