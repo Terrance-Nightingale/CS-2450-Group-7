@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 from tkinter import Menu, messagebox
 from tkinter.constants import RIGHT
+import time
 
 
 class MemoryPanel:
@@ -27,6 +28,7 @@ class MemoryPanel:
         self.master = master
         self.input_to = interface_with_backend
         self.memory_ref = self.input_to.memory.main_memory()
+        self.last_keystroke_time = 0
 
 
         self.program_canvas = tk.Canvas(self.master)
@@ -115,7 +117,7 @@ class MemoryPanel:
         self.program_box.bind("<Control-c>", self.copy)
         self.program_box.bind("<Control-x>", self.cut)
         self.program_box.bind("<Control-v>", self.paste)
-        self.program_box.bind("<Key>", self.schedule_sync)
+        self.program_box.bind("<Key>", self.on_keystroke)
 
         self.context_menu = Menu(self.master, tearoff=0)
         self.context_menu.add_command(label="Copy", command=self.copy)
@@ -179,6 +181,24 @@ class MemoryPanel:
             pass
         return "break"
 
+    def on_keystroke(self, event=None):
+        self.update_last_keystroke_time()
+        if event.keysym == "Return" and self.line_limit_reached():
+            return 'break'
+        self.schedule_sync()
+
+    def update_last_keystroke_time(self, event=None):
+        print(time.time() - self.last_keystroke_time)
+        self.last_keystroke_time = time.time()
+
+    def line_limit_reached(self, event=None):
+        current_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
+        current_count = len([l for l in current_lines if l.strip()])
+        print(f"current count: {current_count}")
+        if current_count >= self.input_to.memory.memory_cap:
+            return True
+        return False
+
     def schedule_sync(self, event=None):
         """Delay backend memory sync by 300ms to batch rapid edits and reduce lag."""
         if hasattr(self, 'sync_after_id'):
@@ -192,6 +212,9 @@ class MemoryPanel:
         Invalid lines are ignored (left as 0).
         """
         #print("updating memory from text")
+        if self.input_to.memory.just_loaded:
+            self.refresh_memory()
+            self.input_to.memory.just_loaded = False
         text_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
         write_to_memory = []
         for line in text_lines:
@@ -201,8 +224,9 @@ class MemoryPanel:
                 try:
                     write_to_memory.append(int(line))
                 except ValueError:
+                    print
                     pass
-
+                
         self.memory_ref = write_to_memory
 
         """
@@ -238,6 +262,13 @@ class MemoryPanel:
         Preserves scroll position and cursor location when possible.
         """
         #print("refreshing memory to screen")
+        since = time.time() - self.last_keystroke_time
+        #print(f"since last keystroke: {since}")
+        if since < 3 and since > 0.01:
+            return
+        else:
+            pass
+        
         scroll_pos = self.program_box.yview()
 
         """if self.program_box.focus_get() == self.program_box:
