@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 from tkinter import Menu, messagebox
 from tkinter.constants import RIGHT
-import time
 
 
 class MemoryPanel:
@@ -27,7 +26,6 @@ class MemoryPanel:
         self.master = master
         self.input_to = interface_with_backend
         self.memory_ref = self.input_to.memory.main_memory()
-        self.last_keystroke_time = 0
 
         self.output_frame = tk.Frame(self.master)
         self.output_frame.grid(row=1, column=0, columnspan=2)
@@ -84,16 +82,9 @@ class MemoryPanel:
 
         self.memory_box.config(state="normal")
 
-<<<<<<< Updated upstream
         self.memory_box.bind("<Control-c>", self.copy)
         self.memory_box.bind("<Control-x>", self.cut)
         self.memory_box.bind("<Control-v>", self.paste)
-=======
-        self.program_box.bind("<Control-c>", self.copy)
-        self.program_box.bind("<Control-x>", self.cut)
-        self.program_box.bind("<Control-v>", self.paste)
-        self.program_box.bind("<Key>", self.on_keystroke)
->>>>>>> Stashed changes
 
         self.context_menu = Menu(self.master, tearoff=0)
         self.context_menu.add_command(label="Copy", command=self.copy)
@@ -157,29 +148,7 @@ class MemoryPanel:
             pass
         return "break"
 
-<<<<<<< Updated upstream
     def schedule_sync(self):
-=======
-    def on_keystroke(self, event=None):
-        self.update_last_keystroke_time()
-        if event.keysym == "Return" and self.line_limit_reached():
-            return 'break'
-        self.schedule_sync()
-
-    def update_last_keystroke_time(self, event=None):
-        print(time.time() - self.last_keystroke_time)
-        self.last_keystroke_time = time.time()
-
-    def line_limit_reached(self, event=None):
-        current_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
-        current_count = len([l for l in current_lines if l.strip()])
-        print(f"current count: {current_count}")
-        if current_count >= self.input_to.memory.memory_cap:
-            return True
-        return False
-
-    def schedule_sync(self, event=None):
->>>>>>> Stashed changes
         """Delay backend memory sync by 300ms to batch rapid edits and reduce lag."""
         if hasattr(self, 'sync_after_id'):
             self.master.after_cancel(self.sync_after_id)
@@ -191,29 +160,7 @@ class MemoryPanel:
         Clears memory first, then sets values from each line (after colon if present).
         Invalid lines are ignored (left as 0).
         """
-<<<<<<< Updated upstream
         text = self.memory_box.get("1.0", tk.END).strip()
-=======
-        #print("updating memory from text")
-        if self.input_to.memory.just_loaded:
-            self.refresh_memory()
-            self.input_to.memory.just_loaded = False
-        text_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
-        write_to_memory = []
-        for line in text_lines:
-            if line == "\n":
-                write_to_memory.append(None)
-            else:
-                try:
-                    write_to_memory.append(int(line))
-                except ValueError:
-                    print("oops")
-                    pass
-        self.memory_ref = write_to_memory
-
-        """
-        text = self.program_box.get("1.0", tk.END).strip()
->>>>>>> Stashed changes
         lines = text.splitlines()
 
         for i in range(len(self.memory_ref)):
@@ -242,19 +189,7 @@ class MemoryPanel:
         Update editor content from backend memory if not currently focused.
         Preserves scroll position and cursor location when possible.
         """
-<<<<<<< Updated upstream
         scroll_pos = self.memory_box.yview()
-=======
-        #print("refreshing memory to screen")
-        since = time.time() - self.last_keystroke_time
-        #print(f"since last keystroke: {since}")
-        if since < 3 and since > 0.01:
-            return
-        else:
-            pass
-        
-        scroll_pos = self.program_box.yview()
->>>>>>> Stashed changes
 
         if self.memory_box.focus_get() == self.memory_box:
             self.memory_box.yview_moveto(scroll_pos[0])

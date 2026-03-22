@@ -26,7 +26,6 @@ class CPU:
         return True
 
     def decode(self):
-        print(self.instruction_register)
         self.opcode = self.instruction_register // 100
         self.operand = self.instruction_register % 100
 
@@ -35,14 +34,14 @@ class CPU:
             case 0:
                 pass
             case 10: #READ
-                self.basicml.read(self.memory, self.operand)
+                self.basicml.read(self.memory.main_memory(), self.operand)
                 return
             case 11: #WRITE
                 self.basicml.write(self.memory.main_memory(), self.operand)
             case 20: #LOAD
                 self.accumulator = self.basicml.load(self.memory.main_memory(), self.operand)
             case 21: #STORE
-                self.basicml.store(self.memory, self.operand, self.accumulator)
+                self.basicml.store(self.memory.main_memory(), self.operand, self.accumulator)
             case 30: #ADD
                 self.accumulator = self.basicml.add(self.memory.main_memory(), self.operand, self.accumulator)
             case 31: #SUBTRACT

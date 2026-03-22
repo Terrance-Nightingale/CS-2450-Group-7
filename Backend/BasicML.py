@@ -6,7 +6,7 @@ class BasicML:
     
     def read(self, memory, operand, user_input): # Last edited by: Josh 3/11/2026
             '''Reads a word from the keyboard and stores it into a location specified by the operand.'''
-            memory.insert(operand, user_input)
+            memory[operand] = user_input
             # self.inputInfoPanel.update_prev_inputs(f"READ {userInput}")
             # self.inputPanel.word_entry.delete(0, tk.END)  # clear entry
         
@@ -33,8 +33,7 @@ class BasicML:
         '''
         Store a word from the accumulator into a location in memory specified by the operand.
         '''
-        memory.insert(operand, accumulator)
-        #memory[operand] = accumulator
+        memory[operand] = accumulator
         
 
     def add(self, memory, operand, accumulator):

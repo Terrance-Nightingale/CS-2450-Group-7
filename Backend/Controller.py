@@ -26,7 +26,6 @@ class AppController:
     # region Program Methods
     def run_program(self): # Last edited by: Josh 3/18/2026
         '''Calls the app's runProgram method. Runs the program as it currently exists in memory.'''
-        print("controller.run_program()")
         if not self.busy:
             self.disable_control_buttons()
             self.sim.run_program()
@@ -56,7 +55,6 @@ class AppController:
         '''Calls the app's resetProgram method.'''
         if not self.busy:
             self.sim.reset_program()
-        
     
     def save_program(self):
         if not self.busy:
