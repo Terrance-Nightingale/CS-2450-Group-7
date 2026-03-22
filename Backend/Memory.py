@@ -12,9 +12,10 @@ class Memory:
         return self._main_memory
     
     def expand(self, operand):
+        """adds zeros as filler to make sure the memory is long enough to insert something at a given location"""
         while len(self._main_memory)-1 < operand:
             self._main_memory.append(0)
-        print(self._main_memory)
+        print(f"len: {len(self._main_memory)}, memory:{self._main_memory}")
 
     def insert(self, operand, input):
         self.expand(operand)
