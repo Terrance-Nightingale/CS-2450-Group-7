@@ -33,19 +33,30 @@ class MemoryPanel:
         self.scrollbar = ttk.Scrollbar(self.master, command=self.program_canvas.yview)
         self.program_frame = ttk.Frame(self.program_canvas)
 
-        #Make sure the program_frame still scrolls when program_canvas resizes:
-        self.program_frame.bind("<Configure>", 
-                                lambda _: self.program_canvas.configure(
-                                    scrollregion=self.program_canvas.bbox("all")))
-        self.program_canvas.create_window((0, 0), window=self.program_frame, anchor = "nw")
+        self.program_canvas.create_window(
+            (0, 0), 
+            window=self.program_frame, 
+            anchor = "nw",
+            tags="program_window")
         self.program_canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        self.scrollbar.pack(side="right", fill="y")
-        self.program_canvas.pack(fill="both", expand=True)
+        def on_program_canvas_configure(event):
+            canvas_width = event.width
+            self.program_canvas.itemconfig("program_window", width=canvas_width)
 
+        self.program_canvas.bind("<Configure>",
+                                     on_program_canvas_configure)
         self.program_canvas.bind_all("<MouseWheel>", 
                                         lambda e: self.program_canvas.yview_scroll(
                                             int(-1*(e.delta/120)), "units"))
+
+        #Make sure the program_frame still scrolls when program_canvas resizes:
+        self.program_frame.bind("<Configure>", 
+                                lambda e: self.program_canvas.configure(
+                                    scrollregion=self.program_canvas.bbox("all")))
+        
+        self.scrollbar.pack(side="right", fill="y")
+        self.program_canvas.pack(fill="both", expand=True)
 
         self.labels_frame = tk.Frame(self.program_frame)#.pack(fill="x")
 
@@ -82,19 +93,6 @@ class MemoryPanel:
 
 
         #TODO: program_box needn't be scrollable anymore on its own.
-        """
-        self.program_box = tk.Text(
-            self.address_program_frame,
-            bg="dark grey",
-            fg="white",
-            font=("consolas", 10),
-            wrap="none",
-            insertbackground="white",
-            selectbackground="#3399ff",
-            selectforeground="white",
-            undo=True,
-            maxundo=-1
-        )#"""
 
         self.program_box = tk.Text( #renamed from "memory_box"
             self.address_program_frame,
