@@ -147,11 +147,11 @@ class MenuBar:
 UVSim Guide
 ───────────
 Quick overview of what you see:
-• Input / Input Info      → Where your program file is loaded or shown
+• Input / Console         → Where your program file is loaded or shown
 • CPU State               → Displays Accumulator, Program Counter, Instruction Register
 • Error Reports           → Shows any loading or runtime errors
 • Memory                  → View of all 100 memory locations (program + data)
-• Controls                → Buttons to RUN (execute fully) or RESET (clear everything)
+• Controls                → Buttons to RUN (execute fully), RESET (clear everything), SAVE (save memory to a text file)
             
 How to use:
 1. Load your BasicML program (via Input area if not already done)
@@ -159,6 +159,7 @@ How to use:
 3. Use RESET to start over
 4. Watch CPU State and Memory update as it runs
 5. Type numbers in pop-ups when READ (10xx) is executed - pop-ups may not always appear on top
+6. Type your own code in the Memory panel and press SAVE to save it to a .txt file
 """
         return GUIDE_CONTENT
 
