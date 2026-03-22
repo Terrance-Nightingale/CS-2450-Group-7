@@ -26,6 +26,8 @@ class MemoryPanel:
         self.master = master
         self.input_to = interface_with_backend
         self.memory_ref = self.input_to.memory.main_memory()
+        self.is_editing = False
+        
 
         self.output_frame = tk.Frame(self.master)
         self.output_frame.grid(row=1, column=0, columnspan=2)
@@ -85,6 +87,8 @@ class MemoryPanel:
         self.memory_box.bind("<Control-c>", self.copy)
         self.memory_box.bind("<Control-x>", self.cut)
         self.memory_box.bind("<Control-v>", self.paste)
+        self.memory_box.bind("<KeyRelease>", self.on_text_edit)
+
 
         self.context_menu = Menu(self.master, tearoff=0)
         self.context_menu.add_command(label="Copy", command=self.copy)
@@ -147,6 +151,11 @@ class MemoryPanel:
         except tk.TclError:
             pass
         return "break"
+    
+    def on_text_edit(self, event=None):
+        """Triggered whenever user types in the memory box."""
+        self.is_editing = True
+        self.schedule_sync()
 
     def schedule_sync(self):
         """Delay backend memory sync by 300ms to batch rapid edits and reduce lag."""
@@ -183,6 +192,7 @@ class MemoryPanel:
                     self.memory_ref[i] = int(line)
                 except ValueError:
                     pass
+        self.is_editing = False
 
     def refresh_memory(self):
         """
@@ -191,8 +201,7 @@ class MemoryPanel:
         """
         scroll_pos = self.memory_box.yview()
 
-        if self.memory_box.focus_get() == self.memory_box:
-            self.memory_box.yview_moveto(scroll_pos[0])
+        if self.memory_box.focus_get() == self.memory_box or self.is_editing:
             return
 
         memory_text = '\n'.join(str(data) for data in self.memory_ref)
