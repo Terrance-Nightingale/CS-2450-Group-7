@@ -33,36 +33,54 @@ class MemoryPanel:
         self.scrollbar = ttk.Scrollbar(self.master, command=self.program_canvas.yview)
         self.program_frame = ttk.Frame(self.program_canvas)
 
-        #Make sure the program_frame still scrolls when program_canvas resizes:
-        self.program_frame.bind("<Configure>", 
-                                lambda _: self.program_canvas.configure(
-                                    scrollregion=self.program_canvas.bbox("all")))
-        self.program_canvas.create_window((0, 0), window=self.program_frame, anchor = "nw")
+        self.program_canvas.create_window(
+            (0, 0), 
+            window=self.program_frame, 
+            anchor = "nw",
+            tags="program_window")
         self.program_canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        self.scrollbar.pack(side="right", fill="y")
-        self.program_canvas.pack(fill="both", expand=True)
+        def on_program_canvas_configure(event):
+            canvas_width = event.width
+            self.program_canvas.itemconfig("program_window", width=canvas_width)
 
+        self.program_canvas.bind("<Configure>",
+                                     on_program_canvas_configure)
         self.program_canvas.bind_all("<MouseWheel>", 
                                         lambda e: self.program_canvas.yview_scroll(
                                             int(-1*(e.delta/120)), "units"))
 
+        #Make sure the program_frame still scrolls when program_canvas resizes:
+        self.program_frame.bind("<Configure>", 
+                                lambda e: self.program_canvas.configure(
+                                    scrollregion=self.program_canvas.bbox("all")))
+        
+        self.scrollbar.pack(side="right", fill="y")
+        self.program_canvas.pack(fill="both", expand=True)
 
+        self.labels_frame = tk.Frame(self.program_frame)#.pack(fill="x")
 
         tk.Label( #Address Label
-            self.program_frame,
+            self.labels_frame,
             height=1,
             width=7,
             text="Address"
-        ).grid(row=0, column=0, sticky="nsew")
+        ).pack(side="left")#.grid(row=0, column=0, sticky="nsew")
         tk.Label( #Program Label
-            self.program_frame,
+            self.labels_frame,
             height=1,
             text="      Program",
-        ).grid(row=0, column=1, sticky="nsew")
+            # justify="left", #TODO: justify not working, come back to this
+            #bg="green"
+        ).pack(side="left", fill="both", expand=True)#.grid(row=0, column=1, sticky="nsew")
+
+        self.labels_frame.pack(fill="x")
+
+
+        self.address_program_frame = tk.Frame(self.program_frame, bg="green")
 
         self.address_box = tk.Label( #renamed from "indexes_box"
-            self.program_frame,
+            self.address_program_frame,
             width=7,
             background="light grey",
             fg="black",
@@ -71,15 +89,13 @@ class MemoryPanel:
             text='\n'.join([str(n) for n in range(100)])
         )
                 
-        #self.address_box.config(state=tk.DISABLED)
-        self.address_box.grid(row=1, column=0, sticky="nsew")
+        self.address_box.pack(side="left", anchor="nw")
 
 
         #TODO: program_box needn't be scrollable anymore on its own.
-        self.program_box = ScrolledText( #renamed from "memory_box"
-            self.program_frame,
-            width=100,
-            #height=20,
+
+        self.program_box = tk.Text( #renamed from "memory_box"
+            self.address_program_frame,
             bg="dark grey",
             fg="white",
             font=("consolas", 10),
@@ -90,7 +106,8 @@ class MemoryPanel:
             undo=True,
             maxundo=-1
         )
-        self.program_box.grid(row=1, column=1, sticky="nsew")
+        self.program_box.pack(anchor="nw", fill="both", expand=True)
+        self.address_program_frame.pack(fill="both", expand=True)
 
 
         self.program_box.config(state="normal")
@@ -98,6 +115,7 @@ class MemoryPanel:
         self.program_box.bind("<Control-c>", self.copy)
         self.program_box.bind("<Control-x>", self.cut)
         self.program_box.bind("<Control-v>", self.paste)
+        self.program_box.bind("<Key>", self.schedule_sync)
 
         self.context_menu = Menu(self.master, tearoff=0)
         self.context_menu.add_command(label="Copy", command=self.copy)
@@ -161,7 +179,7 @@ class MemoryPanel:
             pass
         return "break"
 
-    def schedule_sync(self):
+    def schedule_sync(self, event=None):
         """Delay backend memory sync by 300ms to batch rapid edits and reduce lag."""
         if hasattr(self, 'sync_after_id'):
             self.master.after_cancel(self.sync_after_id)
