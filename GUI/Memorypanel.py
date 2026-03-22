@@ -191,6 +191,21 @@ class MemoryPanel:
         Clears memory first, then sets values from each line (after colon if present).
         Invalid lines are ignored (left as 0).
         """
+        #print("updating memory from text")
+        text_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
+        write_to_memory = []
+        for line in text_lines:
+            if line == "\n":
+                write_to_memory.append(None)
+            else:
+                try:
+                    write_to_memory.append(int(line))
+                except ValueError:
+                    pass
+
+        self.memory_ref = write_to_memory
+
+        """
         text = self.program_box.get("1.0", tk.END).strip()
         lines = text.splitlines()
 
@@ -202,6 +217,7 @@ class MemoryPanel:
                 break
             line = line.strip()
             if not line:
+                self.memory_ref[i] = None
                 continue
             if ':' in line:
                 try:
@@ -214,19 +230,29 @@ class MemoryPanel:
                     self.memory_ref[i] = int(line)
                 except ValueError:
                     pass
+        """
 
     def refresh_memory(self):
         """
         Update editor content from backend memory if not currently focused.
         Preserves scroll position and cursor location when possible.
         """
+        #print("refreshing memory to screen")
         scroll_pos = self.program_box.yview()
 
-        if self.program_box.focus_get() == self.program_box:
+        """if self.program_box.focus_get() == self.program_box:
             self.program_box.yview_moveto(scroll_pos[0])
-            return
+            return"""
 
-        memory_text = '\n'.join(str(data) for data in self.memory_ref)
+        memory_text = ""
+        for data in self.memory_ref:
+            #print(data)
+            if type(data) in (int, str):
+                memory_text += str(data) + "\n"
+            elif data == None:
+                memory_text += "\n"
+        memory_text = memory_text.strip('\n')
+        #memory_text = '\n'.join(str(data) for data in self.memory_ref)
 
         current = self.program_box.get("1.0", tk.END).rstrip('\n')
         if current != memory_text:

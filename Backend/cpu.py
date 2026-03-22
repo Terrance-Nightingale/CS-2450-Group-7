@@ -84,8 +84,9 @@ class CPU:
         '''
         Resets the contents of the CPU to 0.
         '''
-        for i in range(len(self.memory.main_memory()) - 1):
-            self.memory.main_memory()[i] = 0
+        #for i in range(len(self.memory.main_memory()) - 1):
+        #    self.memory.main_memory()[i] = 0
+        self.memory.main_memory().clear()
 
         self.basicml.console_panel.reset_outputs() # Reset's the console's display.
                                                  # Added by: Josh 3/18/2026
