@@ -115,6 +115,7 @@ class MemoryPanel:
         self.program_box.bind("<Control-c>", self.copy)
         self.program_box.bind("<Control-x>", self.cut)
         self.program_box.bind("<Control-v>", self.paste)
+        self.program_box.bind("<Key>", self.schedule_sync)
 
         self.context_menu = Menu(self.master, tearoff=0)
         self.context_menu.add_command(label="Copy", command=self.copy)
@@ -178,7 +179,7 @@ class MemoryPanel:
             pass
         return "break"
 
-    def schedule_sync(self):
+    def schedule_sync(self, event=None):
         """Delay backend memory sync by 300ms to batch rapid edits and reduce lag."""
         if hasattr(self, 'sync_after_id'):
             self.master.after_cancel(self.sync_after_id)
