@@ -15,8 +15,16 @@ class UVSim:
         '''
         Loads the user's program into memory.
         '''
+<<<<<<< Updated upstream
         for i, word in enumerate(user_program.program):
             self.memory.main_memory()[i] = int(word)
+=======
+        #for i, word in enumerate(user_program.program):
+        #    self.memory.main_memory()[i] = int(word)
+        for word in user_program.program:
+            self.memory.main_memory().append(int(word))
+        self.memory.just_loaded = True
+>>>>>>> Stashed changes
 
     def run_program(self):
         '''
