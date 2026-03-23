@@ -15,8 +15,10 @@ class UVSim:
         '''
         Loads the user's program into memory.
         '''
-        for i, word in enumerate(user_program.program):
-            self.memory.main_memory()[i] = int(word)
+        #for i, word in enumerate(user_program.program):
+        #    self.memory.main_memory()[i] = int(word)
+        for word in user_program.program:
+            self.memory.main_memory().append(int(word))
 
     def run_program(self):
         '''
@@ -45,7 +47,7 @@ class UVSim:
          current_memory = self.memory.main_memory()
          with open(file_path, "w", encoding="utf-8") as file:
               for value in current_memory:
-                   if value == 0:
+                   if value == None:
                         pass
                    else:
                         file.write(f"{value}\n")
