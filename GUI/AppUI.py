@@ -8,6 +8,7 @@ from GUI.Memorypanel import MemoryPanel
 from GUI.ErrorPanel import ErrorPanel
 from GUI.ControlPanel import ControlPanel
 from GUI.MenuBar import MenuBar
+from GUI.TabContainer import TabContainer
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -22,25 +23,25 @@ class AppUI:
 
         self.sub_panel_names = ["Input", "CPU State", "Error Reports", "Console", "Memory", "Controls"]
 
-        #self.titlePanel = TitlePanel(window)
-
-        self.container = tk.Frame(window)
-        self.container.pack(expand = True, fill = "both")
-
-        for i in range(2):
-            self.container.rowconfigure(i, weight = 1)
-
-        for i in range(3):
-            self.container.columnconfigure(i, weight = 1)
-
-        self.create_grid_panels()
+        # Pass create_grid_panels as the callback for the TabContainer so each new tab builds its own panel grid.
+        self.tabs_container = TabContainer(self.window, self.create_grid_panels)
 
         menu = MenuBar(self.window, self)
         menu.create_file_menu()
         menu.create_theme_menu()
         menu.create_help_menu()
 
-    def create_grid_panels(self):
+
+    def create_grid_panels(self, parent):
+        '''Creates the main GUI panels for the program.'''
+        container = tk.Frame(parent)
+        container.pack(expand=True, fill="both")
+
+        for i in range(2):
+            container.rowconfigure(i, weight=1)
+        for i in range(3):
+            container.columnconfigure(i, weight=1)
+
         for index, name in enumerate(self.sub_panel_names):
             row = index // 3
             col = index % 3
@@ -48,23 +49,12 @@ class AppUI:
 
             if name == "Controls":
                 buttons = [
-                    {
-                        'name': 'RUN',
-                        'command': self.controller.run_program
-                    },
-
-                    {
-                        'name': 'RESET',
-                        'command': self.controller.reset_program
-                    },
-
-                    {
-                        'name': 'SAVE',
-                        'command' : self.controller.save_program
-                    }
+                    {'name': 'RUN', 'command': self.controller.run_program},
+                    {'name': 'RESET', 'command': self.controller.reset_program},
+                    {'name': 'SAVE', 'command' : self.controller.save_program},
                 ]
 
-            panel = ContentPanel(self.container, name, buttons)
+            panel = ContentPanel(container, name, buttons)
             panel.grid(row, col)
 
             self.panels[name] = panel.sub_panel
