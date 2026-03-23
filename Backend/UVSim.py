@@ -15,8 +15,8 @@ class UVSim:
         '''
         Loads the user's program into memory.
         '''
-        #for i, word in enumerate(user_program.program):
-        #    self.memory.main_memory()[i] = int(word)
+        for i, word in enumerate(user_program.program):
+           self.memory.main_memory()[i] = int(word)
         for word in user_program.program:
             self.memory.main_memory().append(int(word))
 
@@ -37,6 +37,7 @@ class UVSim:
         Excecute's the CPU's reset function.
         '''    
         self.cpu.reset()
+        self.memory._main_memory = [0] * self.memory.memory_cap
 
     def save_program(self):
          file_path = filedialog.asksaveasfilename(

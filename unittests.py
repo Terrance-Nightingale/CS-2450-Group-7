@@ -235,7 +235,7 @@ def test_multiply_positive(testUVSim):
     testUVSim.cpu.accumulator = 48
     testUVSim.cpu.execute()
     assert testUVSim.cpu.accumulator == 1200
-    assert testUVSim.memory.main_memory()[testUVSim.cpu.operand] == 25
+    assert testUVSim.cpu.memory.main_memory()[testUVSim.cpu.operand] == 25
 
 @pytest.mark.uc08
 def test_multiply_negative(testUVSim):

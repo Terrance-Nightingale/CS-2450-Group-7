@@ -97,35 +97,35 @@ class MenuBar:
             case 0:
                 color1 = "#2F4880"
                 color2 = "#203156"
-                self.menu_bar.config(bg = color2, fg = "white")
-                for panel in self.app_ui.panels.values():
-                    panel.content_panel.config(bg = color1)
-                    panel.sub_panel_title.config(bg = color2)
-                    panel.title.config(bg = color2)
-
-                self.app_ui.cup_state_panel.setColor(color1)
             case 1:
                 color1 = "#591303"
                 color2 = "#6E1804"
-                self.menu_bar.config(bg = color2, fg = "white")
-                for panel in self.app_ui.panels.values():
-                    panel.content_panel.config(bg = color1)
-                    panel.sub_panel_title.config(bg = color2)
-                    panel.title.config(bg = color2)
-                
-                self.app_ui.cup_state_panel.setColor(color1)
             case 2:
                 color1 = "#106511"
                 color2 = "#0A3E0B"
-                self.menu_bar.config(bg = color2, fg = "white")
-                for panel in self.app_ui.panels.values():
-                    panel.content_panel.config(bg = color1)
-                    panel.sub_panel_title.config(bg = color2)
-                    panel.title.config(bg = color2)
-                
-                self.app_ui.cup_state_panel.setColor(color1)
+
+        self.menu_bar.config(bg=color2, fg="white")
+
+        # Apply theme to all tabs
+        for components in self.app_ui.tabs_container.tab_components.values():
+            for panel in components["panels"].values():
+                panel.content_panel.config(bg=color1)
+                panel.sub_panel_title.config(bg=color2)
+                panel.title.config(bg=color2)
+
+            if components["cpu_state_panel"]:
+                components["cpu_state_panel"].setColor(color1)
 
         self.save_config(theme_id)
+    
+    def apply_theme_on_new_tab(self, tab):
+        '''Applies the current theme to a single newly created tab.'''
+        components = self.app_ui.tabs_container.get_tab_components(tab)
+        if not components:
+            return
+
+        self.theme_commands(self.load_config())
+        
 
     def save_config(self, theme_id):
         config = {"theme_id": theme_id}

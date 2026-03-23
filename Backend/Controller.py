@@ -24,41 +24,46 @@ class AppController:
     # endregion
     
     # region Program Methods
-    def run_program(self): # Last edited by: Josh 3/18/2026
+    def run_program(self, uvsim=None): # Last edited by: Josh 3/18/2026
         '''Calls the app's runProgram method. Runs the program as it currently exists in memory.'''
+        sim = uvsim or self.sim
         if not self.busy:
             self.disable_control_buttons()
-            self.sim.run_program()
+            sim.run_program()
 
             # If current opcode is READ, creates a popup that prompts the user for their input.
                 # Will continue the program from where it left off after receiving/processing user input.
-            if self.sim.cpu.opcode == 10:
+            if sim.cpu.opcode == 10:
                 self.root.create_input_popup()
             # If program is no longer running, re-enables the control buttons.
-            elif not self.sim.cpu.running:
+            elif not sim.cpu.running:
                 self.enable_control_buttons()
     
-    def continue_program(self, user_input):
+    def continue_program(self, user_input, uvsim=None):
         '''Executes Read command, then continues program execution.'''
+        sim = uvsim or self.sim
+        print(f"operand: {sim.cpu.operand}, memory length: {len(sim.memory.main_memory())}")
         # Pass input to READ, then continue execution
-        self.sim.cpu.basicml.read(self.sim.memory.main_memory(), self.sim.cpu.operand, user_input)
-        self.sim.run_program() # Resume program from last opcode
+        sim.cpu.basicml.read(sim.memory.main_memory(), sim.cpu.operand, user_input)
+        sim.run_program() # Resume program from last opcode
 
         # Check for READ opcode again
-        if self.sim.cpu.opcode == 10:
+        if sim.cpu.opcode == 10:
             self.root.create_input_popup()
         # Re-enable only when fully done
-        elif not self.sim.cpu.running:
+        elif not sim.cpu.running:
             self.enable_control_buttons()
         
-    def reset_program(self):
+    def reset_program(self, uvsim=None):
         '''Calls the app's resetProgram method.'''
+        sim = uvsim or self.sim
         if not self.busy:
-            self.sim.reset_program()
+            sim.reset_program()
     
-    def save_program(self):
-        if not self.busy:
-            self.sim.save_program()
+    def save_program(self, uvsim=None):
+            sim = uvsim or self.sim
+            if not self.busy:
+                sim.save_program()
     # endregion
 
     def enable_control_buttons(self): # Last edited by: Josh 3/18/2026
@@ -75,23 +80,24 @@ class AppController:
         self.gui_component.set_button_state('RESET', 'disabled')
         self.gui_component.set_button_state('SAVE', 'disabled')
             
-    def validate_user_input(self, popup_box, user_input): # Last edited by: Josh 3/11/2026
+    def validate_user_input(self, popup_box, user_input, uvsim=None): # Last edited by: Josh 3/11/2026
         '''
         Validates the user's input and throws an error if validation conditions are not met.
         '''
+        sim = uvsim or self.sim
+
         # If user input is not an integer, display "Not an integer" error message.
         try:
             input_int = int(user_input)
         except ValueError:
-            error_message = "Invalid input: not an integer."
-            self.root.create_error_popup(error_message)
+            self.root.create_error_popup("Invalid input: not an integer.")
             return
     
         # If user input not in valid range, display "invalid range" error message.
         if not -9999 <= int(user_input) <= 9999:
-            error_message = "Number must be between -9999 and 9999."
-            self.root.create_error_popup(error_message)
+            self.root.create_error_popup("Number must be between -9999 and 9999.")
             return
     
+        print(f"validate - sim id: {id(sim)}, operand: {sim.cpu.operand}, memory length: {len(sim.memory.main_memory())}")
         popup_box.destroy() # Destroys popup box.
-        self.continue_program(input_int) # Continues the program from where it left off.
+        self.continue_program(input_int, sim) # Continues the program from where it left off.

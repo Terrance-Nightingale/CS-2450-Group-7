@@ -1,11 +1,9 @@
 import tkinter as tk
-from GUI.TitlePanel import TitlePanel
 from GUI.ContentPanel import ContentPanel
 from GUI.CPUStatePanel import CPUStatePanel
 from GUI.InputPanel import InputPanel
 from GUI.ConsolePanel import ConsolePanel
 from GUI.Memorypanel import MemoryPanel
-from GUI.ErrorPanel import ErrorPanel
 from GUI.ControlPanel import ControlPanel
 from GUI.MenuBar import MenuBar
 from GUI.TabContainer import TabContainer
@@ -18,18 +16,47 @@ class AppUI:
         self.window.configure(bg = "darkgrey")
         self.panels = {}
         self.error_popup = None
-
+        self.menu = None
         self.controller = controller
+        self.tabs_container = None
 
         self.sub_panel_names = ["Input", "CPU State", "Error Reports", "Console", "Memory", "Controls"]
 
         # Pass create_grid_panels as the callback for the TabContainer so each new tab builds its own panel grid.
-        self.tabs_container = TabContainer(self.window, self.create_grid_panels)
+        self.tabs_container = TabContainer(
+            self.window,
+            self.create_grid_panels,
+            on_tab_switch=self._on_tab_switched
+        )
 
-        menu = MenuBar(self.window, self)
-        menu.create_file_menu()
-        menu.create_theme_menu()
-        menu.create_help_menu()
+        # Ensures that initial tab exists.
+        self.tabs_container.register_initial_tab()
+
+        # Initialize the MenuBar
+        self.menu = MenuBar(self.window, self)
+        self.menu.create_file_menu()
+        self.menu.create_theme_menu()
+        self.menu.create_help_menu()
+
+
+    def _on_tab_switched(self, tab):
+        '''Updates active references (CPU, Memory, etc) to the current tab's when the user switches tabs.'''
+        components = self.tabs_container.get_tab_components(tab)
+
+        # Return if no components were found.
+        if not components:
+            print("No components found for tab.")
+            return
+
+        # Update all AppUI components to reference the current tab's components.
+        self.panels = components["panels"]
+        self.cpu_state_panel = components["cpu_state_panel"]
+        self.console = components["console"]
+        self.control_panel = components["control_panel"]
+        self.uvsim = components["uvsim"]
+        self.controller.gui_component = self.control_panel
+        self.controller.sim = self.uvsim
+        self.uvsim.cpu.basicml.console_panel = self.console
 
 
     def create_grid_panels(self, parent):
@@ -42,6 +69,16 @@ class AppUI:
         for i in range(3):
             container.columnconfigure(i, weight=1)
 
+        # Each tab gets its own UVSim instance
+        from Backend.UVSim import UVSim
+        tab_uvsim = UVSim()
+        
+        # Components to be added to the tab.
+        tab_panels = {}
+        tab_cpu_state_panel = None
+        tab_control_panel = None
+        tab_console = None
+
         for index, name in enumerate(self.sub_panel_names):
             row = index // 3
             col = index % 3
@@ -49,39 +86,55 @@ class AppUI:
 
             if name == "Controls":
                 buttons = [
-                    {'name': 'RUN', 'command': self.controller.run_program},
-                    {'name': 'RESET', 'command': self.controller.reset_program},
-                    {'name': 'SAVE', 'command' : self.controller.save_program},
+                    {'name': 'RUN', 'command': lambda sim=tab_uvsim: self.controller.run_program(sim)},
+                    {'name': 'RESET', 'command': lambda sim=tab_uvsim: self.controller.reset_program(sim)},
+                    {'name': 'SAVE', 'command' : lambda sim=tab_uvsim: self.controller.save_program(sim)},
                 ]
 
             panel = ContentPanel(container, name, buttons)
             panel.grid(row, col)
-
-            self.panels[name] = panel.sub_panel
+            tab_panels[name] = panel.sub_panel
             
             if name == "CPU State":
                 panel.sub_panel.status_label.destroy()
-                self.cup_state_panel = CPUStatePanel(panel.sub_panel.content_panel, self.uvsim.cpu)
+                tab_cpu_state_panel = CPUStatePanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
         
             if name == "Controls":
                 panel.sub_panel.status_label.destroy()
-                self.control_panel = ControlPanel(panel.sub_panel.content_panel, buttons)
-                self.controller.gui_component = self.control_panel # Allow the controller access to the Controls panel gui component.
+                tab_control_panel = ControlPanel(panel.sub_panel.content_panel, buttons)
+                self.controller.gui_component = tab_control_panel # Allow the controller access to the Controls panel gui component.
 
             if name == "Input":
                 panel.sub_panel.status_label.destroy()
-                InputPanel(panel.sub_panel.content_panel, self.uvsim)
+                InputPanel(panel.sub_panel.content_panel, tab_uvsim)
 
             if name == "Console":
                 panel.sub_panel.status_label.destroy()
-                self.console = ConsolePanel(panel.sub_panel.content_panel, self.uvsim)
+                tab_console = ConsolePanel(panel.sub_panel.content_panel, tab_uvsim)
+                tab_uvsim.cpu.basicml.console_panel = tab_console
 
             if name == "Memory":
                 panel.sub_panel.status_label.destroy()
-                MemoryPanel(panel.sub_panel.content_panel, self.uvsim.cpu)
+                MemoryPanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
 
             if name == "Error Reports":
                 panel.sub_panel.status_label.destroy()
+
+        if self.tabs_container:       
+            self.tabs_container.register_tab_components(parent, {
+                "panels": tab_panels,
+                "cpu_state_panel": tab_cpu_state_panel,
+                "control_panel": tab_control_panel,
+                "console": tab_console,
+                "uvsim": tab_uvsim
+            })
+
+            # Make the initial components active immediately
+            self._on_tab_switched(parent)
+
+            # Apply the current theme to the new tab if menu is ready
+            if self.menu:
+                self.menu.apply_theme_on_new_tab(parent)
     
 
     def create_input_popup(self): # Last edited by: Josh 3/11/2026
@@ -106,10 +159,9 @@ class AppUI:
         input_box.grid(column=1, row=0, pady=5, padx=5) # Set orientation to left.
         input_box.focus_set() # Auto-focus input box when popup opens.
         
-     
         # Create submit button and set orientation to left. Also allow the user to press 'Enter' to submit.
-        input_box.bind('<Return>', lambda event: self.controller.validate_user_input(read_popup, input_box.get()))
-        submit_button = tk.Button(read_popup, text='Submit', command=lambda: self.controller.validate_user_input(read_popup, input_box.get()))
+        input_box.bind('<Return>', lambda event: self.controller.validate_user_input(read_popup, input_box.get(), self.uvsim))
+        submit_button = tk.Button(read_popup, text='Submit', command=lambda: self.controller.validate_user_input(read_popup, input_box.get(), self.uvsim))
         submit_button.grid(column=2, row=0, pady=5, padx=5)
     
 
