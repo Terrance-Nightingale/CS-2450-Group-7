@@ -50,12 +50,14 @@ class MenuBar:
         help_menu.add_command(label = "Version", command = self.version_info)
 
         self.menu_bar.add_cascade(label = "Help", menu = help_menu)
+    
 
     '''
-    Just a silly thing for fun. I made it 0.4 since we will be on the 4th milestone.
+    Just a silly thing for fun. I made it 0.5 since we will be on the 4th milestone.
     '''
     def version_info(self):
-        tk.messagebox.showinfo("Version info", "UVSim version 0.4")
+        tk.messagebox.showinfo("Version info", "UVSim version 0.5")
+
     '''
     Copied this over from the TitleBarClass. A menu bar with dropdowns just made more sense.
     '''
@@ -137,7 +139,7 @@ class MenuBar:
                     config = json.load(f)
                     return config.get("theme_id", 0)
             except json.JSONDecodeError:
-                return 0;
+                return 0
 
     '''
     This was moved over from the title panel class. I think having this in a menu bar looks cleaner.

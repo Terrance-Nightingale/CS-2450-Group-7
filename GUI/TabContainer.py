@@ -6,10 +6,24 @@ class TabContainer:
         self.tabs_container = tk.ttk.Notebook(parent) # The primary container holding all of the tab windows.
         self.tabs_container.pack(expand=True, fill="both")
 
+        self.initialize_tab_style() # Sets the initial tab styling that all tabs will use.
+
+        # Place a "Close Current Tab" button on the far right of the tab bar.
+        self._close_btn = tk.Button(
+            self.tabs_container,
+            text="✕ Close Current Tab",
+            command=self._remove_current_tab,
+            relief="flat",
+            bg="#7E7B7B",
+            fg="white",
+            padx=6,
+            pady=0
+        )
+        self._close_btn.place(relx=1.0, y=0, anchor="ne") # Pins to top-right corner
+
         # Adds two default tabs upon initialization ("New Tab", and "+").
         self._plus_tab = tk.Frame(self.tabs_container)
         self.tabs_container.add(self._plus_tab, text="+")
-
         self.add_new_tab("New Tab")
 
         # Bind clicks on the "+" tab to add a new tab
@@ -43,17 +57,44 @@ class TabContainer:
             callback(new_tab)
 
 
-    def remove_tab(self, tab):
-        '''Removes a tab from the Notebook.'''
-        self.main_container.forget(tab)
+    def _remove_current_tab(self):
+        '''Removes the currently selected tab.'''
+        # Grabs the currently selected tab.
+        selected = self.tabs_container.select()
+
+        # Prevents removal of the "+" tab.
+        if selected == str(self._plus_tab):
+            return
+
+        # Selects the previous tab before removing the current one.
+        current_index = self.tabs_container.index(selected)
+        self.tabs_container.select(max(0, current_index - 1))
+
+        # Removes the current tab.
+        self.tabs_container.forget(selected)
     
-    
-    # All tabs will have the loaded file's name (if none, defaults to "New Tab") and an "X" on the upper right
-        # (this will be a button to delete the tab). When the file is saved on that tab, the tab will be renamed
-        # to the file's name.
     
     def set_tab_name(self, tab, filepath):
         '''Sets the name for the specified tab.'''
         filename = filepath.split("/")[-1] # Extract just the filename from the full path.
         self.main_container.tab(tab, text=filename) # Sets the tab's name to the filename.
-        
+    
+
+    def initialize_tab_style(self):
+        '''Initializes the styling that will be used by tabs.'''
+        style = tk.ttk.Style()
+        style.theme_use("default")
+
+        # Add padding between tabs and set colors
+        style.configure("TNotebook", tabmargins=[2, 3, 0, 0]) # Tab margins
+        style.configure("TNotebook.Tab",
+            padding=[5, 2], # Tab padding
+            background="#b0b0b0" # Unselected tab background color
+        )
+
+        # Selected tab appearance
+        style.map("TNotebook.Tab",
+            background=[("selected", "#ffffff")], # Selected tab background color
+            focuscolor="#ffffff",
+            expand=[("selected", [1, 1, 1, 0])] # Selected tab slightly expands
+        )
