@@ -40,15 +40,21 @@ class UVSim:
         self.memory._main_memory = [0] * self.memory.memory_cap
 
     def save_program(self):
-         file_path = filedialog.asksaveasfilename(
-              title="Save File As",
-              defaultextension=".txt",
-              filetypes=[("Text Files", "*.txt")]
+        file_path = filedialog.asksaveasfilename(
+            title="Save File As",
+            defaultextension=".txt",
+            filetypes=[("Text Files", "*.txt")]
          )
-         current_memory = self.memory.main_memory()
-         with open(file_path, "w", encoding="utf-8") as file:
-              for value in current_memory:
-                   if value == None:
-                        pass
-                   else:
-                        file.write(f"{value}\n")
+        
+        # Return None if the user cancelled the Save.
+        if not file_path:
+            return None
+    
+        current_memory = self.memory.main_memory()
+        with open(file_path, "w", encoding="utf-8") as file:
+            for value in current_memory:
+                if value == None:
+                    pass
+                else:
+                    file.write(f"{value}\n")
+        return file_path

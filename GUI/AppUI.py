@@ -106,7 +106,7 @@ class AppUI:
 
             if name == "Input":
                 panel.sub_panel.status_label.destroy()
-                InputPanel(panel.sub_panel.content_panel, tab_uvsim)
+                InputPanel(self.tabs_container, panel.sub_panel.content_panel, tab_uvsim)
 
             if name == "Console":
                 panel.sub_panel.status_label.destroy()

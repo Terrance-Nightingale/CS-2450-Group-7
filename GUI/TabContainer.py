@@ -7,20 +7,20 @@ class TabContainer:
         self._initial_tab = None
 
         self.tab_components = {}  # Dict that maps each tab's specific data to the tab itself. { tab: AppUI data }
-        self.tabs_container = tk.ttk.Notebook(parent) # The primary container holding all of the tab windows.
-        self.tabs_container.pack(expand=True, fill="both")
+        self.tabs = tk.ttk.Notebook(parent) # The primary container holding all of the tab windows.
+        self.tabs.pack(expand=True, fill="both")
 
         self.initialize_tab_style() # Sets the initial tab styling that all tabs will use.
         self.create_default_buttons() # Creates the TabContainer's starting buttons.
 
         # Bind clicks on the "+" tab to add a new tab
             # _on_tab_changed is invoked whenever the Notebook raises a <<NotebookTabChanged>> event.
-        self.tabs_container.bind("<<NotebookTabChanged>>", self._on_tab_changed)
+        self.tabs.bind("<<NotebookTabChanged>>", self._on_tab_changed)
     
 
     def _on_tab_changed(self, event):
         '''Listens for tab changes and triggers a new tab if "+" is selected.'''
-        selected = self.tabs_container.select()
+        selected = self.tabs.select()
 
         # If the selected tab was the "+" tab, create a new tab.
         if selected == str(self._plus_tab):
@@ -29,22 +29,21 @@ class TabContainer:
         
         # Notify AppUI that the tab has switched
         if self._on_tab_switch:
-            selected_tab = self.tabs_container.nametowidget(selected)
+            selected_tab = self.tabs.nametowidget(selected)
             self._on_tab_switch(selected_tab)
-
 
     def add_new_tab(self, name, content_callback=None):
         '''Adds a new tab before the "+" tab and selects it.'''
         callback = content_callback or self._content_callback
 
-        new_tab = tk.Frame(self.tabs_container)
-        plus_index = self.tabs_container.index(str(self._plus_tab)) # Grabs the index of the "+" tab.
+        new_tab = tk.Frame(self.tabs)
+        plus_index = self.tabs.index(str(self._plus_tab)) # Grabs the index of the "+" tab.
 
         # Insert the new tab just before "+".
-        self.tabs_container.insert(plus_index, new_tab, text=name)
+        self.tabs.insert(plus_index, new_tab, text=name)
 
         # Select the newly created tab.
-        self.tabs_container.select(new_tab)
+        self.tabs.select(new_tab)
 
         # First tab defers its callback until register_initial_tab is called
         if self._initial_tab is None:
@@ -54,25 +53,24 @@ class TabContainer:
         if callback:
             callback(new_tab)
 
-
     def _remove_current_tab(self):
         '''Removes the currently selected tab.'''
         # Grabs the currently selected tab.
-        selected = self.tabs_container.select()
+        selected = self.tabs.select()
 
         # Prevents removal of the "+" tab.
         if selected == str(self._plus_tab):
             return
 
         # Selects the previous tab before removing the current one.
-        current_index = self.tabs_container.index(selected)
-        self.tabs_container.select(max(0, current_index - 1))
+        current_index = self.tabs.index(selected)
+        self.tabs.select(max(0, current_index - 1))
 
-        selected_tab = self.tabs_container.nametowidget(selected)
+        selected_tab = self.tabs.nametowidget(selected)
         self.tab_components.pop(selected_tab, None)
 
         # Removes the current tab.
-        self.tabs_container.forget(selected)
+        self.tabs.forget(selected)
     
     def register_initial_tab(self):
         '''Triggers the content callback for the first tab after AppUI is fully initialized.'''
@@ -83,18 +81,20 @@ class TabContainer:
         '''Stores a tab's components after creation.'''
         self.tab_components[tab] = components
 
-
     def get_tab_components(self, tab):
         '''Returns the stored components for a given tab.'''
         return self.tab_components.get(tab)
     
+    def get_current_tab(self):
+        '''Returns the currently selected tab.'''
+        selected = self.tabs.select()
+        return self.tabs.nametowidget(selected)
     
     def set_tab_name(self, tab, filepath):
         '''Sets the name for the specified tab.'''
         filename = filepath.split("/")[-1] # Extract just the filename from the full path.
-        self.main_container.tab(tab, text=filename) # Sets the tab's name to the filename.
+        self.tabs.tab(tab, text=filename) # Sets the tab's name to the filename.
     
-
     def initialize_tab_style(self):
         '''Initializes the styling that will be used by tabs.'''
         style = tk.ttk.Style()
@@ -117,8 +117,8 @@ class TabContainer:
     def create_default_buttons(self):
         '''Creates the default buttons that the TabContainer always starts with.'''
         # Place a "Close Current Tab" button on the far right of the tab bar.
-        self._close_btn = tk.Button(
-            self.tabs_container,
+        self._close_button = tk.Button(
+            self.tabs,
             text="✕ Close Current Tab",
             command=self._remove_current_tab,
             relief="flat",
@@ -127,10 +127,10 @@ class TabContainer:
             padx=6,
             pady=0
         )
-        self._close_btn.place(relx=1.0, y=0, anchor="ne") # Pins to top-right corner
+        self._close_button.place(relx=1.0, y=0, anchor="ne") # Pins to top-right corner
 
         # Adds two default tabs upon initialization ("New Tab", and "+").
-        self._plus_tab = tk.Frame(self.tabs_container)
-        self.tabs_container.add(self._plus_tab, text="+")
+        self._plus_tab = tk.Frame(self.tabs)
+        self.tabs.add(self._plus_tab, text="+")
         self.add_new_tab("New Tab")
 

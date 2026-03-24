@@ -61,9 +61,18 @@ class AppController:
             sim.reset_program()
     
     def save_program(self, uvsim=None):
-            sim = uvsim or self.sim
-            if not self.busy:
-                sim.save_program()
+        '''
+        Saves the user's program to a *.txt file.
+        Renames the current tab to the filename.
+        '''
+        sim = uvsim or self.sim
+        if not self.busy:
+            file_name = sim.save_program()
+            if file_name:
+                # Calls the AppUI's TabContainer to get the currently selected tab
+                # and change the tab's name to the filename (i.e. "MyProgram.txt")
+                tab = self.root.tabs_container.get_current_tab()
+                self.root.tabs_container.set_tab_name(tab, file_name)
     # endregion
 
     def enable_control_buttons(self): # Last edited by: Josh 3/18/2026

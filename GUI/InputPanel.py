@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import filedialog
 
 class InputPanel:
-    def __init__(self, container, interface_with_backend):
+    def __init__(self, root, container, interface_with_backend):
+        self.root = root
         self.input_to = interface_with_backend
         self.container = container
         
@@ -58,10 +59,16 @@ class InputPanel:
     def file_entered(self):
         file_path = self.file_entry.get()
         self.file_choice_label.config(text=file_path)
+
         self.input_to.reset_program() # Reset CPU before loading new program. Added by: Josh 3/18/2026
         self.input_to.user_program.program = []
         self.input_to.user_program.inputProgram(file_path)
         self.input_to.load_program(self.input_to.user_program)
+
+        # Set currently selected tab's name to the loaded filename (i.e. "MyProgram.txt")
+        current_tab = self.root.get_current_tab()
+        self.root.set_tab_name(current_tab, file_path)
+        
 
     def browse_file(self):
         file_path = filedialog.askopenfilename(
@@ -70,12 +77,8 @@ class InputPanel:
         )
 
         if not file_path:
-            return  
+            return
 
         self.file_entry.delete(0, tk.END)
         self.file_entry.insert(0, file_path)
         self.file_entered()
-
-
-
-
