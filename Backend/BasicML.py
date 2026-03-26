@@ -43,11 +43,7 @@ class BasicML:
         '''
         result = accumulator + memory[operand]
 
-        if result > 9999 or result < -9999:
-            self.error_message = "Accumulator overflow!"
-            return 0
-
-        return result
+        return self.verify_int_size(result)
 
 
     def subtract(self, memory, operand, accumulator):
@@ -57,11 +53,7 @@ class BasicML:
         '''
         result = accumulator - memory[operand]
 
-        if result > 9999 or result < -9999:
-            self.error_message = "Accumulator overflow!"
-            return 0
-
-        return result
+        return self.verify_int_size(result)
 
     
     def divide(self, memory, operand, accumulator): # Edited by Jordan 3/18/26
@@ -74,10 +66,7 @@ class BasicML:
             return 0 # Added return 0 if trying to divide by 0
         
         result = accumulator // memory[operand]
-        if result > 9999 or result < -9999:
-            self.error_message = "Accumulator overflow!"
-            return 0
-        return result
+        return self.verify_int_size(result)
 
     def multiply(self, memory, operand, accumulator):
         '''
@@ -86,11 +75,7 @@ class BasicML:
         '''
         result = accumulator * memory[operand]
 
-        if result > 9999 or result < -9999:
-            self.error_message = "Accumulator overflow!"
-            return 0
-
-        return result
+        return self.verify_int_size(result)
 
 
     def branch(self, operand):
@@ -126,3 +111,11 @@ class BasicML:
         '''
         return False
     
+
+
+    def verify_int_size(self, num):
+        """verifies the result of a math expression is allowed"""
+        if num > 99999 or num < -99999:
+            self.error_message = "Accumulator overflow!"
+            return 0
+        else: return num

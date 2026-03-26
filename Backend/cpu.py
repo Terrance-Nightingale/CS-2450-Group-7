@@ -29,13 +29,12 @@ class CPU:
         """Parses BasicML code for the next instruction, and sets 
         the opcode and the memory address of the operand if valid"""
         code_length = len(str(abs(self.instruction_register)))
-        if code_length == 4:
+        if code_length <= 4:
             opcode = self.instruction_register // 100
             operand = self.instruction_register % 100
         elif code_length == 5:
             opcode = self.instruction_register // 1000
             operand = self.instruction_register % 1000
-
         if self.validate_code(opcode) and self.validate_address(operand):
             self.opcode = opcode
             self.operand = operand

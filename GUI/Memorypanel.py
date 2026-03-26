@@ -156,7 +156,7 @@ class MemoryPanel:
     def paste(self, event=None):
         """
         Paste clipboard content at cursor position.
-        Checks that total lines won't exceed 100.
+        Checks that total lines won't exceed memory cap.
         """
         try:
             clipboard = self.master.clipboard_get()
@@ -168,8 +168,8 @@ class MemoryPanel:
             current_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
             current_count = len([l for l in current_lines if l.strip()])
 
-            if current_count + len(lines) > 100:
-                messagebox.showwarning("Memory Limit", "Cannot paste: would exceed 100 memory locations.")
+            if current_count + len(lines) > self.input_to.memory.memory_cap:
+                messagebox.showwarning("Memory Limit", f"Cannot paste: would exceed {self.input_to.memory.memory_cap} memory locations.")
                 return "break"
 
             self.program_box.insert(tk.INSERT, clipboard)
