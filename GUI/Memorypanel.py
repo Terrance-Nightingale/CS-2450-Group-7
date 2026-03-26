@@ -86,7 +86,7 @@ class MemoryPanel:
             fg="black",
             font=("consolas", 10),
             justify="center",
-            text='\n'.join([str(n) for n in range(100)])
+            text='\n'.join([str(n) for n in range(self.input_to.memory.memory_cap)])
         )
                 
         self.address_box.pack(side="left", anchor="nw")

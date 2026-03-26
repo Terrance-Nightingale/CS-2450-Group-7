@@ -26,8 +26,34 @@ class CPU:
         return True
 
     def decode(self):
-        self.opcode = self.instruction_register // 100
-        self.operand = self.instruction_register % 100
+        """Parses BasicML code for the next instruction, and sets 
+        the opcode and the memory address of the operand if valid"""
+        code_length = len(str(abs(self.instruction_register)))
+        if code_length == 4:
+            opcode = self.instruction_register // 100
+            operand = self.instruction_register % 100
+        elif code_length == 5:
+            opcode = self.instruction_register // 1000
+            operand = self.instruction_register % 1000
+
+        if self.validate_code(opcode) and self.validate_address(operand):
+            self.opcode = opcode
+            self.operand = operand
+        else: raise ValueError("code or address invalid")
+
+    def validate_code(self, ml_code):
+        """checks code is a valid BasicML code"""
+        if ml_code in (0, 10, 11, 20, 21, 30, 31, 32, 33, 40, 41, 42, 43):
+            return True
+        else: raise ValueError("Code must be a valid BasicML code")
+
+    def validate_address(self, a):
+        """checks address/opcode is a valid memory address"""
+        if 0 < a or a < self.memory.memory_cap-1:
+            return True
+        else:
+            raise ValueError("memory address must be between 0-249")
+
 
     def execute(self):
         match(self.opcode):
