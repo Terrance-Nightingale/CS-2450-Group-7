@@ -107,6 +107,5 @@ class AppController:
             self.root.create_error_popup("Number must be between -9999 and 9999.")
             return
     
-        print(f"validate - sim id: {id(sim)}, operand: {sim.cpu.operand}, memory length: {len(sim.memory.main_memory())}")
         popup_box.destroy() # Destroys popup box.
         self.continue_program(input_int, sim) # Continues the program from where it left off.
