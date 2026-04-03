@@ -60,14 +60,18 @@ class InputPanel:
         file_path = self.file_entry.get()
         self.file_choice_label.config(text=file_path)
 
-        self.input_to.reset_program() # Reset CPU before loading new program. Added by: Josh 3/18/2026
-        self.input_to.user_program.program = []
-        self.input_to.user_program.inputProgram(file_path)
-        self.input_to.load_program(self.input_to.user_program)
+        self.load_program_from_file(file_path)
 
         # Set currently selected tab's name to the loaded filename (i.e. "MyProgram.txt")
         current_tab = self.root.get_current_tab()
         self.root.set_tab_name(current_tab, file_path)
+
+
+    def load_program_from_file(self, file_path):
+        self.input_to.reset_program() # Reset CPU before loading new program. Added by: Josh 3/18/2026
+        self.input_to.user_program.program = []
+        self.input_to.user_program.inputProgram(file_path)
+        self.input_to.load_program(self.input_to.user_program)
         
 
     def browse_file(self):
