@@ -30,13 +30,7 @@ class AppController:
             self.disable_control_buttons()
             self.sim.run_program()
 
-            # If current opcode is READ, creates a popup that prompts the user for their input.
-                # Will continue the program from where it left off after receiving/processing user input.
-            if self.sim.cpu.opcode == 10:
-                self.root.create_input_popup()
-            # If program is no longer running, re-enables the control buttons.
-            elif not self.sim.cpu.running:
-                self.enable_control_buttons()
+            self.handle_program_state()
     
     def continue_program(self, user_input):
         '''Executes Read command, then continues program execution.'''
@@ -44,7 +38,10 @@ class AppController:
         self.sim.cpu.basicml.read(self.sim.memory.main_memory(), self.sim.cpu.operand, user_input)
         self.sim.run_program() # Resume program from last opcode
 
-        # Check for READ opcode again
+        self.handle_program_state()
+
+    def handle_program_state(self):
+                # Check for READ opcode again
         if self.sim.cpu.opcode == 10:
             self.root.create_input_popup()
         # Re-enable only when fully done
