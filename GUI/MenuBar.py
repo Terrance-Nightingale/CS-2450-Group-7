@@ -102,6 +102,8 @@ class MenuBar:
                     panel.title.config(bg = color2)
 
                 self.app_ui.cup_state_panel.setColor(color1)
+                self.app_ui.console.label.config(bg = color1, fg = "white")
+                self.app_ui.console.prev_inputs_label.config(bg = color1, fg = "white")
             case 1:
                 color1 = "#591303"
                 color2 = "#6E1804"
@@ -112,6 +114,8 @@ class MenuBar:
                     panel.title.config(bg = color2)
                 
                 self.app_ui.cup_state_panel.setColor(color1)
+                self.app_ui.console.label.config(bg = color1, fg = "white")
+                self.app_ui.console.prev_inputs_label.config(bg = color1, fg = "white")
             case 2:
                 color1 = "#106511"
                 color2 = "#0A3E0B"
@@ -122,6 +126,8 @@ class MenuBar:
                     panel.title.config(bg = color2)
                 
                 self.app_ui.cup_state_panel.setColor(color1)
+                self.app_ui.console.label.config(bg = color1, fg = "white")
+                self.app_ui.console.prev_inputs_label.config(bg = color1, fg = "white")
 
         self.save_config(theme_id)
 

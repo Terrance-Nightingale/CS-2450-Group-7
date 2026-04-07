@@ -6,7 +6,6 @@ from GUI.AppUI import AppUI
 if __name__ == "__main__":
     window = tk.Tk()
 
-    window.state('zoomed')
     width = window.winfo_screenwidth()
     height = window.winfo_screenheight()
     window.geometry(f"{width}x{height}+0+0")

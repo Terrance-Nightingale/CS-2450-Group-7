@@ -5,7 +5,10 @@ class InputPanel:
     def __init__(self, container, interface_with_backend):
         self.input_to = interface_with_backend
         self.container = container
+
+        self.create_ui()       
         
+    def create_ui(self):
         self.file_entry_frame = tk.Frame(
             self.container)
         self.file_entry_frame.pack(padx=10, pady=6)
@@ -13,9 +16,12 @@ class InputPanel:
         tk.Label(
             self.file_entry_frame, 
             text="Enter your file path: ", 
-            font="Arial, 11", 
+            font=("Segoe UI", 11, "bold"), 
+            width=30,
             anchor="w", 
-            justify="left"
+            justify="left",
+            padx=8,
+            pady=6
             ).grid(row=0, column=0, columnspan=2, sticky="w")
         
         self.file_entry = tk.Entry(
@@ -43,7 +49,7 @@ class InputPanel:
         tk.Label(
             self.file_entry_frame, 
             text="Chosen file:",
-            font="Arial, 11", 
+            font=("Segoe UI", 11, "bold"),
             width=8,
             ).grid(row=1, column=0)
 
