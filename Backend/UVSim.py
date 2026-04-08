@@ -17,27 +17,38 @@ class UVSim:
         '''
         for i, word in enumerate(user_program.program):
            self.memory.main_memory()[i] = int(word)
-        for word in user_program.program:
-            self.memory.main_memory().append(int(word))
 
     def run_program(self):
         '''
         Decodes and runs the user's program.
         '''
-        while self.cpu.fetch():
-                self.cpu.decode()
+        if not self.cpu.running:
+            self.cpu.soft_reset()
 
-                # Check if this is a READ instruction
+        try:
+            while self.cpu.fetch():
+                self.cpu.decode()
+                # Check if this is a READ instruction (OP code "10")
                 if self.cpu.opcode == 10:
                     return  # Pause and exit loop, GUI will handle READ
                 self.cpu.execute()
+        except ValueError as e: # Unlocks Control Panel even if ValueError is thrown.
+            # Sets the CPU error_message to the thrown ValueError.
+            self.cpu.error_message = f"{e} (instruction: {self.cpu.instruction_register})"
+            self.cpu.running = False
+
+        # If no HALT command, will set running to False (to unlock Control Panel again).
+        self.cpu.running = False
 
     def reset_program(self):    
         '''
         Excecute's the CPU's reset function.
         '''    
         self.cpu.reset()
-        self.memory._main_memory = [0] * self.memory.memory_cap
+
+        mem = self.memory.main_memory()
+        for i in range(len(mem)):
+            mem[i] = 0
 
     def save_program(self):
         file_path = filedialog.asksaveasfilename(

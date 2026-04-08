@@ -122,6 +122,7 @@ class MemoryPanel:
         self.context_menu.add_command(label="Cut", command=self.cut)
         self.context_menu.add_command(label="Paste", command=self.paste)
         self.program_box.bind("<Button-3>", self.show_context_menu)
+        self.program_box.bind("<Return>", self._on_enter)
 
         self.refresh_memory()
         self.auto_refresh_id = None
@@ -191,68 +192,40 @@ class MemoryPanel:
         Clears memory first, then sets values from each line (after colon if present).
         Invalid lines are ignored (left as 0).
         """
-        #print("updating memory from text")
+
         text_lines = self.program_box.get("1.0", tk.END).strip().splitlines()
-        write_to_memory = []
-        for line in text_lines:
-            if line == "\n":
-                write_to_memory.append(None)
-            else:
-                try:
-                    write_to_memory.append(int(line))
-                except ValueError:
-                    pass
 
-        self.memory_ref = write_to_memory
-
-        """
-        text = self.program_box.get("1.0", tk.END).strip()
-        lines = text.splitlines()
-
+        # Clear memory in place first
         for i in range(len(self.memory_ref)):
             self.memory_ref[i] = 0
 
-        for i, line in enumerate(lines):
-            if i >= 100:
+        # Write each line's value back by index, skipping blank lines
+        for i, line in enumerate(text_lines):
+            if i >= len(self.memory_ref):
                 break
             line = line.strip()
             if not line:
-                self.memory_ref[i] = None
+                self.memory_ref[i] = 0
                 continue
-            if ':' in line:
-                try:
-                    value_str = line.split(':', 1)[1].strip() #TODO: get rid of the extra code for dealing with the indexes and colons
-                    self.memory_ref[i] = int(value_str)
-                except ValueError:
-                    pass
-            else:
-                try:
-                    self.memory_ref[i] = int(line)
-                except ValueError:
-                    pass
-        """
+            try:
+                self.memory_ref[i] = int(line)
+            except ValueError:
+                pass
 
     def refresh_memory(self):
         """
         Update editor content from backend memory if not currently focused.
         Preserves scroll position and cursor location when possible.
         """
-        #print("refreshing memory to screen")
+        if self.program_box.focus_get() == self.program_box:
+            return
+        
         scroll_pos = self.program_box.yview()
 
-        """if self.program_box.focus_get() == self.program_box:
-            self.program_box.yview_moveto(scroll_pos[0])
-            return"""
-
-        memory_text = ""
-        for data in self.memory_ref:
-            #print(data)
-            if type(data) in (int, str):
-                memory_text += str(data) + "\n"
-            elif data == None:
-                memory_text += "\n"
-        memory_text = memory_text.strip('\n')
-        #memory_text = '\n'.join(str(data) for data in self.memory_ref)
+        memory_text = "\n".join(
+            str(data) if data is not None else "0"
+            for data in self.memory_ref
+        )
 
         current = self.program_box.get("1.0", tk.END).rstrip('\n')
         if current != memory_text:
@@ -270,3 +243,11 @@ class MemoryPanel:
         """Periodically refresh display from backend memory (every 800ms)."""
         self.refresh_memory()
         self.auto_refresh_id = self.master.after(800, self.auto_refresh)
+
+    def _on_enter(self, event=None):
+        '''Moves cursor to next line without inserting a newline character.'''
+        current_line = int(self.program_box.index(tk.INSERT).split(".")[0])
+        next_line = current_line + 1
+        self.program_box.mark_set(tk.INSERT, f"{next_line}.0")
+        self.program_box.see(f"{next_line}.0")
+        return "break"

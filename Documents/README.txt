@@ -7,7 +7,10 @@ run main.py
 enter the file path to the program you would like to run
 if the program entered requires input from the terminal, you will be prompted to give its
 program will run as written
-after the program finished running/if an error in the program occurs, a memory dump will be printed to the terminal
+after the program finished running/if an error in the program occurs, a memory dump will be printed to the terminal.
+
+RESET - will fully reset the CPU, including the loaded program. To execute another program,
+you must load a file again or enter your own code, then press RUN.
 
 #Please input the full filepath to get the to the Test.txt files.
 

@@ -17,3 +17,4 @@ class ErrorPanel:
         else:
             self.main_label.config(text = "No errors")
         self.master.after(100, self.update)
+        

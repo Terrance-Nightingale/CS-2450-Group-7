@@ -101,25 +101,21 @@ class CPU:
         print(f"Running: {self.running}")
         print(f"Opcode: {self.opcode}")
         print(f"Operand: {self.operand}")
-        # print("--MEMORY CONTENTS--")
-        # for i in range(100):
-        #     print(self.memory.mainMemory[i])
         
     def reset(self):
         '''
         Resets the contents of the CPU to 0.
         '''
-        #for i in range(len(self.memory.main_memory()) - 1):
-        #    self.memory.main_memory()[i] = 0
-        self.memory.main_memory().clear()
-
         self.basicml.console_panel.reset_outputs() # Reset's the console's display.
                                                  # Added by: Josh 3/18/2026
+        self.soft_reset()
+        self.error_message = ""
 
+    def soft_reset(self):
+        '''Resets CPU without touching memory or console.'''
         self.instruction_counter = 0
         self.instruction_register = 0
         self.opcode = 0
         self.operand = 0
         self.accumulator = 0
         self.running = True
-        self.error_message = ""

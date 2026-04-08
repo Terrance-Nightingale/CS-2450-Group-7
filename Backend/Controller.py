@@ -31,28 +31,39 @@ class AppController:
             self.disable_control_buttons()
             sim.run_program()
 
-            # If current opcode is READ, creates a popup that prompts the user for their input.
-                # Will continue the program from where it left off after receiving/processing user input.
-            if sim.cpu.opcode == 10:
-                self.root.create_input_popup()
+            # If an error was thrown, display the error in a popup.
+            if sim.cpu.error_message:
+                self.enable_control_buttons()
+                self.root.create_error_popup(sim.cpu.error_message)
+                print(sim.cpu.error_message)
+                sim.cpu.error_message = ""
             # If program is no longer running, re-enables the control buttons.
             elif not sim.cpu.running:
                 self.enable_control_buttons()
+            # If current opcode is READ, creates a popup that prompts the user for their input.
+            # Will continue the program from where it left off after receiving/processing user input.
+            elif sim.cpu.opcode == 10:
+                self.root.create_input_popup()
     
     def continue_program(self, user_input, uvsim=None):
         '''Executes Read command, then continues program execution.'''
         sim = uvsim or self.sim
-        print(f"operand: {sim.cpu.operand}, memory length: {len(sim.memory.main_memory())}")
+
         # Pass input to READ, then continue execution
         sim.cpu.basicml.read(sim.memory.main_memory(), sim.cpu.operand, user_input)
         sim.run_program() # Resume program from last opcode
 
-        # Check for READ opcode again
-        if sim.cpu.opcode == 10:
-            self.root.create_input_popup()
+        # If an error was thrown, display the error in a popup.
+        if sim.cpu.error_message:
+            self.enable_control_buttons()
+            self.root.create_error_popup(sim.cpu.error_message)
+            sim.cpu.error_message = ""
         # Re-enable only when fully done
         elif not sim.cpu.running:
             self.enable_control_buttons()
+        # Check for READ opcode again
+        elif sim.cpu.opcode == 10:
+            self.root.create_input_popup()
         
     def reset_program(self, uvsim=None):
         '''Calls the app's resetProgram method.'''
