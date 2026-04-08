@@ -4,6 +4,7 @@ class AppController:
         self.root = root
         self._gui_component = gui_component
         self.busy = False
+        self.console = None
 
     # region Getter/Setters
     @property
@@ -24,21 +25,34 @@ class AppController:
     # endregion
     
     # region Program Methods
-    def run_program(self): # Last edited by: Josh 3/18/2026
-        '''Calls the app's runProgram method. Runs the program as it currently exists in memory.'''
+    def run_program(self):
         if not self.busy:
             self.disable_control_buttons()
-            self.sim.run_program()
+
+            result = self.sim.run_program()
+
+            if result and self.console:
+                self.console.update_prev_outputs(result)
 
             self.handle_program_state()
     
     def continue_program(self, user_input):
-        '''Executes Read command, then continues program execution.'''
-        # Pass input to READ, then continue execution
         self.sim.cpu.basicml.read(self.sim.memory.main_memory(), self.sim.cpu.operand, user_input)
-        self.sim.run_program() # Resume program from last opcode
+
+        result = self.sim.run_program()
+
+        if result and self.console:
+            self.console.update_prev_outputs(result)
 
         self.handle_program_state()
+
+    def load_program(self, program):
+        result = self.sim.load_program(program)
+
+        if result and self.console:
+            self.console.update_prev_outputs(result)
+        elif self.console:
+            self.console.update_prev_outputs("Program loaded successfully")
 
     def handle_program_state(self):
                 # Check for READ opcode again

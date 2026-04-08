@@ -80,11 +80,12 @@ class AppUI:
 
             if name == "Input":
                 panel.sub_panel.status_label.destroy()
-                InputPanel(panel.sub_panel.content_panel, self.uvsim)
+                InputPanel(panel.sub_panel.content_panel, self.controller)
 
             if name == "Console":
                 panel.sub_panel.status_label.destroy()
-                self.console = ConsolePanel(panel.sub_panel.content_panel, self.uvsim)
+                self.console = ConsolePanel(panel.sub_panel.content_panel)
+                self.controller.console = self.console
 
             if name == "Memory":
                 panel.sub_panel.status_label.destroy()

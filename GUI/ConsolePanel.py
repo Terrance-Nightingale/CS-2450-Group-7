@@ -1,8 +1,7 @@
 import tkinter as tk
 
 class ConsolePanel:
-    def __init__(self, container, interface_with_backend):
-        self.input_to = interface_with_backend
+    def __init__(self, container):
         self.container = container
 
         self.label = tk.Label(

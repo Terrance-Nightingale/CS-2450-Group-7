@@ -30,7 +30,7 @@ class MemoryPanel:
 
 
         self.program_canvas = tk.Canvas(self.master)
-        self.scrollbar = ttk.Scrollbar(self.master, command=self.program_canvas.yview)
+        self.scrollbar = ttk.Scrollbar(self.master, command=self.on_scroll)
         self.program_frame = ttk.Frame(self.program_canvas)
 
         self.program_canvas.create_window(
@@ -86,7 +86,7 @@ class MemoryPanel:
             fg="black",
             font=("consolas", 10),
             justify="center",
-            text='\n'.join([str(n) for n in range(100)])
+            text='\n'.join([str(n) for n in range(250)])
         )
                 
         self.address_box.pack(side="left", anchor="nw")
@@ -126,6 +126,10 @@ class MemoryPanel:
         self.refresh_memory()
         self.auto_refresh_id = None
         self.auto_refresh()
+    
+    def on_scroll(self, *args):
+        self.program_box.yview(*args)
+        self.address_box.yview(*args)
 
     def show_context_menu(self, event):
         """Display the right-click context menu at the mouse position."""
