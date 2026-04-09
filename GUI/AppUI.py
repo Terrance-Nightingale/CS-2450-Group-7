@@ -39,7 +39,6 @@ class AppUI:
         self.menu.create_theme_menu()
         self.menu.create_help_menu()
 
-
     def _on_tab_switched(self, tab):
         '''Updates active references (CPU, Memory, etc) to the current tab's when the user switches tabs.'''
         components = self.tabs_container.get_tab_components(tab)
@@ -58,7 +57,6 @@ class AppUI:
         self.controller.gui_component = self.control_panel
         self.controller.sim = self.uvsim
         self.uvsim.cpu.basicml.console_panel = self.console
-
 
     def create_grid_panels(self, parent):
         '''Creates the main GUI panels for the program.'''
@@ -120,7 +118,7 @@ class AppUI:
 
             if name == "Error Reports":
                 panel.sub_panel.status_label.destroy()
-                ErrorPanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
+                # ErrorPanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
 
         if self.tabs_container:       
             self.tabs_container.register_tab_components(parent, {
@@ -138,7 +136,6 @@ class AppUI:
             if self.menu:
                 self.menu.apply_theme_on_new_tab(parent)
     
-
     def create_input_popup(self):
         '''
         Creates a popup window with an input box to receive user input.
@@ -199,5 +196,3 @@ class AppUI:
             self.window.destroy()
         else:
             self.window.attributes('-topmost', False) # Reset window priority to appear behind popups.
-
-            

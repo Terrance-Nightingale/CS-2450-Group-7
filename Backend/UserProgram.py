@@ -14,4 +14,3 @@ class UserProgram():
                     self.program.append(word)
         except FileNotFoundError:
             self.error_message = "File not found."
-

@@ -34,7 +34,6 @@ class AppController:
 
             self.check_for_error_or_read(sim)
     
-
     def continue_program(self, user_input, uvsim=None):
         '''Executes Read command, then continues program execution.'''
         sim = uvsim or self.sim
@@ -45,7 +44,6 @@ class AppController:
 
         self.check_for_error_or_read(sim)
         
-
     def check_for_error_or_read(self, sim):
         # If an error was thrown, display the error in a popup.
         if sim.cpu.error_message:
@@ -58,15 +56,13 @@ class AppController:
         # Check for READ opcode again
         elif sim.cpu.opcode == 10:
             self.root.create_input_popup()
-        
-        
+
     def reset_program(self, uvsim=None):
         '''Calls the app's resetProgram method.'''
         sim = uvsim or self.sim
         if not self.busy:
             sim.reset_program()
     
-
     def save_program(self, uvsim=None):
         '''
         Saves the user's program to a *.txt file.
@@ -88,7 +84,6 @@ class AppController:
         self.gui_component.set_button_state('RUN', 'normal')
         self.gui_component.set_button_state('RESET', 'normal')
         self.gui_component.set_button_state('SAVE', 'normal')
-    
 
     def disable_control_buttons(self): # Last edited by: Josh 3/18/2026
         '''Disables the Control buttons.'''
@@ -96,7 +91,6 @@ class AppController:
         self.gui_component.set_button_state('RUN', 'disabled')
         self.gui_component.set_button_state('RESET', 'disabled')
         self.gui_component.set_button_state('SAVE', 'disabled')
-            
             
     def validate_user_input(self, popup_box, user_input, uvsim=None): # Last edited by: Josh 3/11/2026
         '''

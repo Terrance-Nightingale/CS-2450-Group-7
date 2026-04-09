@@ -11,7 +11,6 @@ class UVSim:
         self.user_program = UserProgram()
         self.cpu.basicml = BasicML(input_info_panel)
         
-
     def load_program(self, user_program):
         '''
         Loads the user's program into memory.
@@ -19,9 +18,9 @@ class UVSim:
         for i, word in enumerate(user_program.program):
             if i >= 250:
                 self.cpu.basicml.error_message = "File longer than expected, only 250 commands loaded."
+                self.cpu.error_message = self.cpu.basicml.error_message
                 return
             self.memory.main_memory()[i] = int(word)
-
 
     def run_program(self):
         '''

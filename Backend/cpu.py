@@ -28,6 +28,9 @@ class CPU:
     def decode(self):
         """Parses BasicML code for the next instruction, and sets 
         the opcode and the memory address of the operand if valid"""
+        opcode = 0
+        operand = 0
+
         code_length = len(str(abs(self.instruction_register)))
         if code_length <= 4:
             opcode = self.instruction_register // 100
@@ -52,7 +55,6 @@ class CPU:
             return True
         else:
             raise ValueError("memory address must be between 0-249")
-
 
     def execute(self):
         match(self.opcode):
@@ -86,7 +88,7 @@ class CPU:
             case _:
                 self.error_message = f"Invalid opcode: {self.opcode}"
                 self.running = False
-        if self.basicml.error_message: # TODO: Error messages for the InputInfoPanel would be pulled from here perhaps?
+        if self.basicml.error_message:
             self.error_message = self.basicml.error_message
             self.running = False
 
@@ -101,7 +103,7 @@ class CPU:
         print(f"Running: {self.running}")
         print(f"Opcode: {self.opcode}")
         print(f"Operand: {self.operand}")
-        
+
     def reset(self):
         '''
         Resets the contents of the CPU to 0.
