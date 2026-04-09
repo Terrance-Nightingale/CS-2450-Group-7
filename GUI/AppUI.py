@@ -7,6 +7,7 @@ from GUI.Memorypanel import MemoryPanel
 from GUI.ControlPanel import ControlPanel
 from GUI.MenuBar import MenuBar
 from GUI.TabContainer import TabContainer
+from GUI.ErrorPanel import ErrorPanel
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -119,6 +120,7 @@ class AppUI:
 
             if name == "Error Reports":
                 panel.sub_panel.status_label.destroy()
+                ErrorPanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
 
         if self.tabs_container:       
             self.tabs_container.register_tab_components(parent, {
@@ -137,7 +139,7 @@ class AppUI:
                 self.menu.apply_theme_on_new_tab(parent)
     
 
-    def create_input_popup(self): # Last edited by: Josh 3/11/2026
+    def create_input_popup(self):
         '''
         Creates a popup window with an input box to receive user input.
         '''

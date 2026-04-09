@@ -12,8 +12,8 @@ class ErrorPanel:
         self.update()
 
     def update(self):
-        if hasattr(self.cpu, "errorMessage") and self.cpu.errorMessage:
-            self.main_label.config(text = self.cpu.errorMessage)
+        if hasattr(self.cpu, "errorMessage") and self.cpu.error_message:
+            self.main_label.config(text = self.cpu.error_message)
         else:
             self.main_label.config(text = "No errors")
         self.master.after(100, self.update)

@@ -1,7 +1,7 @@
 import tkinter as tk
 
 class ConsolePanel:
-    def __init__(self, container):
+    def __init__(self, container, uvsim):
         self.container = container
 
         self.label = tk.Label(

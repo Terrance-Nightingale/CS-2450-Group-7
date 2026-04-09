@@ -17,7 +17,7 @@ class UVSim:
         Loads the user's program into memory.
         '''
         for i, word in enumerate(user_program.program):
-           self.memory.main_memory()[i] = int(word)
+            self.memory.main_memory()[i] = int(word)
             if len(self.memory.main_memory()) >= 250:
                  return"File longer than expected, only 250 commands loaded"
 

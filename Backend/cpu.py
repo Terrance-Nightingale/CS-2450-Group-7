@@ -106,8 +106,9 @@ class CPU:
         '''
         Resets the contents of the CPU to 0.
         '''
-        self.basicml.console_panel.reset_outputs() # Reset's the console's display.
-                                                 # Added by: Josh 3/18/2026
+        if self.basicml.console_panel:
+            self.basicml.console_panel.reset_outputs()
+
         self.soft_reset()
         self.error_message = ""
 
