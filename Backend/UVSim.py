@@ -18,7 +18,7 @@ class UVSim:
         '''
         for i, word in enumerate(user_program.program):
             self.memory.main_memory()[i] = int(word)
-            if len(self.memory.main_memory()) >= 250:
+            if len(self.memory.main_memory()) > 250:
                  return"File longer than expected, only 250 commands loaded"
 
     def run_program(self):

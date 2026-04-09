@@ -76,7 +76,7 @@ class InputPanel:
     def load_program_from_file(self, file_path):
         self.input_to.reset_program() # Reset CPU before loading new program. Added by: Josh 3/18/2026
         self.input_to.user_program.program = []
-        self.input_to.user_program.inputProgram(file_path)
+        self.input_to.user_program.input_program(file_path)
         self.input_to.load_program(self.input_to.user_program)
         
 

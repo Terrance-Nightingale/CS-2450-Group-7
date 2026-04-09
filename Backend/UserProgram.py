@@ -4,7 +4,7 @@ class UserProgram():
         self.program = []
         self.error_message = ""
 
-    def inputProgram(self, filepath):
+    def input_program(self, filepath):
         try: 
             with open(filepath, "r") as f:
                 for line in f:
