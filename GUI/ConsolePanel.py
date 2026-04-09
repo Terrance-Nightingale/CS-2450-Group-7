@@ -1,14 +1,20 @@
 import tkinter as tk
 
 class ConsolePanel:
-    def __init__(self, container, interface_with_backend):
-        self.input_to = interface_with_backend
+    def __init__(self, container):
         self.container = container
 
-        tk.Label(
+        self.label = tk.Label(
             self.container,
-            text="Program Outputs:"
-            ).grid(row=0, column=0)
+            text="Program Outputs:",
+            font=("Segoe UI", 11, "bold"), 
+            width=30,
+            anchor="w", 
+            justify="left",
+            padx=8,
+            pady=6
+        )
+        self.label.grid(row=0, column=0, columnspan=2, sticky="w")
 
         self.prev_inputs_label = tk.Label(
             self.container,

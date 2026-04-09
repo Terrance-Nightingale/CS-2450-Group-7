@@ -10,6 +10,7 @@ class UVSim:
         self.cpu = CPU(self.memory)
         self.user_program = UserProgram()
         self.cpu.basicml = BasicML(input_info_panel)
+        
 
     def load_program(self, user_program):
         '''
@@ -17,6 +18,8 @@ class UVSim:
         '''
         for i, word in enumerate(user_program.program):
            self.memory.main_memory()[i] = int(word)
+            if len(self.memory.main_memory()) >= 250:
+                 return"File longer than expected, only 250 commands loaded"
 
     def run_program(self):
         '''

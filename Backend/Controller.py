@@ -4,6 +4,7 @@ class AppController:
         self.root = root
         self._gui_component = gui_component
         self.busy = False
+        self.console = None
 
     # region Getter/Setters
     @property
