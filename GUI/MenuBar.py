@@ -112,9 +112,12 @@ class MenuBar:
                 panel.content_panel.config(bg=color1)
                 panel.sub_panel_title.config(bg=color2)
                 panel.title.config(bg=color2)
+                self.app_ui.console.label.config(bg = color1, fg = "white")
+                self.app_ui.console.prev_inputs_label.config(bg = color1, fg = "white")
 
             if components["cpu_state_panel"]:
                 components["cpu_state_panel"].setColor(color1)
+
 
         self.save_config(theme_id)
     
