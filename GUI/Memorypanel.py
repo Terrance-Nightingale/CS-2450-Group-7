@@ -130,7 +130,7 @@ class MemoryPanel:
     
     def on_scroll(self, *args):
         self.program_box.yview(*args)
-        self.address_box.yview(*args)
+        self.address_program_frame.yview(*args)
 
     def show_context_menu(self, event):
         """Display the right-click context menu at the mouse position."""

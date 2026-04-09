@@ -17,9 +17,11 @@ class UVSim:
         Loads the user's program into memory.
         '''
         for i, word in enumerate(user_program.program):
+            if i >= 250:
+                self.cpu.basicml.error_message = "File longer than expected, only 250 commands loaded."
+                return
             self.memory.main_memory()[i] = int(word)
-            if len(self.memory.main_memory()) > 250:
-                 return"File longer than expected, only 250 commands loaded"
+
 
     def run_program(self):
         '''
@@ -37,7 +39,7 @@ class UVSim:
                 self.cpu.execute()
         except ValueError as e: # Unlocks Control Panel even if ValueError is thrown.
             # Sets the CPU error_message to the thrown ValueError.
-            self.cpu.error_message = f"{e} (instruction: {self.cpu.instruction_register})"
+            self.cpu.error_message = f"{e} (line: {self.cpu.instruction_counter - 1}) (instruction: {self.cpu.instruction_register})"
             self.cpu.running = False
 
         # If no HALT command, will set running to False (to unlock Control Panel again).
