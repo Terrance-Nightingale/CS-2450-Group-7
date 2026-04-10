@@ -12,13 +12,13 @@ class InputPanel:
     def create_ui(self):
         self.file_entry_frame = tk.Frame(
             self.container)
-        self.file_entry_frame.pack(padx=10, pady=6)
+        self.file_entry_frame.pack(padx=8, pady=6)
 
         tk.Label(
             self.file_entry_frame, 
             text="Enter your file path: ", 
             font=("Segoe UI", 11, "bold"), 
-            width=30,
+            width=18,
             anchor="w", 
             justify="left",
             padx=8,
