@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-
 class TitlePanel:
 
     def __init__(self, master):

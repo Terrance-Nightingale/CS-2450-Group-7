@@ -7,7 +7,6 @@ from GUI.Memorypanel import MemoryPanel
 from GUI.ControlPanel import ControlPanel
 from GUI.MenuBar import MenuBar
 from GUI.TabContainer import TabContainer
-from GUI.ErrorPanel import ErrorPanel
 
 class AppUI:
     def __init__(self, window, controller, uvsim):
@@ -21,7 +20,7 @@ class AppUI:
         self.controller = controller
         self.tabs_container = None
 
-        self.sub_panel_names = ["Input", "CPU State", "Error Reports", "Console", "Memory", "Controls"]
+        self.sub_panel_names = ["Input", "CPU State", "Console", "Controls", "Memory"]
 
         # Pass create_grid_panels as the callback for the TabContainer so each new tab builds its own panel grid.
         self.tabs_container = TabContainer(
@@ -109,16 +108,13 @@ class AppUI:
 
             if name == "Console":
                 panel.sub_panel.status_label.destroy()
+                panel.container.grid(row = 0, column = 2, rowspan = 2, sticky = "nsew")
                 tab_console = ConsolePanel(panel.sub_panel.content_panel, tab_uvsim)
                 tab_uvsim.cpu.basicml.console_panel = tab_console
 
             if name == "Memory":
                 panel.sub_panel.status_label.destroy()
                 MemoryPanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
-
-            if name == "Error Reports":
-                panel.sub_panel.status_label.destroy()
-                # ErrorPanel(panel.sub_panel.content_panel, tab_uvsim.cpu)
 
         if self.tabs_container:       
             self.tabs_container.register_tab_components(parent, {
