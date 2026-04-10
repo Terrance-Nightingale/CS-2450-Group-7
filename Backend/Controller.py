@@ -4,7 +4,7 @@ class AppController:
         self.root = root
         self._gui_component = gui_component
         self.busy = False
-        self.console = None
+        
 
     # region Getter/Setters
     @property
@@ -48,7 +48,8 @@ class AppController:
         # If an error was thrown, display the error in a popup.
         if sim.cpu.error_message:
             self.enable_control_buttons()
-            self.root.create_error_popup(sim.cpu.error_message)
+            if self.console:
+                self.console.update_prev_outputs(sim.cpu.error_message)
             sim.cpu.error_message = ""
         # Re-enable only when fully done
         elif not sim.cpu.running:

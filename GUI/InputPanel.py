@@ -77,6 +77,12 @@ class InputPanel:
         self.input_to.user_program.program = []
         self.input_to.user_program.input_program(file_path)
         self.input_to.load_program(self.input_to.user_program)
+        if self.input_to.cpu.error_message:
+            if self.input_to.cpu.basicml.console_panel:
+                self.input_to.cpu.basicml.console_panel.update_prev_outputs(
+                self.input_to.cpu.error_message
+            )
+        self.input_to.cpu.error_message = ""
         
     def browse_file(self):
         file_path = filedialog.askopenfilename(

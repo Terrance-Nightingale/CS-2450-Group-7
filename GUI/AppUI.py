@@ -19,6 +19,7 @@ class AppUI:
         self.menu = None
         self.controller = controller
         self.tabs_container = None
+        
 
         self.sub_panel_names = ["Input", "CPU State", "Console", "Controls", "Memory"]
 
@@ -51,6 +52,7 @@ class AppUI:
         self.panels = components["panels"]
         self.cpu_state_panel = components["cpu_state_panel"]
         self.console = components["console"]
+        self.controller.console = self.console
         self.control_panel = components["control_panel"]
         self.uvsim = components["uvsim"]
         self.controller.gui_component = self.control_panel
