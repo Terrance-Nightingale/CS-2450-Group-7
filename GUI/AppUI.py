@@ -55,6 +55,7 @@ class AppUI:
         self.controller.console = self.console #Bring the initialized console to the controller
         self.control_panel = components["control_panel"]
         self.uvsim = components["uvsim"]
+        self.input_panel = components["input_panel"]
         self.controller.gui_component = self.control_panel
         self.controller.sim = self.uvsim
         self.uvsim.cpu.basicml.console_panel = self.console
@@ -106,7 +107,7 @@ class AppUI:
 
             if name == "Input":
                 panel.sub_panel.status_label.destroy()
-                InputPanel(self.tabs_container, panel.sub_panel.content_panel, tab_uvsim)
+                tab_input_panel = InputPanel(self.tabs_container, panel.sub_panel.content_panel, tab_uvsim) #changed 4/11/2026
 
             if name == "Console":
                 panel.sub_panel.status_label.destroy()
@@ -124,6 +125,7 @@ class AppUI:
                 "cpu_state_panel": tab_cpu_state_panel,
                 "control_panel": tab_control_panel,
                 "console": tab_console,
+                "input_panel": tab_input_panel,
                 "uvsim": tab_uvsim
             })
 

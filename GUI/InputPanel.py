@@ -14,7 +14,7 @@ class InputPanel:
             self.container)
         self.file_entry_frame.pack(padx=8, pady=6)
 
-        tk.Label(
+        self.enter_file_path = tk.Label(
             self.file_entry_frame, 
             text="Enter your file path: ", 
             font=("Segoe UI", 11, "bold"), 
@@ -23,7 +23,8 @@ class InputPanel:
             justify="left",
             padx=8,
             pady=6
-            ).grid(row=0, column=0, columnspan=2, sticky="w")
+            )
+        self.enter_file_path.grid(row=0, column=0, columnspan=2, sticky="w")
         
         self.file_entry = tk.Entry(
             self.file_entry_frame, 
@@ -47,12 +48,13 @@ class InputPanel:
         
         self.load_button.grid(padx=2, pady=2, row=0, column=4)
 
-        tk.Label(
+        self.chosen_file_label = tk.Label(
             self.file_entry_frame, 
             text="Chosen file:",
             font=("Segoe UI", 11, "bold"),
             width=8,
-            ).grid(row=1, column=0)
+            )
+        self.chosen_file_label.grid(row=1, column=0)
 
         self.file_choice_label = tk.Label(
             self.file_entry_frame, 
@@ -97,3 +99,11 @@ class InputPanel:
         self.file_entry.delete(0, tk.END)
         self.file_entry.insert(0, file_path)
         self.file_entered()
+
+    def setColor(self, newColor):
+        self.file_entry_frame.config(bg = newColor)
+        self.load_button.config(bg = newColor, fg = "white")
+        self.file_entry_button.config(bg = newColor, fg = "white")
+        self.chosen_file_label.config(bg = newColor, fg = "white")
+        self.file_choice_label.config(bg = newColor, fg = "white")
+        self.enter_file_path.config(bg = newColor, fg = "white")

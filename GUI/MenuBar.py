@@ -74,8 +74,8 @@ class MenuBar:
             wrap=tk.WORD,
             font=("Consolas", 11),
             padx=14, pady=14,
-            bg="white",
-            fg="#111",
+            bg="black",
+            fg="white",
             spacing1=4,
             spacing2=2,
             spacing3=4
@@ -112,11 +112,20 @@ class MenuBar:
                 panel.content_panel.config(bg=color1)
                 panel.sub_panel_title.config(bg=color2)
                 panel.title.config(bg=color2)
-                self.app_ui.console.label.config(bg = color1, fg = "white")
-                self.app_ui.console.prev_inputs_label.config(bg = color1, fg = "white")
+
+               # self.app_ui.control_panel.buttons.config(bg = color1, fg = "white")
 
             if components["cpu_state_panel"]:
                 components["cpu_state_panel"].setColor(color1)
+
+            if components["console"]:
+                components["console"].setColor(color1)
+
+            if components["control_panel"]:
+                components["control_panel"].setColor(color2)
+
+            if components["input_panel"]:
+                components["input_panel"].setColor(color2) #added 4/11/2026
 
 
         self.save_config(theme_id)

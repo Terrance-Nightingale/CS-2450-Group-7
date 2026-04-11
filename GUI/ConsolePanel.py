@@ -31,3 +31,8 @@ class ConsolePanel:
     def reset_outputs(self):
         self.inputs_history = []
         self.prev_inputs_label.config(text="Program Outputs will appear here...")
+
+    def setColor(self, newColor):
+        self.color = newColor
+        self.label.config(bg=newColor, fg = "white")
+        self.prev_inputs_label.config(bg=newColor, fg = "white")

@@ -8,7 +8,13 @@ class Subpanel:
         self.sub_panel_title.grid(row = 0, column = 0, sticky = "nsew")
         self.sub_panel_title.pack_propagate(False)
 
-        self.title = tk.Label(self.sub_panel_title, text = title, bg = "#0A3E0B", fg = "white", font = ("Arial", 16))
+        self.title = tk.Label(
+            self.sub_panel_title, 
+            text = title, bg = "#0A3E0B", 
+            fg = "white", 
+            font = ("Segoe UI", 16, "bold"),
+            pady = 10
+        )
         self.title.pack(expand = False, fill = "both")
 
         self.content_panel = tk.Frame(container, borderwidth = 2, bg = "#106511")
