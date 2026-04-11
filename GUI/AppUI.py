@@ -1,4 +1,6 @@
 import tkinter as tk
+import json
+import os
 from GUI.ContentPanel import ContentPanel
 from GUI.CPUStatePanel import CPUStatePanel
 from GUI.InputPanel import InputPanel
@@ -20,6 +22,7 @@ class AppUI:
         self.controller = controller
         self.tabs_container = None
         
+        self.saved_color_theme = self._load_theme()
 
         self.sub_panel_names = ["Input", "CPU State", "Console", "Controls", "Memory"]
 
@@ -38,6 +41,16 @@ class AppUI:
         self.menu.create_file_menu()
         self.menu.create_theme_menu()
         self.menu.create_help_menu()
+    
+    def _load_theme(self):
+        '''Loads the current color theme for use in the tab initialization.'''
+        if os.path.exists("config.json"):
+            try:
+                with open("config.json", "r") as f:
+                    return json.load(f).get("theme_id", 0)
+            except (json.JSONDecodeError, KeyError):
+                pass
+        return 0
 
     def _on_tab_switched(self, tab):
         '''Updates active references (CPU, Memory, etc) to the current tab's when the user switches tabs.'''
@@ -102,7 +115,8 @@ class AppUI:
         
             if name == "Controls":
                 panel.sub_panel.status_label.destroy()
-                tab_control_panel = ControlPanel(panel.sub_panel.content_panel, buttons)
+                color_theme = self.menu.saved_theme if self.menu else self.saved_color_theme
+                tab_control_panel = ControlPanel(panel.sub_panel.content_panel, color_theme, buttons)
                 self.controller.gui_component = tab_control_panel # Allow the controller access to the Controls panel gui component.
 
             if name == "Input":

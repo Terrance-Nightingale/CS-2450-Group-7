@@ -44,17 +44,17 @@ class AppController:
 
         self.check_for_error_or_read(sim)
         
-    def check_for_error_or_read(self, sim):
+    def check_for_error_or_read(self, uvsim):
         # If an error was thrown, display the error in a popup.
-        if sim.cpu.error_message:
+        if uvsim.cpu.error_message:
             self.enable_control_buttons()
-            self.root.create_error_popup(sim.cpu.error_message)
-            sim.cpu.error_message = ""
+            self.root.create_error_popup(uvsim.cpu.error_message)
+            uvsim.cpu.error_message = ""
         # Re-enable only when fully done
-        elif not sim.cpu.running:
+        elif not uvsim.cpu.running:
             self.enable_control_buttons()
         # Check for READ opcode again
-        elif sim.cpu.opcode == 10:
+        elif uvsim.cpu.opcode == 10:
             self.root.create_input_popup()
 
     def reset_program(self, uvsim=None):

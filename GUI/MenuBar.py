@@ -17,8 +17,8 @@ class MenuBar:
         self.master = master
         self.app_ui = app_ui
         self.master.config(menu = self.menu_bar)
-        saved_theme = self.load_config()
-        self.theme_commands(saved_theme)
+        self.saved_theme = self.load_config()
+        self.theme_commands(self.saved_theme)
         
 
     def create_file_menu(self):
@@ -122,7 +122,7 @@ class MenuBar:
                 components["console"].setColor(color1)
 
             if components["control_panel"]:
-                components["control_panel"].setColor(color2)
+                components["control_panel"].setColor(theme_id)
 
             if components["input_panel"]:
                 components["input_panel"].setColor(color2) #added 4/11/2026

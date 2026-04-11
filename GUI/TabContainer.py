@@ -133,4 +133,3 @@ class TabContainer:
         self._plus_tab = tk.Frame(self.tabs)
         self.tabs.add(self._plus_tab, text="+")
         self.add_new_tab("New Tab")
-

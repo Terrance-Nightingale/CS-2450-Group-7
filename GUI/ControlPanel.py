@@ -1,10 +1,15 @@
 import tkinter as tk
 
 class ControlPanel:
-    def __init__(self, parent_container, buttons=None):
+    def __init__(self, parent_container, color_theme_id, buttons=None):
         self.parent_container = parent_container
+        self.color_theme_id = color_theme_id
+        self.color1 = ""
+        self.color2 = ""
 
         self.buttons = []
+
+        self.setColor(self.color_theme_id)
 
         # Configure parent container so that buttons will fill container
         self.parent_container.columnconfigure(0, weight=1)
@@ -30,16 +35,33 @@ class ControlPanel:
     
     def set_button_state(self, button_name, state):
         '''Sets the button state for any buttons'''
-        for widget in self.parent_container.winfo_children():
-            if isinstance(widget, tk.Button) and widget.cget('text') == button_name:
-                if state == 'disabled':
-                    widget.config(state=state, bg='#acb3bd')
-                else:
-                    widget.config(state=state, bg='#F0F0F0')
-
-    def setColor(self, newColor):
+        self.setColor(self.color_theme_id)
+        
         for button in self.buttons:
-            button.config(bg = newColor, fg = "white")
+            if button.cget('text') == button_name:
+                if state == 'disabled':
+                    button.config(state=state, bg=self.color2)
+                else:
+                    button.config(state=state, bg=self.color1)
+
+    def setColor(self, color_theme_id):
+        self.color_theme_id = color_theme_id
+        match(color_theme_id):
+            case 0:
+                self.color1 = "#2F4880"
+                self.color2 = "#203156"
+            case 1:
+                self.color1 = "#591303"
+                self.color2 = "#6E1804"
+            case 2:
+                self.color1 = "#106511"
+                self.color2 = "#0A3E0B"
+        
+        for button in self.buttons:
+            if button.cget('state') == 'disabled':
+                button.config(bg=self.color2, fg="white")
+            else:
+                button.config(bg=self.color1, fg="white")
 
 
     # This setup will allow the controller to interact with the buttons and change button color/style if necessary.
