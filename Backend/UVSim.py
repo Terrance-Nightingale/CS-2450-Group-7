@@ -10,6 +10,28 @@ class UVSim:
         self.cpu = CPU(self.memory)
         self.user_program = UserProgram()
         self.cpu.basicml = BasicML(input_info_panel)
+        self.format = "4digit"
+
+    def check_program_format(self, values):
+        '''
+        Checks that a program isn't using 4 and 6 digit instructions at the same time
+        '''
+        four_digit = False
+        six_digit = False
+ 
+        for value in values:
+            if value is None or value == 0:
+                continue
+            abs_val = abs(value)
+            if abs_val <= 9999:
+                four_digit = True
+            elif abs_val <= 99999:
+                six_digit = True
+                self.format = "6digit"
+ 
+        if four_digit and six_digit:
+            return ("Program cannot contain 4 and 6 digit words, please use one or the other")
+        return None
         
     def load_program(self, user_program):
         '''
@@ -26,6 +48,10 @@ class UVSim:
         Decodes and runs the user's program.
         '''
         if not self.cpu.running:
+            format_error = self.check_program_format(self.memory.main_memory())
+            if format_error:
+                self.cpu.error_message = format_error
+                return
             self.cpu.soft_reset()
 
         try:
@@ -63,12 +89,16 @@ class UVSim:
         # Return None if the user cancelled the Save.
         if not file_path:
             return None
-    
+        
+        self.check_program_format(self.memory.main_memory())
         current_memory = self.memory.main_memory()
         with open(file_path, "w", encoding="utf-8") as file:
             for value in current_memory:
                 if value == None:
                     pass
+                elif self.format == "6digit" and value != 0:
+                    sign = "-" if value < 0 else ""
+                    file.write(f"{sign}0{abs(value)}\n")
                 else:
                     file.write(f"{value}\n")
         return file_path
