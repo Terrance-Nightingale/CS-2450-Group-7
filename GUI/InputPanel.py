@@ -76,6 +76,7 @@ class InputPanel:
         self.input_to.reset_program() # Reset CPU before loading new program. Added by: Josh 3/18/2026
         self.input_to.user_program.program = []
         self.input_to.user_program.input_program(file_path)
+        #load program will return an error string if the file is longer than 250 words. Tyler 4/10/26
         error_message = self.input_to.load_program(self.input_to.user_program)
         if error_message != None:
             if self.input_to.cpu.basicml.console_panel:

@@ -52,7 +52,7 @@ class AppUI:
         self.panels = components["panels"]
         self.cpu_state_panel = components["cpu_state_panel"]
         self.console = components["console"]
-        self.controller.console = self.console
+        self.controller.console = self.console #Bring the initialized console to the controller
         self.control_panel = components["control_panel"]
         self.uvsim = components["uvsim"]
         self.controller.gui_component = self.control_panel

@@ -17,6 +17,7 @@ class UVSim:
         '''
         for i, word in enumerate(user_program.program):
             if i >= 250:
+                #This error will trigger the error_message check in InputPanel.py
                 return "File is longer than 250 words. Only 250 Loaded"
             self.memory.main_memory()[i] = int(word)
 
