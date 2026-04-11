@@ -48,8 +48,7 @@ class AppController:
         # If an error was thrown, display the error in a popup.
         if sim.cpu.error_message:
             self.enable_control_buttons()
-            if self.console:
-                self.console.update_prev_outputs(sim.cpu.error_message)
+            self.root.create_error_popup(sim.cpu.error_message)
             sim.cpu.error_message = ""
         # Re-enable only when fully done
         elif not sim.cpu.running:
