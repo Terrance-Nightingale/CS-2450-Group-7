@@ -17,9 +17,7 @@ class UVSim:
         '''
         for i, word in enumerate(user_program.program):
             if i >= 250:
-                self.cpu.basicml.error_message = "File longer than expected, only 250 commands loaded."
-                self.cpu.error_message = self.cpu.basicml.error_message
-                return
+                return "File is longer than 250 words. Only 250 Loaded"
             self.memory.main_memory()[i] = int(word)
 
     def run_program(self):
