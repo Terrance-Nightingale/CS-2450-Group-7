@@ -18,6 +18,7 @@ class UVSim:
         '''
         four_digit = False
         six_digit = False
+        self.format = "4digit"
  
         for value in values:
             if value is None or value == 0:
@@ -30,6 +31,7 @@ class UVSim:
                 self.format = "6digit"
  
         if four_digit and six_digit:
+            self.cpu.error_message = "Program cannot contain 4 and 6 digit words, please use one or the other"
             return ("Program cannot contain 4 and 6 digit words, please use one or the other")
         return None
         
@@ -42,16 +44,20 @@ class UVSim:
                 #This error will trigger the error_message check in InputPanel.py
                 return "File is longer than 250 words. Only 250 Loaded"
             self.memory.main_memory()[i] = int(word)
+        return self.check_program_format(self.cpu.memory.main_memory())
 
     def run_program(self):
         '''
         Decodes and runs the user's program.
         '''
-        if not self.cpu.running:
+        if self.cpu.instruction_counter == 0:
             format_error = self.check_program_format(self.memory.main_memory())
             if format_error:
                 self.cpu.error_message = format_error
+                self.cpu.running = False
                 return
+                
+        if not self.cpu.running:
             self.cpu.soft_reset()
 
         try:

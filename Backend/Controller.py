@@ -31,9 +31,8 @@ class AppController:
         if not self.busy:
             self.disable_control_buttons()
             sim.run_program()
-
             self.check_for_error_or_read(sim)
-    
+
     def continue_program(self, user_input, uvsim=None):
         '''Executes Read command, then continues program execution.'''
         sim = uvsim or self.sim
@@ -41,20 +40,20 @@ class AppController:
         # Pass input to READ, then continue execution
         sim.cpu.basicml.read(sim.memory.main_memory(), sim.cpu.operand, user_input)
         sim.run_program() # Resume program from last opcode
-
         self.check_for_error_or_read(sim)
-        
+
     def check_for_error_or_read(self, uvsim):
+        sim = uvsim or self.sim
         # If an error was thrown, display the error in a popup.
-        if uvsim.cpu.error_message:
+        if sim.cpu.error_message:
             self.enable_control_buttons()
-            self.root.create_error_popup(uvsim.cpu.error_message)
-            uvsim.cpu.error_message = ""
+            self.root.create_error_popup(sim.cpu.error_message)
+            sim.cpu.error_message = ""
         # Re-enable only when fully done
-        elif not uvsim.cpu.running:
+        elif not sim.cpu.running:
             self.enable_control_buttons()
         # Check for READ opcode again
-        elif uvsim.cpu.opcode == 10:
+        elif sim.cpu.opcode == 10:
             self.root.create_input_popup()
 
     def reset_program(self, uvsim=None):
